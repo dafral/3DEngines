@@ -99,7 +99,7 @@
     <ClInclude Include="ModuleImgui.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Downloads\3dEngine-master\imgui_impl_sdl.h">
+    <ClInclude Include="imgui_impl_sdl.h">
       <Filter>Sources\Imgui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -164,7 +164,7 @@
     <ClCompile Include="ModuleImgui.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Downloads\3dEngine-master\imgui_impl_sdl.cpp">
+    <ClCompile Include="imgui_impl_sdl.cpp">
       <Filter>Sources\Imgui</Filter>
     </ClCompile>
   </ItemGroup>

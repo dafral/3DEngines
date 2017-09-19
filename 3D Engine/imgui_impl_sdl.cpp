@@ -9,11 +9,11 @@
 // If you are new to ImGui, see examples/README.txt and documentation at the top of imgui.cpp.
 // https://github.com/ocornut/imgui
 
-#include "SDL\include\SDL.h"
-#include "SDL\include\SDL_syswm.h"
+#include "SDL/include/SDL.h"
+#include "SDL/include/SDL_syswm.h"
 #include "SDL/include/SDL_opengl.h"
 
-#include "imgui.h"
+#include "Imgui/imgui.h"
 #include "imgui_impl_sdl.h"
 
 // Data
@@ -118,7 +118,7 @@ static void ImGui_ImplSdl_SetClipboardText(void*, const char* text)
     SDL_SetClipboardText(text);
 }
 
-bool ImGui_ImplSdlGL2_ProcessEvent(SDL_Event* event)
+bool ImGui_ImplSdl_ProcessEvent(SDL_Event* event)
 {
     ImGuiIO& io = ImGui::GetIO();
     switch (event->type)
@@ -158,7 +158,7 @@ bool ImGui_ImplSdlGL2_ProcessEvent(SDL_Event* event)
     return false;
 }
 
-bool ImGui_ImplSdlGL2_CreateDeviceObjects()
+bool ImGui_ImplSdl_CreateDeviceObjects()
 {
     // Build texture atlas
     ImGuiIO& io = ImGui::GetIO();
@@ -185,7 +185,7 @@ bool ImGui_ImplSdlGL2_CreateDeviceObjects()
     return true;
 }
 
-void    ImGui_ImplSdlGL2_InvalidateDeviceObjects()
+void    ImGui_ImplSdl_InvalidateDeviceObjects()
 {
     if (g_FontTexture)
     {
@@ -195,7 +195,7 @@ void    ImGui_ImplSdlGL2_InvalidateDeviceObjects()
     }
 }
 
-bool    ImGui_ImplSdlGL2_Init(SDL_Window* window)
+bool    ImGui_ImplSdl_Init(SDL_Window* window)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.KeyMap[ImGuiKey_Tab] = SDLK_TAB;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
@@ -235,16 +235,16 @@ bool    ImGui_ImplSdlGL2_Init(SDL_Window* window)
     return true;
 }
 
-void ImGui_ImplSdlGL2_Shutdown()
+void ImGui_ImplSdl_Shutdown()
 {
-    ImGui_ImplSdlGL2_InvalidateDeviceObjects();
+    ImGui_ImplSdl_InvalidateDeviceObjects();
     ImGui::Shutdown();
 }
 
-void ImGui_ImplSdlGL2_NewFrame(SDL_Window *window)
+void ImGui_ImplSdl_NewFrame(SDL_Window *window)
 {
     if (!g_FontTexture)
-        ImGui_ImplSdlGL2_CreateDeviceObjects();
+        ImGui_ImplSdl_CreateDeviceObjects();
 
     ImGuiIO& io = ImGui::GetIO();
 
