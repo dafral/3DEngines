@@ -23,6 +23,7 @@
 #endif
 
 #include "../Math/MathNamespace.h"
+#include <time.h>
 
 MATH_BEGIN_NAMESPACE
 
