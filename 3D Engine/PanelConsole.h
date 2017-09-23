@@ -11,8 +11,6 @@ public:
 	PanelConsole();
 	virtual ~PanelConsole();
 
-
-
 };
 
 #endif // !__PANEL_CONSOLE_H__

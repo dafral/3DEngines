@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleImgui.h"
 #include "ModuleWindow.h"
+#include "Panel.h"
+#include "PanelConsole.h"
 
 #include "Imgui/imgui.h"
 #include "imgui_impl_sdl.h"
@@ -16,6 +18,9 @@ bool ModuleImgui::Init()
 {
 	ImGui_ImplSdl_Init(App->window->window);
 
+	// Filling the vector with panels
+	panels.push_back(console = new PanelConsole());
+
 	return true;
 }
 
@@ -28,22 +33,30 @@ update_status ModuleImgui::PreUpdate(float dt)
 
 update_status ModuleImgui::Update(float dt)
 {
-	// Creating windows
-	ImGui::Begin("Close Window");
-
-	if (ImGui::Button("Exit", ImVec2(100, 100))) 
-		return UPDATE_STOP;
-
-	ImGui::End();
-
-	// Render last
-	ImGui::Render();
+	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	{
+		Panel* panel = (*it);
+		/*panel->Draw();*/
+	}
 
 	return UPDATE_CONTINUE;
 }
 
 bool ModuleImgui::CleanUp()
 {
+	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	{
+		Panel* panel = (*it);
+
+		if (panel != nullptr)
+		{
+			delete panel;
+			panel = nullptr;
+		}
+	}
+
+	panels.clear();
+
 	return true;
 }
 
