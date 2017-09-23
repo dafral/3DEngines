@@ -36,8 +36,11 @@ update_status ModuleImgui::Update(float dt)
 	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 	{
 		Panel* panel = (*it);
-		/*panel->Draw();*/
+		panel->Draw();
+
 	}
+
+	ImGui::Render();
 
 	return UPDATE_CONTINUE;
 }
