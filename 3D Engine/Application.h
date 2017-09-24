@@ -23,7 +23,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModulePhysics3D* physics;
-	ModuleImgui* editor;
+	ModuleImgui* imgui;
 
 private:
 

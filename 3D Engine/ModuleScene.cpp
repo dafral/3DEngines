@@ -4,6 +4,7 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "src/MathGeoLib.h"
+#include "PanelConsole.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -39,6 +40,28 @@ update_status ModuleScene::Update(float dt)
 	p.wire = false;
 	p.color = Green;
 	p.Render();
+
+	// Creating circles
+
+	PSphere s1(2);
+	s1.color.Set(255, 0, 0);
+	s1.SetPos(0, 10, 0);
+	s1.Render();
+
+	Sphere sph1(float3(0, 10, 0), 2);
+
+	PSphere s2(2);
+	s2.color.Set(0, 255, 0);
+	s2.SetPos(0, 10, 0);
+	s2.Render();
+
+	Sphere sph2(float3(0, 10, 0), 2);
+
+	if (sph1.Intersects(sph2))
+		App->imgui->console->ConsoleText("Spheres are colliding");
+	else
+		App->imgui->console->ConsoleText("Spheres are not colliding");
+
 
 
 	return UPDATE_CONTINUE;

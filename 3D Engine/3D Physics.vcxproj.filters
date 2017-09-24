@@ -37,6 +37,9 @@
     <Filter Include="Sources\MathGeoLib\Algorithm\Random">
       <UniqueIdentifier>{b6824e48-fceb-41f7-9029-9aed05ffdfd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Panel">
+      <UniqueIdentifier>{46eb6990-2eaf-4ae9-ab76-52578a158ffa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -295,10 +298,10 @@
       <Filter>Sources\MathGeoLib\Algorithm\Random</Filter>
     </ClInclude>
     <ClInclude Include="Panel.h">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Panel</Filter>
     </ClInclude>
     <ClInclude Include="PanelConsole.h">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Panel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -456,10 +459,10 @@
       <Filter>Sources\MathGeoLib\Algorithm\Random</Filter>
     </ClCompile>
     <ClCompile Include="Panel.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Panel</Filter>
     </ClCompile>
     <ClCompile Include="PanelConsole.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Panel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
