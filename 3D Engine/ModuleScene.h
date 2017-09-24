@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "src/MathGeoLib.h"
 #include <vector>
 
 struct PhysBody3D;

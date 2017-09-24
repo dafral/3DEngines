@@ -41,19 +41,15 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
+	if ((App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)) Move({ 1, 0, 1 });
+	if ((App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)) Move({ -1, 0, -1 });
+	if ((App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)) Move({ 0, 1, 0 });
+	if ((App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)) Move({ 0, -1, 0 });
 
-	/* Camera follows vehicle
-	Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX();
-	Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 20 * App->player->vehicle->vehicle->getUpAxis();
-	Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 15 * App->player->vehicle->vehicle->getForwardVector().getZ();
-
-	float p_x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-	float p_z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-	LookAt(vec3(p_x, 1, p_z));
-	*/
+	LookAt(vec3(0, 0, 0));
 
 	// Recalculate matrix -------------
-	CalculateViewMatrix();
+	/*CalculateViewMatrix();*/
 
 	return UPDATE_CONTINUE;
 }
