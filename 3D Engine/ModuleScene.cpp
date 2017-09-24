@@ -3,8 +3,8 @@
 #include "ModuleScene.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
-#include "src/MathGeoLib.h"
 #include "PanelConsole.h"
+#include "src/MathGeoLib.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -21,15 +21,39 @@ bool ModuleScene::Start()
 	App->camera->Move(vec3(1.0f, 90.0f, 100.0f));
 	App->camera->LookAt(vec3(0, 0, 60));
 
+	// Random numbers
+	LCG random;
+	num_spheres = random.Int(2, 10);
+
+	// Random positions
+	for (int i = num_spheres; i > 0; i--)
+	{
+		float3 p = { random.Float(0, 40), random.Float(0, 40), random.Float(0, 40) };
+		positions.push_back(p);
+	}
+
+	// Check collisions
+	for (int i = 0; i <= num_spheres; i++)
+	{
+		float3 p = positions[i];
+		Sphere sph1(p, 2); // MathGeoLib
+
+		for (int i2 = 0; i2 <= num_spheres; i2++)
+		{
+			if (i != i2)
+			{
+				float3 p2 = positions[i2];
+				Sphere sph2(p2, 2); // MathGeoLib
+
+				if (sph1.Intersects(sph2))
+					App->imgui->console->ConsoleText("Spheres are colliding");
+				else
+					App->imgui->console->ConsoleText("Spheres are not colliding");
+			}
+		}
+	}
+
 	return ret;
-}
-
-// Load assets
-bool ModuleScene::CleanUp()
-{
-	CONSOLELOG("Unloading Intro scene");
-
-	return true;
 }
 
 // Update
@@ -41,30 +65,27 @@ update_status ModuleScene::Update(float dt)
 	p.color = Green;
 	p.Render();
 
-	// Creating circles
+	// Just doin the render
+	for (int i = 0; i <= num_spheres; i++)
+	{
+		float3 p = positions[i];
 
-	PSphere s1(2);
-	s1.color.Set(255, 0, 0);
-	s1.SetPos(0, 10, 0);
-	s1.Render();
-
-	Sphere sph1(float3(0, 10, 0), 2);
-
-	PSphere s2(2);
-	s2.color.Set(0, 255, 0);
-	s2.SetPos(0, 10, 0);
-	s2.Render();
-
-	Sphere sph2(float3(0, 10, 0), 2);
-
-	if (sph1.Intersects(sph2))
-		App->imgui->console->ConsoleText("Spheres are colliding");
-	else
-		App->imgui->console->ConsoleText("Spheres are not colliding");
-
-
+		PSphere s(2); // Bullet
+		s.color.Set(255, 0, 0);
+		s.SetPos(p.x, p.y, p.z);
+		s.Render();
+	}		
 
 	return UPDATE_CONTINUE;
+}
+
+
+// Load assets
+bool ModuleScene::CleanUp()
+{
+	CONSOLELOG("Unloading Intro scene");
+
+	return true;
 }
 
 void ModuleScene::OnCollision(PhysBody3D* body1, PhysBody3D* body2)

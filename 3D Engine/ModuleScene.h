@@ -1,10 +1,8 @@
 #pragma once
 #include "Module.h"
-#include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
-
-#define MAX_SNAKE 2
+#include <vector>
 
 struct PhysBody3D;
 struct PhysMotor3D;
@@ -20,4 +18,8 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+
+public:
+	int num_spheres = 0;
+	std::vector<float3> positions;
 };
