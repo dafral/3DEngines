@@ -46,3 +46,6 @@ private:
 	void PrepareUpdate();
 	void FinishUpdate();
 };
+
+// Give App pointer access everywhere
+extern Application* App;

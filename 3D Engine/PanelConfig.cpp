@@ -24,7 +24,7 @@ void PanelConfig::Draw() {
 		//if (ImGui::SliderFloat("Brightness", brightness, 0, 1));
 
 		if (ImGui::Checkbox("Fullscreen", &fullscreen));
-			//App->window->SetFullscreen(fullscreen);
+			App->window->SetFullscreen(fullscreen);
 
 		ImGui::SameLine();
 		if (ImGui::Checkbox("Resizable", &resizable))
