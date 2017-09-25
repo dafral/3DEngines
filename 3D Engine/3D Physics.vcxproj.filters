@@ -303,6 +303,9 @@
     <ClInclude Include="PanelConsole.h">
       <Filter>Sources\Panel</Filter>
     </ClInclude>
+    <ClInclude Include="PanelConfig.h">
+      <Filter>Sources\Panel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -462,6 +465,9 @@
       <Filter>Sources\Panel</Filter>
     </ClCompile>
     <ClCompile Include="PanelConsole.cpp">
+      <Filter>Sources\Panel</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelConfig.cpp">
       <Filter>Sources\Panel</Filter>
     </ClCompile>
   </ItemGroup>

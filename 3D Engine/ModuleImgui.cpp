@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "Panel.h"
 #include "PanelConsole.h"
+#include "PanelConfig.h"
 
 #include "Imgui/imgui.h"
 #include "imgui_impl_sdl.h"
@@ -20,6 +21,7 @@ bool ModuleImgui::Init()
 
 	// Filling the vector with panels
 	panels.push_back(console = new PanelConsole());
+	panels.push_back(config = new PanelConfig());
 
 	return true;
 }
@@ -33,6 +35,7 @@ update_status ModuleImgui::PreUpdate(float dt)
 
 update_status ModuleImgui::Update(float dt)
 {
+
 	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 	{
 		Panel* panel = (*it);

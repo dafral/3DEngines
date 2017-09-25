@@ -6,6 +6,7 @@
 
 class Panel;
 class PanelConsole;
+class PanelConfig;
 
 class ModuleImgui : public Module
 {
@@ -20,6 +21,7 @@ public:
 
 public:
 	PanelConsole* console =  nullptr;
+	PanelConfig* config = nullptr;
 
 private:
 	std::vector<Panel*> panels;
