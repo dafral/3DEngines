@@ -12,7 +12,7 @@ PanelConsole::~PanelConsole() {
 
 void PanelConsole::Draw() {
 	
-	ImGui::Begin("Console", &active, ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Console", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 	ImGui::Text(text.begin());
 	ImGui::End();
 

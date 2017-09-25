@@ -12,6 +12,10 @@ public:
 	virtual ~PanelConfig();
 
 	void Draw();
+
+private:
+	bool resizable, fullscreen = true;
+	float* brightness;
 };
 
 #endif

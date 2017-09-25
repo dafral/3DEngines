@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Globals.h"
+
 class Panel {
 public:
 	Panel();
