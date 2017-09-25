@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Module.h"
 #include "ModuleWindow.h"
+#include "ModuleImgui.h"
 
 PanelConfig::PanelConfig() {
 
@@ -45,6 +46,7 @@ void PanelConfig::Draw() {
 		if (ImGui::MenuItem("Report a bug"));
 		
 		if (ImGui::MenuItem("About"));
+		
 
 		ImGui::EndMenu();
 

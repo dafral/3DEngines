@@ -11,3 +11,8 @@ Panel::Panel() {
 Panel::~Panel() {
 
 }
+
+void Panel::SwitchActive() {
+
+	active = !active;
+}

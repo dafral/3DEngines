@@ -9,6 +9,8 @@ public:
 
 	virtual void Draw() = 0;
 
+	void SwitchActive();
+
 public:
 	bool active;
 	int x, y, h, w;
