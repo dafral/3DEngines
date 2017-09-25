@@ -27,10 +27,15 @@ public:
 	float GetBrightness();
 	void SetBrightness(float brightness);
 
+	int GetMinWidth();
+	int GetMinHeight();
+	int GetMaxWidth();
+	int GetMaxHeight();
+
 	int GetWidth();
 	int GetHeight();
-	void SetWidth();
-	void SetHeight();
+	void SetWidth(int width);
+	void SetHeight(int height);
 
 public:
 	//The window we'll be rendering to

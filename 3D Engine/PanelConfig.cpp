@@ -29,7 +29,13 @@ void PanelConfig::Draw() {
 		if (ImGui::SliderFloat("Brightness", &brightness, 0, 1))
 			App->window->SetBrightness(brightness);
 
+		int width = App->window->GetWidth();
+		if (ImGui::SliderInt("Width", &width, 900, 1920))
+			App->window->SetWidth(width);
 
+		int height = App->window->GetHeight();
+		if (ImGui::SliderInt("Height", &height, 600, 1024))
+			App->window->SetHeight(height);
 
 		//BUTTONS
 		if (ImGui::Checkbox("Fullscreen", &fullscreen))

@@ -118,3 +118,61 @@ void ModuleWindow::SetBrightness(float brightness)
 {
 	SDL_SetWindowBrightness(window, brightness);
 }
+
+int ModuleWindow::GetMinWidth()
+{
+	int w;
+	SDL_GetWindowMinimumSize(window, &w, nullptr);
+
+	return w;
+}
+
+int ModuleWindow::GetMaxWidth()
+{
+	int w;
+	SDL_GetWindowMaximumSize(window, &w, nullptr);
+
+	return w;
+}
+
+int ModuleWindow::GetMinHeight()
+{
+	int h;
+	SDL_GetWindowMinimumSize(window, nullptr, &h);
+
+	return h;
+}
+
+int ModuleWindow::GetMaxHeight()
+{
+	int h;
+	SDL_GetWindowMaximumSize(window, nullptr, &h);
+
+	return h;
+}
+
+int ModuleWindow::GetWidth()
+{
+	int w;
+	SDL_GetWindowSize(window, &w, nullptr);
+
+	return w;
+}
+
+int ModuleWindow::GetHeight()
+{
+	int h;
+	SDL_GetWindowSize(window, nullptr, &h);
+
+	return h;
+}
+
+void ModuleWindow::SetWidth(int width)
+{
+	SDL_SetWindowSize(window, width, GetHeight());
+}
+
+void ModuleWindow::SetHeight(int height)
+{
+	SDL_SetWindowSize(window, GetWidth(), height);
+}
