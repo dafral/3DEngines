@@ -2,7 +2,7 @@
 
 PanelAbout::PanelAbout() {
 
-	//active = false;
+	active = false;
 
 }
 

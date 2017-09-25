@@ -3,6 +3,7 @@
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleImgui.h"
+#include "PanelAbout.h"
 
 PanelConfig::PanelConfig() {
 
@@ -24,7 +25,7 @@ void PanelConfig::Draw() {
 		//if (ImGui::SliderFloat("Brightness", brightness, 0, 1));
 
 		if (ImGui::Checkbox("Fullscreen", &fullscreen));
-			App->window->SetFullscreen(fullscreen);
+			//App->window->SetFullscreen(fullscreen);
 
 		ImGui::SameLine();
 		if (ImGui::Checkbox("Resizable", &resizable))
@@ -35,22 +36,17 @@ void PanelConfig::Draw() {
 
 	if (ImGui::CollapsingHeader("Hardware")) {
 
+		//CPU 
+		ImGui::Text("Number of logical CPU cores : ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f,0.40f, 0.00f, 1.00f),"%d (Cache: %dkb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+
+		//RAM
+		ImGui::Text("Number of system RAM: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%dGb", SDL_GetCPUCount());
 	}
 
-	if (ImGui::BeginMenu("Help")) {
-		
-		if (ImGui::MenuItem("Documentation"));
-
-		if (ImGui::MenuItem("Download latest version"));
-
-		if (ImGui::MenuItem("Report a bug"));
-		
-		if (ImGui::MenuItem("About"));
-		
-
-		ImGui::EndMenu();
-
-	}
 
 	ImGui::End();
 }

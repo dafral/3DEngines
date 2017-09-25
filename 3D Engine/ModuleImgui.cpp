@@ -37,6 +37,26 @@ update_status ModuleImgui::PreUpdate(float dt)
 
 update_status ModuleImgui::Update(float dt)
 {
+	if (ImGui::BeginMainMenuBar()) {
+
+
+		if (ImGui::BeginMenu("Help")) {
+
+			if (ImGui::MenuItem("Documentation"));
+
+			if (ImGui::MenuItem("Download latest version"));
+
+			if (ImGui::MenuItem("Report a bug"));
+
+			if (ImGui::MenuItem("About"))
+				App->imgui->about->SwitchActive();
+
+			ImGui::EndMenu();
+
+		}
+
+		ImGui::EndMainMenuBar();
+	}
 
 	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 	{
