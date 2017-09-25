@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "PanelConfig.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -91,4 +92,29 @@ bool ModuleWindow::CleanUp()
 void ModuleWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
+}
+
+void ModuleWindow::SwitchResizable(bool resizable)
+{
+
+}
+
+void ModuleWindow::SwitchBorderless(bool borderless) 
+{
+	SDL_SetWindowBordered(window, (SDL_bool)!borderless);
+}
+
+void ModuleWindow::SwitchFullScreen(bool full_screen)
+{
+	SDL_SetWindowFullscreen(window, (SDL_bool)full_screen);
+}
+
+float ModuleWindow::GetBrightness()
+{
+	return SDL_GetWindowBrightness(window);
+}
+
+void ModuleWindow::SetBrightness(float brightness)
+{
+	SDL_SetWindowBrightness(window, brightness);
 }

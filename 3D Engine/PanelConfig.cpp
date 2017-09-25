@@ -7,6 +7,7 @@
 
 PanelConfig::PanelConfig() {
 
+	resizable = fullscreen = borderless = full_desktop = false;
 }
 
 PanelConfig::~PanelConfig() {
@@ -22,16 +23,29 @@ void PanelConfig::Draw() {
 	}
 
 	if (ImGui::CollapsingHeader("Window")) {
-		//if (ImGui::SliderFloat("Brightness", brightness, 0, 1));
 
-		if (ImGui::Checkbox("Fullscreen", &fullscreen));
-			//App->window->SetFullscreen(fullscreen);
+		//SLIDERS
+		brightness = App->window->GetBrightness();
+		if (ImGui::SliderFloat("Brightness", &brightness, 0, 1))
+			App->window->SetBrightness(brightness);
+
+
+
+		//BUTTONS
+		if (ImGui::Checkbox("Fullscreen", &fullscreen))
+			App->window->SwitchFullScreen(fullscreen);
 
 		ImGui::SameLine();
-		if (ImGui::Checkbox("Resizable", &resizable))
+		if (ImGui::Checkbox("Resizable", &resizable));
 			//App->window->SetResizable(resizable);
-		if (ImGui::IsItemHovered())
-			ImGui::SetTooltip("Restart to apply");
+
+		if (ImGui::Checkbox("Borderless", &borderless))
+			App->window->SwitchBorderless(borderless);
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Full Desktop", &full_desktop));
+		//App->window->SetFullscreen(fullscreen);
+
 	}
 
 	if (ImGui::CollapsingHeader("Hardware")) {

@@ -20,12 +20,27 @@ public:
 
 	void SetTitle(const char* title);
 
+	void SwitchResizable(bool resizable);
+	void SwitchBorderless(bool borderless);
+	void SwitchFullScreen(bool full_screen);
+
+	float GetBrightness();
+	void SetBrightness(float brightness);
+
+	int GetWidth();
+	int GetHeight();
+	void SetWidth();
+	void SetHeight();
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
+
+
+
 };
 
 #endif // __ModuleWindow_H__

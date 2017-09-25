@@ -15,8 +15,8 @@ public:
 	void Draw();
 
 private:
-	bool resizable, fullscreen = true;
-	float* brightness;
+	bool resizable, fullscreen, borderless, full_desktop;
+	float brightness;
 };
 
 #endif
