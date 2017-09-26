@@ -59,6 +59,15 @@ void PanelConfig::Draw() {
 
 	if (ImGui::CollapsingHeader("Hardware")) {
 
+		//SDL VERSION
+		ImGui::Text("SDL version: ");
+		ImGui::SameLine();
+		SDL_version version;
+		SDL_VERSION(&version);
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%d.%d.%d", version.major, version.minor, version.patch);
+
+		ImGui::Separator();
+
 		//CPU 
 		ImGui::Text("Number of logical CPU cores : ");
 		ImGui::SameLine();
@@ -68,6 +77,31 @@ void PanelConfig::Draw() {
 		ImGui::Text("Number of system RAM: ");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%dGb", SDL_GetCPUCount());
+
+		//CAPS
+		ImGui::Text("Caps: ");
+		ImGui::SameLine();
+		if (SDL_Has3DNow)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "3DNow");
+		ImGui::SameLine();
+		if (SDL_HasAVX)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "AVX");
+		ImGui::SameLine();
+		//if (SDL_HasAVX2)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "AVX2");
+		if (SDL_HasAltiVec)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "AltiVec");
+		ImGui::SameLine();
+		if (SDL_HasMMX)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "MMX");
+		ImGui::SameLine();
+		if (SDL_HasRDTSC)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "RDTSC");
+
+		if (SDL_HasSSE)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "\t\tSSE");
+		ImGui::SameLine();
+		if (SDL_HasSSE2)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE2");
+		ImGui::SameLine();
+		if (SDL_HasSSE3)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE3");
+		ImGui::SameLine();
+		if (SDL_HasSSE41)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE41");
+		ImGui::SameLine();
+		if (SDL_HasSSE42)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE42");
+
 	}
 
 
