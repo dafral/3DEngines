@@ -37,11 +37,10 @@ update_status ModuleImgui::PreUpdate(float dt)
 
 update_status ModuleImgui::Update(float dt)
 {
-	if (ImGui::BeginMainMenuBar()) {
-
-
-		if (ImGui::BeginMenu("Help")) {
-
+	if (ImGui::BeginMainMenuBar()) 
+	{
+		if (ImGui::BeginMenu("Help")) 
+		{
 			if (ImGui::MenuItem("Documentation"));
 
 			if (ImGui::MenuItem("Download latest version"));
@@ -52,7 +51,6 @@ update_status ModuleImgui::Update(float dt)
 				App->imgui->about->SwitchActive();
 
 			ImGui::EndMenu();
-
 		}
 
 		ImGui::EndMainMenuBar();
