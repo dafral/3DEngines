@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "PanelConfig.h"
 
 Application::Application()
 {
@@ -73,11 +74,8 @@ void Application::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.0f;
 	ms_timer.Start();
-}
 
-// ---------------------------------------------
-void Application::FinishUpdate()
-{
+	if (fps_counter == 0) fps_timer.Start();
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -112,6 +110,18 @@ update_status Application::Update()
 
 	FinishUpdate();
 	return ret;
+}
+
+// ---------------------------------------------
+void Application::FinishUpdate()
+{
+	fps_counter++;
+
+	if (fps_timer.Read() >= 1000) // 1 sec
+	{
+		App->imgui->config->AddFps(fps_counter);
+		fps_counter = 0.0f;
+	}
 }
 
 bool Application::CleanUp()

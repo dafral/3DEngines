@@ -1,18 +1,15 @@
 #include "Panel.h"
 
-
-Panel::Panel() {
-
+Panel::Panel() 
+{
 	active = true;
 	x = y = h = w = 0;
-
 }
 
-Panel::~Panel() {
+Panel::~Panel() 
+{}
 
-}
-
-void Panel::SwitchActive() {
-
+void Panel::SwitchActive() 
+{
 	active = !active;
 }

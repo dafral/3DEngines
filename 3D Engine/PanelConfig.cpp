@@ -18,8 +18,11 @@ void PanelConfig::Draw() {
 
 	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
-	if (ImGui::CollapsingHeader("Application")) {
-		//FPS
+	if (ImGui::CollapsingHeader("Application")) 
+	{
+		char title[25];
+		sprintf_s(title, 25, "Framerate %.1f", framerate[framerate.size() - 1]);
+		ImGui::PlotHistogram("##Framerate", &framerate[0], framerate.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
 	}
 
 	if (ImGui::CollapsingHeader("Window")) {
@@ -69,4 +72,12 @@ void PanelConfig::Draw() {
 
 
 	ImGui::End();
+}
+
+void PanelConfig::AddFps(float fps)
+{
+	if (framerate.size() > FPS_LOG_NUM)
+		framerate.erase(framerate.begin());
+
+	framerate.push_back(fps);
 }

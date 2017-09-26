@@ -28,7 +28,9 @@ public:
 private:
 
 	Timer	ms_timer;
+	Timer fps_timer;
 	float	dt;
+	float fps_counter = 0.0f;
 	p2List<Module*> list_modules;
 
 public:
