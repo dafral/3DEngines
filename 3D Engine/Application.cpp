@@ -3,6 +3,10 @@
 
 Application::Application()
 {
+	fps_counter = 0;
+	last_frame_fps = 0;
+	last_frame_ms = 0;
+
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
@@ -45,6 +49,7 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+	fps_timer.Start();
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
@@ -73,9 +78,8 @@ bool Application::Init()
 void Application::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.0f;
-	ms_timer.Start();
 
-	if (fps_counter == 0) fps_timer.Start();
+	ms_timer.Start();
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -119,9 +123,20 @@ void Application::FinishUpdate()
 
 	if (fps_timer.Read() >= 1000) // 1 sec
 	{
-		App->imgui->config->AddFps(fps_counter);
-		fps_counter = 0.0f;
+		last_frame_fps = fps_counter;
+		fps_counter = 0;
+		fps_timer.Start();
 	}
+
+	last_frame_ms = ms_timer.Read();
+
+	// FPS cap
+	int frame_ms = (1000 / App->imgui->config->GetFPSCap()) - ms_timer.Read();
+	if (frame_ms > 0) SDL_Delay(frame_ms);
+
+	// Add fps and ms to the vector
+	App->imgui->config->AddMs(last_frame_ms);
+	App->imgui->config->AddFps(last_frame_fps);
 }
 
 bool Application::CleanUp()

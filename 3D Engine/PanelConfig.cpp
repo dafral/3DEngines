@@ -21,12 +21,24 @@ void PanelConfig::Draw() {
 	if (ImGui::CollapsingHeader("Application")) 
 	{
 		char title[25];
-		sprintf_s(title, 25, "Framerate %.1f", framerate[framerate.size() - 1]);
-		ImGui::PlotHistogram("##Framerate", &framerate[0], framerate.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+
+		// fps
+		ImGui::SliderInt(" Max FPS", &fps_cap, 0, 100);
+
+		ImGui::Text("Limit Framerate:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "%i", fps_cap);
+
+		sprintf_s(title, 25, "Framerate %.1f", fps_buffer[fps_buffer.size() - 1]);
+		ImGui::PlotHistogram("##Framerate", &fps_buffer[0], fps_buffer.size(), 0, title, 0.0f, 100.0f, ImVec2(300, 120));
+
+		// dt
+		sprintf_s(title, 25, "Miliseconds %.1f", ms_buffer[ms_buffer.size() - 1]);
+		ImGui::PlotHistogram("##Dt", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, 100.0f, ImVec2(300, 120));
 	}
 
-	if (ImGui::CollapsingHeader("Window")) {
-
+	if (ImGui::CollapsingHeader("Window")) 
+	{
 		//SLIDERS
 		brightness = App->window->GetBrightness();
 		if (ImGui::SliderFloat("Brightness", &brightness, 0, 1))
@@ -54,7 +66,6 @@ void PanelConfig::Draw() {
 		ImGui::SameLine();
 		if (ImGui::Checkbox("Full Desktop", &full_desktop));
 		//App->window->SetFullscreen(fullscreen);
-
 	}
 
 	if (ImGui::CollapsingHeader("Hardware")) {
@@ -101,7 +112,6 @@ void PanelConfig::Draw() {
 		if (SDL_HasSSE41)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE41");
 		ImGui::SameLine();
 		if (SDL_HasSSE42)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE42");
-
 	}
 
 
@@ -110,8 +120,22 @@ void PanelConfig::Draw() {
 
 void PanelConfig::AddFps(float fps)
 {
-	if (framerate.size() > FPS_LOG_NUM)
-		framerate.erase(framerate.begin());
+	if (fps_buffer.size() > FPS_LOG_NUM)
+		fps_buffer.erase(fps_buffer.begin());
 
-	framerate.push_back(fps);
+	fps_buffer.push_back(fps);
+}
+
+void PanelConfig::AddMs(float ms)
+{
+	if (ms_buffer.size() > MS_LOG_NUM)
+		ms_buffer.erase(ms_buffer.begin());
+
+	ms_buffer.push_back(ms);
+}
+
+int PanelConfig::GetFPSCap()
+{
+	if (fps_cap == 0) return 60;
+	else return fps_cap;
 }
