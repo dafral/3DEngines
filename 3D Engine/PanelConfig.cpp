@@ -66,6 +66,7 @@ void PanelConfig::Draw() {
 		ImGui::SameLine();
 		if (ImGui::Checkbox("Full Desktop", &full_desktop));
 		//App->window->SetFullscreen(fullscreen);
+		
 	}
 
 	if (ImGui::CollapsingHeader("Hardware")) {
