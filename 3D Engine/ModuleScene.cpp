@@ -5,6 +5,11 @@
 #include "PhysBody3D.h"
 #include "PanelConsole.h"
 
+#include "Glew/include/GL/glew.h"
+#include "SDL/include/SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -63,6 +68,8 @@ update_status ModuleScene::Update(float dt)
 	p.color = Green;
 	p.Render();
 
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	// Just doin the render
 	for (int i = 0; i < num_spheres; i++)
 	{
@@ -72,7 +79,7 @@ update_status ModuleScene::Update(float dt)
 		s.color.Set(255, 0, 0);
 		s.SetPos(p.x, p.y, p.z);
 		s.Render();
-	}		
+	}	
 
 	return UPDATE_CONTINUE;
 }
