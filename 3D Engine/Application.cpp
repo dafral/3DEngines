@@ -5,7 +5,6 @@ Application::Application()
 {
 	fps_counter = 0;
 	last_frame_fps = 0;
-	last_frame_ms = 0;
 
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
@@ -128,14 +127,12 @@ void Application::FinishUpdate()
 		fps_timer.Start();
 	}
 
-	last_frame_ms = ms_timer.Read();
-
 	// FPS cap
 	int frame_ms = (1000 / App->imgui->config->GetFPSCap()) - ms_timer.Read();
 	if (frame_ms > 0) SDL_Delay(frame_ms);
 
 	// Add fps and ms to the vector
-	App->imgui->config->AddMs(last_frame_ms);
+	App->imgui->config->AddMs(ms_timer.Read());
 	App->imgui->config->AddFps(last_frame_fps);
 }
 
