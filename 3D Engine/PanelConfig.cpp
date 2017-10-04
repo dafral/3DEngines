@@ -8,6 +8,7 @@
 PanelConfig::PanelConfig() {
 
 	resizable = fullscreen = borderless = full_desktop = false;
+	vsync = App->renderer3D->GetVsync();
 }
 
 PanelConfig::~PanelConfig() {
@@ -28,6 +29,9 @@ void PanelConfig::Draw() {
 		ImGui::Text("Limit Framerate:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "%i", fps_cap);
+
+		if (ImGui::Checkbox("Vsync", &vsync))
+			App->renderer3D->SetVsync(vsync);
 
 		sprintf_s(title, 25, "Framerate %.1f", fps_buffer[fps_buffer.size() - 1]);
 		ImGui::PlotHistogram("##Framerate", &fps_buffer[0], fps_buffer.size(), 0, title, 0.0f, 100.0f, ImVec2(300, 120));

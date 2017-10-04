@@ -10,6 +10,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	vsync = true;
 }
 
 // Destructor
@@ -33,7 +34,7 @@ bool ModuleRenderer3D::Init()
 	if(ret == true)
 	{
 		//Use Vsync
-		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
+		if(vsync && SDL_GL_SetSwapInterval(1) < 0)
 			CONSOLELOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		//Initialize Projection Matrix
@@ -149,4 +150,14 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::SetVsync(bool vsync)
+{
+	SDL_GL_SetSwapInterval(vsync);
+}
+
+bool ModuleRenderer3D::GetVsync()
+{
+	return vsync;
 }

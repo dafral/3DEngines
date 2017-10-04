@@ -23,7 +23,7 @@ public:
 	int GetFPSCap();
 
 private:
-	bool resizable, fullscreen, borderless, full_desktop;
+	bool resizable, fullscreen, borderless, full_desktop, vsync;
 	float brightness;
 	int fps_cap = 0;
 	std::vector<float> fps_buffer;
