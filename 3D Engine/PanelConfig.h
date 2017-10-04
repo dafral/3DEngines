@@ -28,6 +28,8 @@ private:
 	int fps_cap = 0;
 	std::vector<float> fps_buffer;
 	std::vector<float> ms_buffer;
+
+	void DrawRenderer();
 };
 
 #endif

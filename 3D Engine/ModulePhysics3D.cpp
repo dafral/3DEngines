@@ -174,6 +174,30 @@ bool ModulePhysics3D::CleanUp()
 	return true;
 }
 
+void ModulePhysics3D::Draw()
+{
+
+	PPlane p(0, 1, 0, 0);
+	p.axis = false;
+
+	p.wire = true;
+
+	p.color = Green;
+	p.Render();
+
+	for (int i = 0; i < App->scene_intro->num_spheres; i++)
+	{
+		float3 p = App->scene_intro->positions[i];
+
+		PSphere s(2); // Bullet
+		s.color.Set(255, 0, 0);
+		s.SetPos(p.x, p.y, p.z);
+		App->renderer3D->wireframe ? s.wire = true : s.wire = false;
+
+		s.Render();
+	}
+}
+
 // ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const PSphere& sphere, float mass)
 {

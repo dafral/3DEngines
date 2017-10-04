@@ -25,6 +25,7 @@ public:
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
+	void Draw();
 	bool CleanUp();
 
 	PhysBody3D* AddBody(const PSphere& sphere, float mass = 1.0f);

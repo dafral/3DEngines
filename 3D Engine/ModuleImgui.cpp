@@ -64,7 +64,7 @@ update_status ModuleImgui::Update(float dt)
 		panel->Draw();
 	}
 
-	ImGui::Render();
+	Draw();
 
 	return UPDATE_CONTINUE;
 }
@@ -85,6 +85,13 @@ bool ModuleImgui::CleanUp()
 	panels.clear();
 
 	return true;
+}
+
+void ModuleImgui::Draw()
+{
+
+	ImGui::Render();
+
 }
 
 

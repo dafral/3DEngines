@@ -88,6 +88,15 @@ bool ModuleRenderer3D::Init()
 			CONSOLELOG("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
+
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+
+		error = glGetError();
+		if (error != GL_NO_ERROR)
+		{
+			CONSOLELOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			ret = false;
+		}
 		
 		GLfloat LightModelAmbient[] = {0.5f, 0.5f, 0.5f, 1.0f};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
@@ -109,7 +118,6 @@ bool ModuleRenderer3D::Init()
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
 	// Projection matrix for
@@ -139,6 +147,12 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+
+	App->physics->Draw();
+	
+	App->imgui->Draw();
+
+
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }

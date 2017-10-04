@@ -119,6 +119,9 @@ void PanelConfig::Draw() {
 		if (SDL_HasSSE42)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE42");
 	}
 
+	if (ImGui::CollapsingHeader("Renderer"))
+		DrawRenderer();
+
 
 	ImGui::End();
 }
@@ -143,4 +146,10 @@ int PanelConfig::GetFPSCap()
 {
 	if (fps_cap == 0) return 60;
 	else return fps_cap;
+}
+
+
+void PanelConfig::DrawRenderer()
+{
+	if (ImGui::Checkbox("Wireframe Mode", &App->renderer3D->wireframe));
 }
