@@ -7,8 +7,10 @@
 #include "PanelConfig.h"
 #include "PanelAbout.h"
 
-#include "Imgui/imgui.h"
+#include "Imgui\imgui.h"
 #include "imgui_impl_sdl.h"
+
+#include "Brofiler\Brofiler.h"
 
 ModuleImgui::ModuleImgui(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -60,7 +62,6 @@ update_status ModuleImgui::Update(float dt)
 	{
 		Panel* panel = (*it);
 		panel->Draw();
-
 	}
 
 	ImGui::Render();
