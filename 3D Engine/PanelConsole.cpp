@@ -1,25 +1,24 @@
 #include "PanelConsole.h"
+#include "Application.h"
 
-PanelConsole::PanelConsole() {
-
+PanelConsole::PanelConsole() 
+{
 	w = 750;
 	h = 300;
 }
 
-PanelConsole::~PanelConsole() {
+PanelConsole::~PanelConsole() 
+{}
 
-}
-
-void PanelConsole::Draw() {
-	
+void PanelConsole::Draw() 
+{
 	ImGui::Begin("Console", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-	ImGui::Text(text.begin());
+	ImGui::Text(App->text.begin());
 	ImGui::End();
-
 }
 
 void PanelConsole::ConsoleText(const char* log) 
 {
-	text.append(log);
-	text.append("\n");
+	App->text.append(log);
+	App->text.append("\n");
 }

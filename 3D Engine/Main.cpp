@@ -89,6 +89,7 @@ int main(int argc, char ** argv)
 	}
 
 	delete App;
+	App = NULL;
 	CONSOLELOG("Exiting game '%s'...\n", TITLE);
 	return main_return;
 }

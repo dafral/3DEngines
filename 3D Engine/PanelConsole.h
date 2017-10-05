@@ -14,10 +14,6 @@ public:
 	void Draw();
 
 	void ConsoleText(const char* log);
-
-public:
-	ImGuiTextBuffer text;
-
 };
 
 #endif // !__PANEL_CONSOLE_H__
