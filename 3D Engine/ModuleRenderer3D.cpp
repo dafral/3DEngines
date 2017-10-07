@@ -114,7 +114,6 @@ bool ModuleRenderer3D::Init()
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
@@ -189,4 +188,22 @@ void ModuleRenderer3D::SetVsync(bool vsync)
 bool ModuleRenderer3D::GetVsync()
 {
 	return vsync;
+}
+
+void ModuleRenderer3D::SwitchBFCulling() {
+
+	glPushMatrix();
+
+	if (bf_culling) {
+
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+
+	}
+	
+	else
+		glDisable(GL_CULL_FACE);
+
+	glPopMatrix();
+
 }

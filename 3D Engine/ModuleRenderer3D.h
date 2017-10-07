@@ -21,6 +21,8 @@ public:
 	void SetVsync(bool vsync);
 	bool GetVsync();
 
+	void SwitchBFCulling();
+
 public:
 
 	Light lights[MAX_LIGHTS];
@@ -30,6 +32,7 @@ public:
 
 	bool wireframe = false;
 	bool points = false;
+	bool bf_culling = false;
 
 private:
 	bool vsync;

@@ -158,4 +158,8 @@ void PanelConfig::DrawRenderer()
 	if (ImGui::Checkbox("Points Mode", &App->renderer3D->points));
 		//App->renderer3D->wireframe ? App->renderer3D->wireframe == false : App->renderer3D->wireframe;
 
+	if (ImGui::Checkbox("Backface Culling", &App->renderer3D->bf_culling))
+		App->renderer3D->SwitchBFCulling();
+	
+
 }

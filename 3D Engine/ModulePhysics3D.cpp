@@ -42,6 +42,8 @@ bool ModulePhysics3D::Init()
 	CONSOLELOG("Creating 3D Physics simulation");
 	bool ret = true;
 
+	glCullFace(GL_FRONT_AND_BACK);
+
 	return ret;
 }
 
@@ -192,9 +194,11 @@ void ModulePhysics3D::Draw()
 
 		PSphere s(2); // Bullet
 		s.color.Set(255, 0, 0);
-		s.SetPos(p.x, p.y, p.z);
+		s.SetPos(p.x, p.y, p.z);	
 
 		glPushMatrix();
+
+		//Visualitzation mode
 
 		if (App->renderer3D->wireframe) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -211,7 +215,6 @@ void ModulePhysics3D::Draw()
 		
 		glPopMatrix();
 		
-
 		s.Render();
 	}
 }
