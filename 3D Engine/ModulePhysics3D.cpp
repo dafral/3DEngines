@@ -185,7 +185,7 @@ void ModulePhysics3D::Draw()
 
 	p.wire = true;
 
-	p.color = Green;
+	p.color = White;
 	p.Render();
 
 	for (int i = 0; i < App->scene_intro->num_spheres; i++)
