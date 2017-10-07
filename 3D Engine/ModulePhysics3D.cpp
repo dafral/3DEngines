@@ -193,7 +193,7 @@ void ModulePhysics3D::Draw()
 		float3 p = App->scene_intro->positions[i];
 
 		PSphere s(2); // Bullet
-		s.color.Set(255, 0, 0);
+		s.color.Set(App->renderer3D->p_color[0], App->renderer3D->p_color[1], App->renderer3D->p_color[2]);
 		s.SetPos(p.x, p.y, p.z);	
 
 		glPushMatrix();

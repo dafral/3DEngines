@@ -168,6 +168,10 @@ void PanelConfig::DrawRenderer()
 	float depth_range = 0;
 	if (ImGui::SliderFloat("Depth Range", &depth_range, 0.00, 1.00));
 	//	if (App->renderer3D->depth) glDepthRangef(0.00f, depth_range);
+
+	if(ImGui::Checkbox("Color", &App->renderer3D->color))
+		App->renderer3D->SwitchColor();
+	ImGui::ColorPicker3("Polygons color", App->renderer3D->p_color);
 	
 
 }

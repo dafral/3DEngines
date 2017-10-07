@@ -23,6 +23,7 @@ public:
 
 	void SwitchBFCulling();
 	void SwitchDepthTest();
+	void SwitchColor();
 
 public:
 
@@ -34,9 +35,11 @@ public:
 	bool wireframe = false;
 	bool points = false;
 	bool bf_culling = false;
-	bool depth = false;
+	bool depth = true;
+	bool color = true;
 
 	float depth_range;
+	float p_color[3];
 
 private:
 	bool vsync;
