@@ -113,7 +113,7 @@ bool ModuleRenderer3D::Init()
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH_TEST);
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
@@ -206,4 +206,21 @@ void ModuleRenderer3D::SwitchBFCulling() {
 
 	glPopMatrix();
 
+}
+
+void ModuleRenderer3D::SwitchDepthTest() {
+
+	glPushMatrix();
+
+	if (depth) {
+
+		glEnable(GL_DEPTH_TEST);
+		//glDepthRangef(0, (GLclampf)depth_range);
+
+	}
+
+	else
+		glDisable(GL_DEPTH_TEST);
+
+	glPopMatrix();
 }

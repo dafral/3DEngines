@@ -1,3 +1,4 @@
+#include "Glew\include\GL\glew.h"
 #include "PanelConfig.h"
 #include "Application.h"
 #include "Module.h"
@@ -101,7 +102,6 @@ void PanelConfig::Draw() {
 		ImGui::SameLine();
 		if (SDL_HasAVX)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "AVX");
 		ImGui::SameLine();
-		//if (SDL_HasAVX2)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "AVX2");
 		if (SDL_HasAltiVec)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "AltiVec");
 		ImGui::SameLine();
 		if (SDL_HasMMX)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "MMX");
@@ -160,6 +160,14 @@ void PanelConfig::DrawRenderer()
 
 	if (ImGui::Checkbox("Backface Culling", &App->renderer3D->bf_culling))
 		App->renderer3D->SwitchBFCulling();
+
+	if (ImGui::Checkbox("Depth", &App->renderer3D->depth))
+		App->renderer3D->SwitchDepthTest();
+
+	ImGui::SameLine(); 
+	float depth_range = 0;
+	if (ImGui::SliderFloat("Depth Range", &depth_range, 0.00, 1.00));
+	//	if (App->renderer3D->depth) glDepthRangef(0.00f, depth_range);
 	
 
 }

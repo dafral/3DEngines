@@ -22,6 +22,7 @@ public:
 	bool GetVsync();
 
 	void SwitchBFCulling();
+	void SwitchDepthTest();
 
 public:
 
@@ -33,6 +34,9 @@ public:
 	bool wireframe = false;
 	bool points = false;
 	bool bf_culling = false;
+	bool depth = false;
+
+	float depth_range;
 
 private:
 	bool vsync;
