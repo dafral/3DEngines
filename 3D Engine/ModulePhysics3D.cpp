@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
+#include "Glew\include\GL\glew.h"
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
 #include "Primitive.h"
@@ -192,7 +193,22 @@ void ModulePhysics3D::Draw()
 		PSphere s(2); // Bullet
 		s.color.Set(255, 0, 0);
 		s.SetPos(p.x, p.y, p.z);
-		App->renderer3D->wireframe ? s.wire = true : s.wire = false;
+
+		//glPushMatrix();
+
+		App->renderer3D->wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		/*glPointSize(5.0f);
+
+		glBegin(GL_POINTS);
+
+		glVertex3f(0.0f, 0.0f, 0.0f);
+
+		glEnd();
+
+		glPointSize(1.0f);*/
+
+		//glPopMatrix();
 
 		s.Render();
 	}
