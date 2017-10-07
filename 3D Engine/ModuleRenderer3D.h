@@ -29,6 +29,7 @@ public:
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
 	bool wireframe = false;
+	bool points = false;
 
 private:
 	bool vsync;

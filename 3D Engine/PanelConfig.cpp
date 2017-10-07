@@ -152,4 +152,10 @@ int PanelConfig::GetFPSCap()
 void PanelConfig::DrawRenderer()
 {
 	if (ImGui::Checkbox("Wireframe Mode", &App->renderer3D->wireframe));
+		//App->renderer3D->points ? App->renderer3D->points == false : App->renderer3D->points;
+	
+
+	if (ImGui::Checkbox("Points Mode", &App->renderer3D->points));
+		//App->renderer3D->wireframe ? App->renderer3D->wireframe == false : App->renderer3D->wireframe;
+
 }

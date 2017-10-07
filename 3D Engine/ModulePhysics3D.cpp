@@ -194,21 +194,23 @@ void ModulePhysics3D::Draw()
 		s.color.Set(255, 0, 0);
 		s.SetPos(p.x, p.y, p.z);
 
-		//glPushMatrix();
+		glPushMatrix();
 
-		App->renderer3D->wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		if (App->renderer3D->wireframe) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			App->renderer3D->points = false;
+		}
 
-		/*glPointSize(5.0f);
-
-		glBegin(GL_POINTS);
-
-		glVertex3f(0.0f, 0.0f, 0.0f);
-
-		glEnd();
-
-		glPointSize(1.0f);*/
-
-		//glPopMatrix();
+		else if (App->renderer3D->points) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			App->renderer3D->wireframe = false;
+		}
+	
+		else 
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		
+		glPopMatrix();
+		
 
 		s.Render();
 	}
