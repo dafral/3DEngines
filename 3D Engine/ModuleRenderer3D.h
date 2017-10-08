@@ -25,6 +25,7 @@ public:
 	void SwitchDepthTest();
 	void SwitchColor();
 	void SwitchTexture();
+	void SwitchLights();
 
 public:
 
@@ -39,6 +40,7 @@ public:
 	bool depth = true;
 	bool color = true;
 	bool texture = true;
+	bool light = true;
 
 	float depth_range;
 	float p_color[3];

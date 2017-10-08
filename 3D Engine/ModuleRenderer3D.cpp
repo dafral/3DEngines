@@ -251,3 +251,16 @@ void ModuleRenderer3D::SwitchTexture() {
 
 	glPopMatrix();
 }
+
+void ModuleRenderer3D::SwitchLights() {
+
+	glPushMatrix();
+
+	if (light)
+		glEnable(GL_LIGHTING);
+
+	else
+		glDisable(GL_LIGHTING);
+
+	glPopMatrix();
+}

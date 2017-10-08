@@ -175,6 +175,9 @@ void PanelConfig::DrawRenderer()
 
 	if (ImGui::Checkbox("Texture 2D", &App->renderer3D->texture))
 		App->renderer3D->SwitchTexture();
+
+	if (ImGui::Checkbox("Lights", &App->renderer3D->light))
+		App->renderer3D->SwitchLights();
 	
 
 }
