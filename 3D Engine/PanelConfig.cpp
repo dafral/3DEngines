@@ -172,6 +172,9 @@ void PanelConfig::DrawRenderer()
 	if(ImGui::Checkbox("Color", &App->renderer3D->color))
 		App->renderer3D->SwitchColor();
 	ImGui::ColorPicker3("Polygons color", App->renderer3D->p_color);
+
+	if (ImGui::Checkbox("Texture 2D", &App->renderer3D->texture))
+		App->renderer3D->SwitchTexture();
 	
 
 }

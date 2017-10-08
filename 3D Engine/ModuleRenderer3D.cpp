@@ -238,3 +238,16 @@ void ModuleRenderer3D::SwitchColor() {
 
 	glPopMatrix();
 }
+
+void ModuleRenderer3D::SwitchTexture() {
+
+	glPushMatrix();
+
+	if (texture)
+		glEnable(GL_TEXTURE_2D);
+
+	else
+		glDisable(GL_TEXTURE_2D);
+
+	glPopMatrix();
+}

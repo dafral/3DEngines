@@ -24,6 +24,7 @@ public:
 	void SwitchBFCulling();
 	void SwitchDepthTest();
 	void SwitchColor();
+	void SwitchTexture();
 
 public:
 
@@ -37,6 +38,7 @@ public:
 	bool bf_culling = false;
 	bool depth = true;
 	bool color = true;
+	bool texture = true;
 
 	float depth_range;
 	float p_color[3];
