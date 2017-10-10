@@ -58,14 +58,6 @@ update_status ModuleImgui::Update(float dt)
 		ImGui::EndMainMenuBar();
 	}
 
-	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
-	{
-		Panel* panel = (*it);
-		panel->Draw();
-	}
-
-	Draw();
-
 	return UPDATE_CONTINUE;
 }
 
@@ -89,9 +81,13 @@ bool ModuleImgui::CleanUp()
 
 void ModuleImgui::Draw()
 {
+	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	{
+		Panel* panel = (*it);
+		panel->Draw();
+	}
 
 	ImGui::Render();
-
 }
 
 
