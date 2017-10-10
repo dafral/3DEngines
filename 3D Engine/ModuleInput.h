@@ -57,6 +57,11 @@ public:
 	{
 		return mouse_y_motion;
 	}
+
+	char* GetDroppedDir() const
+	{
+		return dropped_filedir;
+	}
 	
 private:
 	KEY_STATE* keyboard;
@@ -68,5 +73,4 @@ private:
 	int mouse_y_motion;
 	//int mouse_z_motion;
 	char* dropped_filedir;
-
 };
