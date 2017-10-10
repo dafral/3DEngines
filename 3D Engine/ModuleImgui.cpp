@@ -6,6 +6,7 @@
 #include "PanelConsole.h"
 #include "PanelConfig.h"
 #include "PanelAbout.h"
+#include "PanelProperties.h"
 
 #include "Imgui\imgui.h"
 #include "imgui_impl_sdl.h"
@@ -26,6 +27,7 @@ bool ModuleImgui::Init()
 	panels.push_back(console = new PanelConsole());
 	panels.push_back(config = new PanelConfig());
 	panels.push_back(about = new PanelAbout());
+	panels.push_back(properties = new PanelProperties());
 
 	return true;
 }
