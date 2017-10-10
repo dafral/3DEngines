@@ -25,12 +25,6 @@ bool ModuleRenderer3D::Init()
 	CONSOLELOG("Creating 3D Renderer context");
 	bool ret = true;
 
-	//Glew
-	GLenum err = glewInit();
-
-	if (err == GLEW_OK)
-		CONSOLELOG("Using Glew %s", glewGetString(GLEW_VERSION));
-
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
 	if(context == NULL)
@@ -41,6 +35,12 @@ bool ModuleRenderer3D::Init()
 	
 	if(ret == true)
 	{
+		//Glew
+		GLenum err = glewInit();
+
+		if (err == GLEW_OK) {
+			CONSOLELOG("Using Glew %s", glewGetString(GLEW_VERSION));
+		}
 
 		CONSOLELOG("Vendor: %s", glGetString(GL_VENDOR));
 		CONSOLELOG("Renderer: %s", glGetString(GL_RENDERER));
