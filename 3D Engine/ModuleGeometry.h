@@ -26,7 +26,10 @@ public:
 	bool CleanUp();
 
 	void LoadGeometry(const char* full_path);
-	uint num_meshes = 0;
+	void Draw();
+
+private:
+	std::vector<vertex_data> meshes;
 };
 
 #endif // __ModuleGeometry_H__

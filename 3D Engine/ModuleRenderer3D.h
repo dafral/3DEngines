@@ -17,8 +17,6 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	void Draw(uint id);
-
 	void OnResize(int width, int height);
 	void SetVsync(bool vsync);
 	bool GetVsync();

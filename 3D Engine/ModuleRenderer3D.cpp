@@ -148,11 +148,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->physics->Draw();
-
-	// Drawing FBX
-	for (int i = 0; i < App->geometry->num_meshes; i++)
-		Draw(i);
-
+	App->geometry->Draw();
 	App->imgui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
@@ -265,10 +261,4 @@ void ModuleRenderer3D::SwitchLights() {
 		glDisable(GL_LIGHTING);
 
 	glPopMatrix();
-}
-
-void ModuleRenderer3D::Draw(uint id)
-{
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
-	glDrawElements(GL_TRIANGLES, id, GL_UNSIGNED_INT, NULL);
 }
