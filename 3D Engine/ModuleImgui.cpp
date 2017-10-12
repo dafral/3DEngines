@@ -63,14 +63,13 @@ update_status ModuleImgui::Update(float dt)
 		if (ImGui::BeginMenu("Help")) 
 		{
 			if (ImGui::MenuItem("Documentation"))
-				system("<mybrowser< http://google.com");
+			    ShellExecute(NULL, "open", "https://github.com/dafral/3DEngines", NULL, NULL, SW_SHOWNORMAL);
 
-			if (ImGui::MenuItem("Download latest version"));
+			if (ImGui::MenuItem("Download latest version"))
+				ShellExecute(NULL, "open", "https://github.com/dafral/3DEngines/releases", NULL, NULL, SW_SHOWNORMAL);
 
-			if (ImGui::MenuItem("Report a bug"));
-
-			if (ImGui::MenuItem("About"));
-				//App->imgui->about->SwitchActive();
+			if (ImGui::MenuItem("Report a bug"))
+				ShellExecute(NULL, "open", "https://github.com/dafral/3DEngines/issues", NULL, NULL, SW_SHOWNORMAL);
 
 			ImGui::EndMenu();
 		}
