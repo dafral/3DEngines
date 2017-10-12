@@ -43,19 +43,40 @@ update_status ModuleImgui::Update(float dt)
 {
 	if (ImGui::BeginMainMenuBar()) 
 	{
+		if (ImGui::BeginMenu("View"))
+		{
+			if (ImGui::MenuItem("Console window"))
+				console->SwitchActive();
+
+			if (ImGui::MenuItem("Configuration window"))
+				config->SwitchActive();
+
+			if (ImGui::MenuItem("Properties window"))
+				properties->SwitchActive();
+
+			if (ImGui::MenuItem("About window"))
+				about->SwitchActive();
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Help")) 
 		{
-			if (ImGui::MenuItem("Documentation"));
+			if (ImGui::MenuItem("Documentation"))
+				system("<mybrowser< http://google.com");
 
 			if (ImGui::MenuItem("Download latest version"));
 
 			if (ImGui::MenuItem("Report a bug"));
 
-			if (ImGui::MenuItem("About"))
-				App->imgui->about->SwitchActive();
+			if (ImGui::MenuItem("About"));
+				//App->imgui->about->SwitchActive();
 
 			ImGui::EndMenu();
 		}
+
+		if (ImGui::BeginMenu("Quit"))
+			return update_status::UPDATE_STOP;
 
 		ImGui::EndMainMenuBar();
 	}
@@ -85,8 +106,11 @@ void ModuleImgui::Draw()
 {
 	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 	{
-		Panel* panel = (*it);
-		panel->Draw();
+		if ((*it)->active == true)
+		{
+			Panel* panel = (*it);
+			panel->Draw();
+		}
 	}
 
 	ImGui::Render();
