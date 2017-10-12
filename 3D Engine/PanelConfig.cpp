@@ -117,6 +117,20 @@ void PanelConfig::Draw() {
 		if (SDL_HasSSE41)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE41");
 		ImGui::SameLine();
 		if (SDL_HasSSE42)ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "SSE42");
+
+		ImGui::Separator();
+
+		//GPU
+		ImGui::Text("GPU Information");
+		ImGui::Text("Vendor: "); 
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%s", glGetString(GL_VENDOR));
+		ImGui::Text("Renderer: "); 
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%s", glGetString(GL_RENDERER));
+		ImGui::Text("Version: "); 
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%s", glGetString(GL_VERSION));
 	}
 
 	if (ImGui::CollapsingHeader("Renderer"))
