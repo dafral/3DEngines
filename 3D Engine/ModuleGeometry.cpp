@@ -62,7 +62,7 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 			{
 				data.num_indices = new_mesh->mNumFaces * 3;
 				data.indices = new uint[data.num_indices];
-				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+				for (uint i = 0; i < new_mesh->mNumFaces; i++)
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3) {
 						CONSOLELOG("WARNING, geometry face with != 3 indices!");
@@ -71,7 +71,6 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 						memcpy(&data.indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 					}
 				}
-				aiReleaseImport(scene);
 			}
 
 			// Load buffer for indices
@@ -81,6 +80,7 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 
 			meshes.push_back(data);
 		}
+		aiReleaseImport(scene);
 	}
 	else
 		CONSOLELOG("Error loading scene %s", full_path);
