@@ -101,3 +101,35 @@ void ModuleGeometry::Draw()
 	}
 }
 
+//void ModuleGeometry::SetFileName(const char* full_path)
+//{
+//	int length = strlen(full_path) - 1;
+//
+//	for (int i = length; i >= length && full_path[i] != (const char)"\\"; i--)
+//		filename.push_back(full_path[i]);
+//}
+//
+//const char* ModuleGeometry::GetFileName()
+//{
+//	return dropped;
+//}
+
+const int ModuleGeometry::GetVertices()
+{
+	int t_vertices = 0;
+
+	for (int i = 0; i < meshes.capacity(); i++)
+		t_vertices += meshes[i].num_vertices;
+
+	return t_vertices;
+}
+
+const int ModuleGeometry::GetIndices()
+{
+	int t_indices = 0;
+
+	for (int i = 0; i < meshes.capacity(); i++)
+		t_indices += meshes[i].num_indices;
+
+	return t_indices;
+}

@@ -28,8 +28,14 @@ public:
 	void LoadGeometry(const char* full_path);
 	void Draw();
 
+	/*void SetFileName(const char* full_path);
+	const char* GetFileName();*/
+	const int GetVertices();
+	const int GetIndices();
+
 private:
 	std::vector<vertex_data> meshes;
+	//std::vector<const char> filename;
 };
 
 #endif // __ModuleGeometry_H__
