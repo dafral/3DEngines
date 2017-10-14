@@ -47,7 +47,7 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 
 			// Vertices
 			aiMesh* new_mesh = scene->mMeshes[i];
-			data.num_vertices = new_mesh->mNumVertices * 3;
+			data.num_vertices = new_mesh->mNumVertices;
 			data.vertices = new float[data.num_vertices * 3];
 			memcpy(data.vertices, new_mesh->mVertices, sizeof(float) * data.num_vertices * 3);
 			CONSOLELOG("New mesh with %d vertices.", data.num_vertices);
@@ -55,7 +55,8 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 			// Load buffer for vertices
 			glGenBuffers(1, (GLuint*) &(data.id_vertices));
 			glBindBuffer(GL_ARRAY_BUFFER, data.id_vertices);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data.num_vertices, data.vertices, GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data.num_vertices * 3, data.vertices, GL_STATIC_DRAW);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			// Indices
 			if (new_mesh->HasFaces())
@@ -77,6 +78,7 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 			glGenBuffers(1, (GLuint*) &(data.id_indices));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, data.id_indices);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*data.num_indices, data.indices, GL_STATIC_DRAW);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 			meshes.push_back(data);
 		}
@@ -118,7 +120,7 @@ const int ModuleGeometry::GetVertices()
 {
 	int t_vertices = 0;
 
-	for (int i = 0; i < meshes.capacity(); i++)
+	for (int i = 0; i < meshes.size(); i++)
 		t_vertices += meshes[i].num_vertices;
 
 	return t_vertices;
@@ -128,7 +130,7 @@ const int ModuleGeometry::GetIndices()
 {
 	int t_indices = 0;
 
-	for (int i = 0; i < meshes.capacity(); i++)
+	for (int i = 0; i < meshes.size(); i++)
 		t_indices += meshes[i].num_indices;
 
 	return t_indices;
