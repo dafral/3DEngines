@@ -114,6 +114,7 @@ bool ModuleRenderer3D::Init()
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
 		glEnable(GL_DEPTH_TEST);
+		depth_range = 0;
 		glEnable(GL_CULL_FACE);
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
@@ -187,6 +188,17 @@ void ModuleRenderer3D::SetVsync(bool vsync)
 bool ModuleRenderer3D::GetVsync()
 {
 	return vsync;
+}
+
+float ModuleRenderer3D::GetDepthRange()
+{
+	return depth_range;
+}
+
+void ModuleRenderer3D::SetDepthRange(float new_range)
+{
+	depth_range = new_range;
+	glDepthRangef(0.00, depth_range);
 }
 
 void ModuleRenderer3D::SwitchBFCulling() {

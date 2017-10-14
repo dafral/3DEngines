@@ -189,11 +189,13 @@ void PanelConfig::DrawRenderer()
 
 	if (ImGui::Checkbox("Depth", &App->renderer3D->depth))
 		App->renderer3D->SwitchDepthTest();
-
-	ImGui::SameLine(); 
-	float depth_range = 0;
-	if (ImGui::SliderFloat("Depth Range", &depth_range, 0.00, 1.00));
-	//	if (App->renderer3D->depth) glDepthRangef(0.00f, depth_range);
+	
+	if (App->renderer3D->depth) {
+		ImGui::SameLine();
+		float depth_range = App->renderer3D->GetDepthRange();
+		if (ImGui::SliderFloat("Range", &depth_range, 0.00, 1.00))
+			App->renderer3D->SetDepthRange(depth_range);
+	}
 
 	if(ImGui::Checkbox("Color", &App->renderer3D->color))
 		App->renderer3D->SwitchColor();

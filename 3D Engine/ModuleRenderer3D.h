@@ -21,6 +21,9 @@ public:
 	void SetVsync(bool vsync);
 	bool GetVsync();
 
+	float GetDepthRange();
+	void SetDepthRange(float new_range);
+
 	void SwitchBFCulling();
 	void SwitchDepthTest();
 	void SwitchColor();
@@ -43,10 +46,11 @@ public:
 	bool texture = true;
 	bool light = true;
 
-	float depth_range;
 	float p_color[3];
 
 private:
 	bool vsync;
+
+	float depth_range;
 	
 };
