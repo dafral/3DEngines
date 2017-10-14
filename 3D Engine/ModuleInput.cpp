@@ -120,9 +120,21 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:
 			{
 				dropped_filedir = e.drop.file;
-				CONSOLELOG("Dropped file: %s", dropped_filedir);
-				App->geometry->LoadGeometry(dropped_filedir);
-				//SDL_free(dropped_filedir);
+				extension = e.drop.file;
+
+				int dot_pos = extension.find_last_of(".");
+				if (extension.substr(dot_pos + 1, 3) == "fbx")
+				{
+					CONSOLELOG("Dropped file: %s", dropped_filedir);
+					App->geometry->LoadGeometry(dropped_filedir);
+					SDL_free(dropped_filedir);
+				}
+				else if (extension.substr(dot_pos + 1, 3) == "png") {
+					CONSOLELOG("Dropped texture: %s", dropped_filedir);
+				}
+				else
+					CONSOLELOG("Invalid type of file dropped. This engine only supports FBX and PNG files!");
+				
 				break;
 			}
 		}
