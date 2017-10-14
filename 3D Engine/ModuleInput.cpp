@@ -120,16 +120,18 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:
 			{
 				dropped_filedir = e.drop.file;
-				extension = e.drop.file;
+				std::string str = e.drop.file;
 
-				int dot_pos = extension.find_last_of(".");
-				if (extension.substr(dot_pos + 1, 3) == "fbx")
+				int dot_pos = str.find_last_of(".");
+				extension = str.substr(dot_pos + 1, 3);
+
+				if (extension == "fbx" || extension == "FBX")
 				{
 					CONSOLELOG("Dropped file: %s", dropped_filedir);
 					App->geometry->LoadGeometry(dropped_filedir);
 					SDL_free(dropped_filedir);
 				}
-				else if (extension.substr(dot_pos + 1, 3) == "png") {
+				else if (extension == "png" || extension == "PNG") {
 					CONSOLELOG("Dropped texture: %s", dropped_filedir);
 				}
 				else
