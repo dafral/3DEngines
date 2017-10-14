@@ -125,18 +125,19 @@ update_status ModuleInput::PreUpdate(float dt)
 				int dot_pos = str.find_last_of(".");
 				extension = str.substr(dot_pos + 1, 3);
 
-				if (extension == "fbx" || extension == "FBX")
-				{
+				if (extension == "fbx" || extension == "FBX") {
 					CONSOLELOG("Dropped file: %s", dropped_filedir);
 					App->geometry->LoadGeometry(dropped_filedir);
-					SDL_free(dropped_filedir);
 				}
 				else if (extension == "png" || extension == "PNG") {
 					CONSOLELOG("Dropped texture: %s", dropped_filedir);
+					App->geometry->LoadTexture(dropped_filedir);
 				}
-				else
+				else {
 					CONSOLELOG("Invalid type of file dropped. This engine only supports FBX and PNG files!");
+				}
 				
+				SDL_free(dropped_filedir);
 				break;
 			}
 		}

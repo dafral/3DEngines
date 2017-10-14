@@ -15,7 +15,6 @@
 #include "ModulePhysics3D.h"
 #include "ModuleImgui.h"
 #include "ModuleGeometry.h"
-#include "ModuleTexture.h"
 
 class Application
 {
@@ -29,7 +28,6 @@ public:
 	ModulePhysics3D* physics;
 	ModuleImgui* imgui;
 	ModuleGeometry* geometry;
-	ModuleTexture* texture;
 
 	ImGuiTextBuffer text;
 
