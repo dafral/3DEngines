@@ -29,7 +29,13 @@ private:
 	std::vector<float> fps_buffer;
 	std::vector<float> ms_buffer;
 
+	void DrawApplication();
+	void DrawWindow();
+	void DrawHardware();
 	void DrawRenderer();
+	void DrawInput();
+	void DrawTexture();
+
 };
 
 #endif
