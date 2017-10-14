@@ -19,6 +19,9 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	x = 0;
 
 	sensitivity = 0.25;
+	orb_x_inverted = false;
+	orb_y_inverted = false;
+	wheel_inverted = false;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -131,6 +134,16 @@ void ModuleCamera3D::CalculateViewMatrix()
 	ViewMatrixInverse = inverse(ViewMatrix);
 }
 
+float ModuleCamera3D::GetSensitivity()
+{
+	return sensitivity;
+}
+
+void ModuleCamera3D::SetSensitivity(float new_sensitivity)
+{
+	sensitivity = new_sensitivity;
+}
+
 void ModuleCamera3D::MoveRight()
 {
 	Position += X * sensitivity;
@@ -170,8 +183,11 @@ void ModuleCamera3D::ZoomOut()
 
 void ModuleCamera3D::RotationMovement()
 {
-	int oldX = -App->input->GetMouseXMotion();
-	int oldY = -App->input->GetMouseYMotion();
+	int oldX;
+	int oldY;
+
+	orb_x_inverted ? oldX = App->input->GetMouseXMotion() : oldX = -App->input->GetMouseXMotion();
+	orb_y_inverted ? oldY = App->input->GetMouseYMotion() : oldY = -App->input->GetMouseYMotion();
 
 	Position -= Reference;
 

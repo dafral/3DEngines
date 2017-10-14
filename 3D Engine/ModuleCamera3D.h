@@ -18,6 +18,9 @@ public:
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
+	float GetSensitivity();
+	void SetSensitivity(float new_sensitivity);
+
 	//Camera movements
 	void MoveUp();
 	void MoveDown();
@@ -25,7 +28,6 @@ public:
 	void MoveLeft();
 	void ZoomIn();
 	void ZoomOut();
-
 	void RotationMovement();
 
 private:
@@ -35,6 +37,7 @@ private:
 public:
 	
 	vec3 X, Y, Z, Position, Reference;
+	bool orb_x_inverted, orb_y_inverted, wheel_inverted;
 
 private:
 
