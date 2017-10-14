@@ -20,8 +20,14 @@ public:
 
 	//Camera movements
 	void HVMovement();
+	void MoveUp();
+	void MoveDown();
+	void MoveRight();
+	void MoveLeft();
+	void ZoomIn();
+	void ZoomOut();
+
 	void RotationMovement();
-	void ZoomMovement();
 
 private:
 

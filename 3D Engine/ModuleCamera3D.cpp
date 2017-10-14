@@ -44,26 +44,20 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-
-	if ((App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)) Move({ 1, 0, 1 });
-	if ((App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)) Move({ -1, 0, -1 });
-	if ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)) Move({ 0, 1, 0 });
-	if ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)) Move({ 0, -1, 0 });
-
-	//H/V Movement
-
-	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-		HVMovement();
+	//WASD controls
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) 
+		MoveRight();
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) 
+		MoveLeft();
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) 
+		ZoomIn();
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) 
+		ZoomOut();
 	
 	//ROTATION
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-		RotationMovement();
-
-	//ZOOM
-
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-		ZoomMovement();		
+		RotationMovement();	
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
@@ -125,42 +119,42 @@ void ModuleCamera3D::CalculateViewMatrix()
 	ViewMatrixInverse = inverse(ViewMatrix);
 }
 
-void ModuleCamera3D::HVMovement()
+void ModuleCamera3D::MoveRight()
 {
-	int oldX = -App->input->GetMouseXMotion();
-	int oldY = -App->input->GetMouseYMotion();
-
-	//RIGHT
-	if (oldX < 0)
-	{
-		Position += X * sensitivity * 10;
-		Reference += X * sensitivity * 10;
-	}
-
-	//LEFT
-	if (oldX > 0)
-	{
-		Position -= X * sensitivity * 10;
-		Reference -= X * sensitivity * 10;
-	}
-
-	// UP
-	if (oldY < 0) 
-	{
-		Position -= Y * sensitivity * 10;
-		Reference -= Y * sensitivity * 10;
-	}
-
-	//DOWN
-	if (oldY > 0)
-	{
-		Position += Y * sensitivity * 10;
-		Reference += Y * sensitivity * 10;
-	}
-
-	CalculateViewMatrix();
-	
+	Position += X * sensitivity;
+	Reference += X * sensitivity;
 }
+
+void ModuleCamera3D::MoveLeft() 
+{
+	Position -= X * sensitivity;
+	Reference -= X * sensitivity;
+}
+
+void ModuleCamera3D::MoveUp()
+{
+	Position -= Y * sensitivity;
+	Reference -= Y * sensitivity;
+}
+
+void ModuleCamera3D::MoveDown()
+{
+	Position += Y * sensitivity;
+	Reference += Y * sensitivity;
+}
+
+void ModuleCamera3D::ZoomIn()
+{
+	Position -= Z * sensitivity * 10;
+	Reference -= Z * sensitivity * 10;
+}
+
+void ModuleCamera3D::ZoomOut()
+{
+	Position += Z * sensitivity * 10;
+	Reference += Z * sensitivity * 10;
+}
+
 
 void ModuleCamera3D::RotationMovement()
 {
@@ -194,37 +188,4 @@ void ModuleCamera3D::RotationMovement()
 
 	Position = Reference + Z * length(Position);
 
-	CalculateViewMatrix();
-}
-
-void ModuleCamera3D::ZoomMovement()
-{
-	int oldX = -App->input->GetMouseXMotion();
-	int oldY = -App->input->GetMouseYMotion();
-
-	//ZOOM IN
-	if (oldX < 0)
-	{
-		Position -= Z * sensitivity * 10;
-		Reference -= Z * sensitivity * 10;
-	}
-
-	else if (oldY < 0)
-	{
-		Position -= Z * sensitivity * 10;
-		Reference -= Z * sensitivity * 10;
-	}
-
-	//ZOOM OUT
-	if (oldX > 0)
-	{
-		Position += Z * sensitivity * 10;
-		Reference += Z * sensitivity * 10;
-	}
-
-	else if (oldY > 0)
-	{
-		Position += Z * sensitivity * 10;
-		Reference += Z * sensitivity * 10;
-	}
 }
