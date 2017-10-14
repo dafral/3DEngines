@@ -15,6 +15,7 @@ Application::Application()
 	physics = new ModulePhysics3D(this);
 	imgui = new ModuleImgui(this);
 	geometry = new ModuleGeometry(this);
+	texture = new ModuleTexture(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -30,6 +31,7 @@ Application::Application()
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(geometry);
+	AddModule(texture);
 	AddModule(imgui);
 
 	// Renderer last!

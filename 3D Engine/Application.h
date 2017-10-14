@@ -3,6 +3,8 @@
 #include "p2List.h"
 #include "Globals.h"
 #include "Timer.h"
+#include "Imgui\imgui.h"
+
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
@@ -13,7 +15,7 @@
 #include "ModulePhysics3D.h"
 #include "ModuleImgui.h"
 #include "ModuleGeometry.h"
-#include "Imgui\imgui.h"
+#include "ModuleTexture.h"
 
 class Application
 {
@@ -27,6 +29,7 @@ public:
 	ModulePhysics3D* physics;
 	ModuleImgui* imgui;
 	ModuleGeometry* geometry;
+	ModuleTexture* texture;
 
 	ImGuiTextBuffer text;
 
