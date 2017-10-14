@@ -1,4 +1,6 @@
 #include "PanelAbout.h"
+#include "Glew\include\GL\glew.h"
+#include "SDL\include\SDL.h"
 
 PanelAbout::PanelAbout() {
 
@@ -20,7 +22,37 @@ void PanelAbout::Draw() {
 		
 		ImGui::Separator();
 
-		ImGui::Text("\nUsing MathGeoLib & ImGui");
+		ImGui::Text("Libraries used: ");
+
+		ImGui::Text("SDL version: ");
+		ImGui::SameLine();
+		SDL_version version;
+		SDL_VERSION(&version);
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%d.%d.%d", version.major, version.minor, version.patch);
+
+		ImGui::Text("OpenGL version: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%s", glewGetString(GL_VERSION));
+
+		ImGui::Text("Glew version: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%s", glewGetString(GLEW_VERSION));
+
+		ImGui::Text("Assimp version: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "3.1.1");
+
+		ImGui::Text("Evil version: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "1.7.8");
+
+		ImGui::Text("ImGui version: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%s", ImGui::GetVersion());
+
+		ImGui::Separator();
+
+		ImGui::Text("Protected by the TIM license. Check the documentation for more information.");
 
 		ImGui::End();
 	}

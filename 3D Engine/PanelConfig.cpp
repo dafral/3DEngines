@@ -125,6 +125,10 @@ void PanelConfig::DrawHardware()
 	SDL_VERSION(&version);
 	ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%d.%d.%d", version.major, version.minor, version.patch);
 
+	ImGui::Text("OpenGL version: ");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%s", glewGetString(GL_VERSION));
+
 	ImGui::Separator();
 
 	//CPU 
