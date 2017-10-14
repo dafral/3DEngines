@@ -120,7 +120,7 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:
 			{
 				dropped_filedir = e.drop.file;
-				CONSOLELOG("Dropped file ----------- %s", dropped_filedir);
+				CONSOLELOG("Dropped file: %s", dropped_filedir);
 				App->geometry->LoadGeometry(dropped_filedir);
 				//SDL_free(dropped_filedir);
 				break;

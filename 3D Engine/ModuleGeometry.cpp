@@ -38,6 +38,7 @@ bool ModuleGeometry::CleanUp()
 void ModuleGeometry::LoadGeometry(const char* full_path)
 {
 	const aiScene* scene = aiImportFile(full_path, aiProcessPreset_TargetRealtime_MaxQuality);
+	CONSOLELOG("Loading scene with %d meshes.", scene->mNumMeshes);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -50,13 +51,12 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 			data.num_vertices = new_mesh->mNumVertices;
 			data.vertices = new float[data.num_vertices * 3];
 			memcpy(data.vertices, new_mesh->mVertices, sizeof(float) * data.num_vertices * 3);
-			CONSOLELOG("New mesh with %d vertices.", data.num_vertices);
+			CONSOLELOG("Mesh %d with %d vertices.", i+1, data.num_vertices);
 
 			// Load buffer for vertices
 			glGenBuffers(1, (GLuint*) &(data.id_vertices));
 			glBindBuffer(GL_ARRAY_BUFFER, data.id_vertices);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data.num_vertices * 3, data.vertices, GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			// Indices
 			if (new_mesh->HasFaces())
@@ -78,7 +78,6 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 			glGenBuffers(1, (GLuint*) &(data.id_indices));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, data.id_indices);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*data.num_indices, data.indices, GL_STATIC_DRAW);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 			meshes.push_back(data);
 		}
@@ -121,7 +120,7 @@ const int ModuleGeometry::GetVertices()
 	int t_vertices = 0;
 
 	for (int i = 0; i < meshes.size(); i++)
-		t_vertices += meshes[i].num_vertices;
+		t_vertices += meshes[i].num_vertices; 
 
 	return t_vertices;
 }

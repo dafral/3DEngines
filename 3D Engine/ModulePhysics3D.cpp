@@ -179,46 +179,44 @@ bool ModulePhysics3D::CleanUp()
 
 void ModulePhysics3D::Draw()
 {
-
-	if (App->renderer3D->grid) {
+	if (App->renderer3D->grid) 
+	{
 		PPlane p(0, 1, 0, 0);
 		p.axis = false;
-
 		p.wire = true;
-
 		p.color = White;
 		p.Render();
 	}
 
-	for (int i = 0; i < App->scene_intro->num_spheres; i++)
-	{
-		float3 p = App->scene_intro->positions[i];
+	//for (int i = 0; i < App->scene_intro->num_spheres; i++)
+	//{
+	//	float3 p = App->scene_intro->positions[i];
 
-		PSphere s(2); // Bullet
-		s.color.Set(App->renderer3D->p_color[0], App->renderer3D->p_color[1], App->renderer3D->p_color[2]);
-		s.SetPos(p.x, p.y, p.z);	
+	//	PSphere s(2); // Bullet
+	//	s.color.Set(App->renderer3D->p_color[0], App->renderer3D->p_color[1], App->renderer3D->p_color[2]);
+	//	s.SetPos(p.x, p.y, p.z);	
 
-		glPushMatrix();
+	//	glPushMatrix();
 
-		//Visualitzation mode
+	//	//Visualitzation mode
 
-		if (App->renderer3D->wireframe) {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			App->renderer3D->points = false;
-		}
+	//	if (App->renderer3D->wireframe) {
+	//		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//		App->renderer3D->points = false;
+	//	}
 
-		else if (App->renderer3D->points) {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-			App->renderer3D->wireframe = false;
-		}
-	
-		else 
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		
-		glPopMatrix();
-		
-		s.Render();
-	}
+	//	else if (App->renderer3D->points) {
+	//		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	//		App->renderer3D->wireframe = false;
+	//	}
+	//
+	//	else 
+	//		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//	
+	//	glPopMatrix();
+	//	
+	//	s.Render();
+	//}
 }
 
 // ---------------------------------------------------------
