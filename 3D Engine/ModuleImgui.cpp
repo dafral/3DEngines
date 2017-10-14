@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
+#include "Glew\include\GL\glew.h"
 #include "ModuleImgui.h"
 #include "ModuleWindow.h"
 #include "Panel.h"
@@ -41,6 +42,9 @@ update_status ModuleImgui::PreUpdate(float dt)
 
 update_status ModuleImgui::Update(float dt)
 {
+	if (!App->renderer3D->color)
+		glEnable(GL_COLOR_MATERIAL);
+
 	if (ImGui::BeginMainMenuBar()) 
 	{
 		if (ImGui::BeginMenu("View"))
@@ -80,6 +84,9 @@ update_status ModuleImgui::Update(float dt)
 		ImGui::EndMainMenuBar();
 	}
 
+	if (!App->renderer3D->color)
+		glDisable(GL_COLOR_MATERIAL);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -103,6 +110,10 @@ bool ModuleImgui::CleanUp()
 
 void ModuleImgui::Draw()
 {
+
+	if (!App->renderer3D->color)
+		glEnable(GL_COLOR_MATERIAL);
+
 	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 	{
 		if ((*it)->active == true)

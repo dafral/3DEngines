@@ -180,13 +180,15 @@ bool ModulePhysics3D::CleanUp()
 void ModulePhysics3D::Draw()
 {
 
-	PPlane p(0, 1, 0, 0);
-	p.axis = false;
+	if (App->renderer3D->grid) {
+		PPlane p(0, 1, 0, 0);
+		p.axis = false;
 
-	p.wire = true;
+		p.wire = true;
 
-	p.color = White;
-	p.Render();
+		p.color = White;
+		p.Render();
+	}
 
 	for (int i = 0; i < App->scene_intro->num_spheres; i++)
 	{

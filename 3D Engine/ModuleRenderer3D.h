@@ -34,6 +34,7 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
+	bool grid = true;
 	bool wireframe = false;
 	bool points = false;
 	bool bf_culling = false;
