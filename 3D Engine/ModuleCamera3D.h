@@ -19,7 +19,6 @@ public:
 	float* GetViewMatrix();
 
 	//Camera movements
-	void HVMovement();
 	void MoveUp();
 	void MoveDown();
 	void MoveRight();

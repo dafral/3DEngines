@@ -17,6 +17,8 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	positive = true;
 	x = 0;
+
+	sensitivity = 0.25;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -27,8 +29,6 @@ bool ModuleCamera3D::Start()
 {
 	CONSOLELOG("Setting up the camera");
 	bool ret = true;
-
-	sensitivity = 0.25;
 
 	return ret;
 }
@@ -44,7 +44,7 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	//WASD controls
+	//WASD CONTROLS
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) 
 		MoveRight();
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) 
@@ -53,12 +53,24 @@ update_status ModuleCamera3D::Update(float dt)
 		ZoomIn();
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) 
 		ZoomOut();
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		MoveUp();
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		MoveDown();
+
 	
 	//ROTATION
-
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 		RotationMovement();	
 
+	//FOCUS
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) 
+	{
+		LookAt(vec3(0, 0, 0));
+		
+	}
+
+	Position;
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 
@@ -145,14 +157,14 @@ void ModuleCamera3D::MoveDown()
 
 void ModuleCamera3D::ZoomIn()
 {
-	Position -= Z * sensitivity * 10;
-	Reference -= Z * sensitivity * 10;
+	Position -= Z * sensitivity;
+	Reference -= Z * sensitivity;
 }
 
 void ModuleCamera3D::ZoomOut()
 {
-	Position += Z * sensitivity * 10;
-	Reference += Z * sensitivity * 10;
+	Position += Z * sensitivity;
+	Reference += Z * sensitivity;
 }
 
 

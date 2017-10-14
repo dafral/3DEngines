@@ -23,8 +23,8 @@ bool ModuleScene::Start()
 	CONSOLELOG("Loading Intro assets");
 	bool ret = true;
 
-	App->camera->Move(vec3(1.0f, 90.0f, 100.0f));
-	App->camera->LookAt(vec3(0, 0, 60));
+	App->camera->Move(vec3(10.0f, 4.0f, -4.0f));
+	App->camera->LookAt(vec3(0, 0, 0));
 
 	// Random numbers
 	LCG random;
