@@ -200,23 +200,23 @@ void ModulePhysics3D::Draw()
 
 	//	//Visualitzation mode
 
-	//	if (App->renderer3D->wireframe) {
-	//		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	//		App->renderer3D->points = false;
-	//	}
+		if (App->renderer3D->wireframe) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			App->renderer3D->points = false;
+		}
 
-	//	else if (App->renderer3D->points) {
-	//		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-	//		App->renderer3D->wireframe = false;
-	//	}
-	//
-	//	else 
-	//		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//	
-	//	glPopMatrix();
-	//	
+		else if (App->renderer3D->points) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			App->renderer3D->wireframe = false;
+		}
+	
+		else 
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		
+		glPopMatrix();
+		
 	//	s.Render();
-	//}
+
 }
 
 // ---------------------------------------------------------
