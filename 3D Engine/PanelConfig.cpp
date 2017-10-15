@@ -5,7 +5,6 @@
 #include "ModuleWindow.h"
 #include "ModuleImgui.h"
 #include "PanelAbout.h"
-#include "mmgr/mmgr.h"
 
 PanelConfig::PanelConfig() {
 
@@ -25,11 +24,8 @@ PanelConfig::~PanelConfig() {
 
 void PanelConfig::Draw() {
 
-	if (first) {
-		ImGui::SetNextWindowPos(ImVec2(x, y));
-		ImGui::SetNextWindowContentSize(ImVec2(w, h));
-		first = false;
-	}
+	ImGui::SetNextWindowPos(ImVec2(x, y));
+	ImGui::SetNextWindowContentSize(ImVec2(w, h));
 
 	ImGui::Begin("Configuration", &active);
 
@@ -47,6 +43,9 @@ void PanelConfig::Draw() {
 
 	if (ImGui::CollapsingHeader("Input"))
 		DrawInput();
+
+	if (ImGui::CollapsingHeader("Texture"))
+		DrawTexture();
 
 	ImGui::End();
 }
@@ -239,10 +238,15 @@ void PanelConfig::DrawInput()
 	ImGui::Separator();
 
 	ImGui::Text("Camera configuration");
-	ImGui::Checkbox("Invert X axis", &App->camera->orb_x_inverted);
-	ImGui::Checkbox("Invert Y axis", &App->camera->orb_y_inverted);
+	ImGui::Checkbox("X axis", &App->camera->orb_x_inverted);
+	ImGui::Checkbox("Y axis", &App->camera->orb_y_inverted);
 	ImGui::Checkbox("Invert zoom", &App->camera->wheel_inverted);
 	float sensitivity = App->camera->GetSensitivity();
 	if (ImGui::SliderFloat("Camera sensitivity", &sensitivity, 0.10f, 1.00f))
 		App->camera->SetSensitivity(sensitivity);
+}
+
+void PanelConfig::DrawTexture()
+{
+
 }

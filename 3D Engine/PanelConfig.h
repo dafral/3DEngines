@@ -37,10 +37,7 @@ private:
 	void DrawHardware();
 	void DrawRenderer();
 	void DrawInput();
-<<<<<<< HEAD
 	void DrawTexture();
-=======
->>>>>>> origin/master
 };
 
 #endif
