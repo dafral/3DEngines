@@ -34,8 +34,6 @@ private:
 	void DrawHardware();
 	void DrawRenderer();
 	void DrawInput();
-	void DrawTexture();
-
 };
 
 #endif

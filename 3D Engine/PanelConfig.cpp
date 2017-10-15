@@ -44,9 +44,6 @@ void PanelConfig::Draw() {
 	if (ImGui::CollapsingHeader("Input"))
 		DrawInput();
 
-	if (ImGui::CollapsingHeader("Texture"))
-		DrawTexture();
-
 	ImGui::End();
 }
 
@@ -232,9 +229,4 @@ void PanelConfig::DrawInput ()
 	float sensitivity = App->camera->GetSensitivity();
 	if (ImGui::SliderFloat("Camera sensitivity", &sensitivity, 0.10f, 1.00f))
 		App->camera->SetSensitivity(sensitivity);
-}
-
-void PanelConfig::DrawTexture()
-{
-
 }

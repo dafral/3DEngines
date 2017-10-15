@@ -1,5 +1,6 @@
-#include "PanelProperties.h"
 #include "Application.h"
+#include "PanelProperties.h"
+#include "ModuleGeometry.h"
 
 PanelProperties::PanelProperties()
 {
@@ -8,6 +9,9 @@ PanelProperties::PanelProperties()
 	w = 223;
 	h = 349;
 
+	mod_x = 0;
+	mod_y = 0;
+	mod_z = 0;
 }
 
 PanelProperties::~PanelProperties()
@@ -27,7 +31,7 @@ void PanelProperties::Draw()
 	//Transformation
 	ImGui::Text("Transformation\n");
 
-	ImGui::Text("Position X: 0 Y: 0 Z: 0");
+	ImGui::Text("Position X: %d Y: %d Z: %d", mod_x, mod_y, mod_z);
 	ImGui::Text("Rotation X: 0 Y: 0 Z: 0");
 	ImGui::Text("Scale\tX: 1 Y: 1 Z: 1");
 
@@ -80,4 +84,11 @@ const char* PanelProperties::GetGeometryName()
 const char* PanelProperties::GetTextureName()
 {
 	return texture_name.c_str();
+}
+
+void PanelProperties::SetPosition(vec3 pos)
+{
+	mod_x = pos.x;
+	mod_y = pos.y;
+	mod_z = pos.z;
 }
