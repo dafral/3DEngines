@@ -41,7 +41,7 @@ void PanelProperties::Draw()
 	ImGui::Text("Geometry\n");
 
 	ImGui::Text("Vertices: %d", App->geometry->GetVertices());
-	ImGui::Text("Indices: %d", App->geometry->GetIndices());
+	ImGui::Text("Triangles: %d", App->geometry->GetIndices()/3);
 
 	ImGui::Separator();
 
