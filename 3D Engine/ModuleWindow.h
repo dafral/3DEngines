@@ -44,7 +44,7 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
 
-	bool resizable = false;
+	bool resizable = true;
 
 };
 

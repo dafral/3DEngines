@@ -1,4 +1,5 @@
 #include "PanelAbout.h"
+#include "Application.h"
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL.h"
 
@@ -40,7 +41,7 @@ void PanelAbout::Draw() {
 
 		ImGui::Text("OpenGL version: ");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "%s", glewGetString(GL_VERSION));
+		ImGui::TextColored(ImVec4(1.00f, 0.40f, 0.00f, 1.00f), "4.5.0");
 
 		ImGui::Text("Glew version: ");
 		ImGui::SameLine();
@@ -60,7 +61,7 @@ void PanelAbout::Draw() {
 
 		ImGui::Separator();
 
-		ImGui::Text("Protected by the TIM license. Check the documentation for more information.");
+		ImGui::Text("Protected by the TIM license.\nCheck the documentation for more information.");
 
 		ImGui::End();
 	}
