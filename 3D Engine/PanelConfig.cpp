@@ -8,7 +8,7 @@
 
 PanelConfig::PanelConfig() {
 
-	resizable = fullscreen = borderless = full_desktop = false;
+	resizable = fullscreen = borderless = false;
 	vsync = App->renderer3D->GetVsync();
 
 	x = 786;
@@ -115,14 +115,10 @@ void PanelConfig::DrawWindow()
 
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Resizable", &resizable));
-	//App->window->SetResizable(resizable);
+		App->window->SwitchResizable();
 
 	if (ImGui::Checkbox("Borderless", &borderless))
 		App->window->SwitchBorderless(borderless);
-
-	ImGui::SameLine();
-	if (ImGui::Checkbox("Full Desktop", &full_desktop));
-	//App->window->SetFullscreen(fullscreen);
 }
 
 void PanelConfig::DrawHardware()

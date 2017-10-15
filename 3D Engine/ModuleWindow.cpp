@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "PanelConfig.h"
+#include "SDL\include\SDL_video.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -46,7 +47,7 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(WIN_RESIZABLE == true)
+		if(WIN_RESIZABLE == true && resizable)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
@@ -99,9 +100,9 @@ void ModuleWindow::SetTitle(const char* title)
 	SDL_SetWindowTitle(window, title);
 }
 
-void ModuleWindow::SwitchResizable(bool resizable)
+void ModuleWindow::SwitchResizable()
 {
-
+	resizable != resizable;
 }
 
 void ModuleWindow::SwitchBorderless(bool borderless) 

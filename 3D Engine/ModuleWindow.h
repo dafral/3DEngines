@@ -20,7 +20,7 @@ public:
 
 	void SetTitle(const char* title);
 
-	void SwitchResizable(bool resizable);
+	void SwitchResizable();
 	void SwitchBorderless(bool borderless);
 	void SwitchFullScreen(bool full_screen);
 
@@ -44,7 +44,7 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
 
-
+	bool resizable = false;
 
 };
 
