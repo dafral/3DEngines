@@ -24,8 +24,11 @@ PanelConfig::~PanelConfig() {
 
 void PanelConfig::Draw() {
 
-	ImGui::SetNextWindowPos(ImVec2(x, y));
-	ImGui::SetNextWindowContentSize(ImVec2(w, h));
+	if (first) {
+		ImGui::SetNextWindowPos(ImVec2(x, y));
+		ImGui::SetNextWindowContentSize(ImVec2(w, h));
+		first = false;
+	}
 
 	ImGui::Begin("Configuration", &active);
 
@@ -223,8 +226,8 @@ void PanelConfig::DrawInput ()
 	ImGui::Separator();
 
 	ImGui::Text("Camera configuration");
-	ImGui::Checkbox("X axis", &App->camera->orb_x_inverted);
-	ImGui::Checkbox("Y axis", &App->camera->orb_y_inverted);
+	ImGui::Checkbox("Invert X axis", &App->camera->orb_x_inverted);
+	ImGui::Checkbox("Invert Y axis", &App->camera->orb_y_inverted);
 	ImGui::Checkbox("Invert zoom", &App->camera->wheel_inverted);
 	float sensitivity = App->camera->GetSensitivity();
 	if (ImGui::SliderFloat("Camera sensitivity", &sensitivity, 0.10f, 1.00f))

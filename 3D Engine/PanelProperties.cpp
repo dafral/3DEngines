@@ -23,7 +23,7 @@ void PanelProperties::Draw()
 	ImGui::SetNextWindowPos(ImVec2(x, y));
 	ImGui::SetNextWindowContentSize(ImVec2(w, h));
 
-	ImGui::Begin("Properties", &active, ImGuiWindowFlags_NoScrollbar);
+	ImGui::Begin("Properties", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
 	ImGui::Text("3D Model: %s", GetGeometryName());
 
 	ImGui::Separator();
