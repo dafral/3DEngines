@@ -24,7 +24,7 @@ void PanelAbout::Draw() {
 		ImGui::SetNextWindowPos(ImVec2(x, y));
 		ImGui::SetNextWindowContentSize(ImVec2(w, h));
 
-		ImGui::Begin("About", &active);
+		ImGui::Begin("About", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
 
 		ImGui::TextColored(ImVec4(1.00f, 0.00f, 0.50f, 1.00f), "3D ENGINE\n");
 		ImGui::Text("Engine created from scratch in C++ for 3D Engines subject.\n\nMade by Marc de Pedro & David Franco.");

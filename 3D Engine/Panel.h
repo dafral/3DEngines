@@ -13,4 +13,5 @@ public:
 public:
 	bool active;
 	int x, y, h, w;
+	bool first = true;
 };

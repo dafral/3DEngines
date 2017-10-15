@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleGeometry.h"
+#include "PanelProperties.h"
 
 #include "glew/include/GL/glew.h"
 
@@ -133,6 +134,7 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 			box.Enclose((float3*)new_mesh->mVertices, new_mesh->mNumVertices);
 
 			vec3 midpoint = (box.CenterPoint().x, box.CenterPoint().y, box.CenterPoint().z);
+			App->imgui->properties->SetPosition(midpoint);
 			App->camera->Position = midpoint + (App->camera->Z *  box.Size().Length() * 1.2f);
 
 			// Push back of meshes
