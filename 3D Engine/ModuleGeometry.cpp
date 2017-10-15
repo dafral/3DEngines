@@ -54,7 +54,7 @@ bool ModuleGeometry::CleanUp()
 void ModuleGeometry::LoadGeometry(const char* full_path)
 {
 	const aiScene* scene = aiImportFile(full_path, aiProcessPreset_TargetRealtime_MaxQuality);
-	CONSOLELOG("Loading scene with %d meshes.", scene->mNumMeshes);
+	//CONSOLELOG("Loading scene with %d meshes.", scene->mNumMeshes);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{

@@ -2,14 +2,24 @@
 #include "Application.h"
 
 PanelProperties::PanelProperties()
-{}
+{
+	x = 16;
+	y = 660;
+	w = 223;
+	h = 349;
+
+}
 
 PanelProperties::~PanelProperties()
 {}
 
 void PanelProperties::Draw()
 {
-	ImGui::Begin("Properties", &active);
+
+	ImGui::SetNextWindowPos(ImVec2(x, y));
+	ImGui::SetNextWindowContentSize(ImVec2(w, h));
+
+	ImGui::Begin("Properties", &active, ImGuiWindowFlags_NoScrollbar);
 	ImGui::Text("3D Model: %s", GetGeometryName());
 
 	ImGui::Separator();

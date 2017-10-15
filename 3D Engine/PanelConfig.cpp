@@ -10,6 +10,12 @@ PanelConfig::PanelConfig() {
 
 	resizable = fullscreen = borderless = full_desktop = false;
 	vsync = App->renderer3D->GetVsync();
+
+	x = 786;
+	y = 30;
+	w = 476;
+	h = 554;
+
 }
 
 PanelConfig::~PanelConfig() {
@@ -18,7 +24,10 @@ PanelConfig::~PanelConfig() {
 
 void PanelConfig::Draw() {
 
-	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+	ImGui::SetNextWindowPos(ImVec2(x, y));
+	ImGui::SetNextWindowContentSize(ImVec2(w, h));
+
+	ImGui::Begin("Configuration", &active);
 
 	if (ImGui::CollapsingHeader("Application"))
 		DrawApplication();

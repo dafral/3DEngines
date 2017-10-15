@@ -3,8 +3,11 @@
 
 PanelConsole::PanelConsole() 
 {
+	x = 16;
+	y = 30;
 	w = 750;
-	h = 300;
+	h = 326;
+
 }
 
 PanelConsole::~PanelConsole() 
@@ -12,7 +15,10 @@ PanelConsole::~PanelConsole()
 
 void PanelConsole::Draw() 
 {
-	ImGui::Begin("Console", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+	ImGui::SetNextWindowPos(ImVec2(x, y));
+	ImGui::SetNextWindowContentSize(ImVec2(w, h));
+
+	ImGui::Begin("Console", &active);
 	ImGui::Text(App->text.begin());
 	ImGui::End();
 }
