@@ -48,7 +48,7 @@ public:
 	const int GetTextureHeight();
 
 private:
-	std::vector<mesh_data> meshes;
+	std::vector<mesh_data*> meshes;
 	texture_data tex;
 };
 

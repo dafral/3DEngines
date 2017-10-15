@@ -54,58 +54,67 @@ bool ModuleGeometry::CleanUp()
 void ModuleGeometry::LoadGeometry(const char* full_path)
 {
 	const aiScene* scene = aiImportFile(full_path, aiProcessPreset_TargetRealtime_MaxQuality);
-	//CONSOLELOG("Loading scene with %d meshes.", scene->mNumMeshes);
+	CONSOLELOG("Loading scene with %d meshes.", scene->mNumMeshes);
+
+	if (meshes.size() > 0)
+	{
+		for (int i = 0; i < meshes.size(); i++)
+		{
+			delete meshes[i];
+		}
+		meshes.clear();
+	}
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
-			mesh_data data;
+			mesh_data* data = new mesh_data;
 
 			// Vertices
 			aiMesh* new_mesh = scene->mMeshes[i];
-			data.num_vertices = new_mesh->mNumVertices;
-			data.vertices = new float[data.num_vertices * 3];
-			memcpy(data.vertices, new_mesh->mVertices, sizeof(float) * data.num_vertices * 3);
-			CONSOLELOG("Mesh %d with %d vertices.", i+1, data.num_vertices);
+			data->num_vertices = new_mesh->mNumVertices;
+			data->vertices = new float[data->num_vertices * 3];
+			memcpy(data->vertices, new_mesh->mVertices, sizeof(float) * data->num_vertices * 3);
+			CONSOLELOG("Mesh %d with %d vertices.", i+1, data->num_vertices);
 
 			// Load buffer for vertices
-			glGenBuffers(1, (GLuint*) &(data.id_vertices));
-			glBindBuffer(GL_ARRAY_BUFFER, data.id_vertices);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data.num_vertices * 3, data.vertices, GL_STATIC_DRAW);
+			glGenBuffers(1, (GLuint*) &(data->id_vertices));
+			glBindBuffer(GL_ARRAY_BUFFER, data->id_vertices);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data->num_vertices * 3, data->vertices, GL_STATIC_DRAW);
 
 			// Indices
 			if (new_mesh->HasFaces())
 			{
-				data.num_indices = new_mesh->mNumFaces * 3;
-				data.indices = new uint[data.num_indices];
+				data->num_indices = new_mesh->mNumFaces * 3;
+				data->indices = new uint[data->num_indices];
 				for (uint i = 0; i < new_mesh->mNumFaces; i++)
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3) {
 						CONSOLELOG("WARNING, geometry face with != 3 indices!");
 					}
 					else {
-						memcpy(&data.indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+						memcpy(&data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 					}
 				}
 
 				// Load buffer for indices
-				glGenBuffers(1, (GLuint*) &(data.id_indices));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, data.id_indices);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * data.num_indices, data.indices, GL_STATIC_DRAW);
+				glGenBuffers(1, (GLuint*) &(data->id_indices));
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, data->id_indices);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * data->num_indices, data->indices, GL_STATIC_DRAW);
 			}
 
 			// UVs
 			if (new_mesh->HasTextureCoords(0))
 			{
-				data.num_uvs = new_mesh->mNumVertices;
-				data.texture_coords = new float[data.num_uvs * 3];
-				memcpy(data.texture_coords, new_mesh->mTextureCoords[0], sizeof(float) * data.num_uvs * 3);
+				data->num_uvs = new_mesh->mNumVertices;
+				data->texture_coords = new float[data->num_uvs * 3];
+				memcpy(data->texture_coords, new_mesh->mTextureCoords[0], sizeof(float) * data->num_uvs * 3);
 
 				// Load buffer for UVs
-				glGenBuffers(1, (GLuint*) &(data.id_uvs));
-				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)data.id_uvs);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * data.num_uvs * 3, data.texture_coords, GL_STATIC_DRAW);
+				glGenBuffers(1, (GLuint*) &(data->id_uvs));
+				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)data->id_uvs);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * data->num_uvs * 3, data->texture_coords, GL_STATIC_DRAW);
 			}		
 
 			// Focusing camera to the FBX 
@@ -179,16 +188,16 @@ void ModuleGeometry::Draw()
 	for (int i = 0; i < meshes.size(); i++)
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, meshes[i].id_vertices);
+		glBindBuffer(GL_ARRAY_BUFFER, meshes[i]->id_vertices);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshes[i].id_indices);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshes[i]->id_indices);
 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, meshes[i].id_uvs);
+		glBindBuffer(GL_ARRAY_BUFFER, meshes[i]->id_uvs);
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 
 		glBindTexture(GL_TEXTURE_2D, (GLuint)tex.id_texture);
-		glDrawElements(GL_TRIANGLES, meshes[i].num_indices, GL_UNSIGNED_INT, NULL);
+		glDrawElements(GL_TRIANGLES, meshes[i]->num_indices, GL_UNSIGNED_INT, NULL);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -204,7 +213,7 @@ const int ModuleGeometry::GetVertices()
 	int t_vertices = 0;
 
 	for (int i = 0; i < meshes.size(); i++)
-		t_vertices += meshes[i].num_vertices; 
+		t_vertices += meshes[i]->num_vertices; 
 
 	return t_vertices;
 }
@@ -214,7 +223,7 @@ const int ModuleGeometry::GetIndices()
 	int t_indices = 0;
 
 	for (int i = 0; i < meshes.size(); i++)
-		t_indices += meshes[i].num_indices;
+		t_indices += meshes[i]->num_indices;
 
 	return t_indices;
 }
