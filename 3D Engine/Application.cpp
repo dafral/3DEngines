@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "PanelConfig.h"
+#include "mmgr/mmgr.h"
 
 Application::Application()
 {

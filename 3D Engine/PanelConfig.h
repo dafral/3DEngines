@@ -10,6 +10,7 @@
 
 #define FPS_LOG_NUM 50
 #define MS_LOG_NUM 50
+#define MEMORY_LOG_NUM 50
 
 class PanelConfig : public Panel 
 {
@@ -28,6 +29,7 @@ private:
 	int fps_cap = 0;
 	std::vector<float> fps_buffer;
 	std::vector<float> ms_buffer;
+	std::vector<float> memory_buffer;
 
 	void DrawApplication();
 	void DrawWindow();
@@ -35,7 +37,6 @@ private:
 	void DrawRenderer();
 	void DrawInput();
 	void DrawTexture();
-
 };
 
 #endif
