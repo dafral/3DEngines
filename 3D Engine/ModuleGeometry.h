@@ -7,6 +7,8 @@
 struct texture_data
 {
 	uint id_texture = 0;
+	uint height = 0;
+	uint width = 0;
 };
 
 struct mesh_data 
@@ -38,8 +40,12 @@ public:
 	void LoadTexture(const char* full_path);
 	void Draw();
 
+	void SetTextureDimensions(int w, int h);
+
 	const int GetVertices();
 	const int GetIndices();
+	const int GetTextureWidth();
+	const int GetTextureHeight();
 
 private:
 	std::vector<mesh_data> meshes;

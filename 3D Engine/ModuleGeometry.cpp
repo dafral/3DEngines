@@ -155,7 +155,8 @@ void ModuleGeometry::LoadTexture(const char* full_path)
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 			//Texture Specifications
-			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());	
+			SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
+			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), tex.width, tex.height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());	
 		}
 	}
 	else {
@@ -208,4 +209,20 @@ const int ModuleGeometry::GetIndices()
 		t_indices += meshes[i].num_indices;
 
 	return t_indices;
+}
+
+const int ModuleGeometry::GetTextureWidth()
+{
+	return tex.width;
+}
+
+const int ModuleGeometry::GetTextureHeight()
+{
+	return tex.height;
+}
+
+void ModuleGeometry::SetTextureDimensions(int w, int h)
+{
+	tex.width = w;
+	tex.height = h;
 }

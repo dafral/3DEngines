@@ -34,6 +34,7 @@ void PanelProperties::Draw()
 	//Texture
 	ImGui::Text("Texture\n");
 	ImGui::Text("Texture name: %s", GetTextureName());
+	ImGui::Text("Texture dimensions: %d x %d", App->geometry->GetTextureWidth(), App->geometry->GetTextureHeight());
 
 	ImGui::End();
 }
