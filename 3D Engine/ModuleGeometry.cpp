@@ -46,6 +46,15 @@ update_status ModuleGeometry::Update(float dt)
 
 bool ModuleGeometry::CleanUp()
 {
+	if (meshes.size() > 0)
+	{
+		for (int i = 0; i < meshes.size(); i++)
+		{
+			delete meshes[i];
+		}
+		meshes.clear();
+	}
+
 	// detach log stream
 	aiDetachAllLogStreams();
 	return true;
