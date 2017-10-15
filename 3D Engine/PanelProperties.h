@@ -5,6 +5,7 @@
 
 #include "Panel.h"
 #include "Imgui\imgui.h"
+#include <string>
 
 class PanelProperties : public Panel {
 public:
@@ -13,7 +14,14 @@ public:
 
 	void Draw();
 
-	
+	void SetGeometryName(char* reference);
+	void SetTextureName(char* reference);
+	const char* GetGeometryName();
+	const char* GetTextureName();
+
+private:
+	std::string geometry_name;
+	std::string texture_name;
 };
 
 #endif // !__PANEL_CONSOLE_H__
