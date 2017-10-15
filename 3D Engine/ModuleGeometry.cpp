@@ -107,6 +107,16 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)data.id_uvs);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * data.num_uvs * 3, data.texture_coords, GL_STATIC_DRAW);
 			}		
+
+			// Focusing camera to the FBX 
+			AABB box;
+			box.SetNegativeInfinity();
+			box.Enclose((float3*)new_mesh->mVertices, new_mesh->mNumVertices);
+
+			vec3 midpoint = (box.CenterPoint().x, box.CenterPoint().y, box.CenterPoint().z);
+			App->camera->Position = midpoint + (App->camera->Z *  box.Size().Length() * 1.2f);
+
+			// Push back of meshes
 			meshes.push_back(data);
 		}
 		aiReleaseImport(scene);
@@ -129,7 +139,7 @@ void ModuleGeometry::LoadTexture(const char* full_path)
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
 
-		//Flip the image if it is upside-down
+		// Flip the image if it is upside-down
 		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT) {
 			iluFlipImage();
 		}
@@ -145,16 +155,14 @@ void ModuleGeometry::LoadTexture(const char* full_path)
 			glEnable(GL_TEXTURE_2D);
 
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
 			glGenTextures(1, &tex.id_texture);
 			glBindTexture(GL_TEXTURE_2D, tex.id_texture);
-
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-			//Texture Specifications
+			// Texture specifications
 			SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
 			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), tex.width, tex.height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());	
 		}
