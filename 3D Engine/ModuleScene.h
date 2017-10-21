@@ -1,12 +1,8 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "Primitive.h"
-#include "src/MathGeoLib.h"
-#include <vector>
-
-struct PhysBody3D;
-struct PhysMotor3D;
+#include "GameObject.h"
+#include <string>
 
 class ModuleScene : public Module
 {
@@ -18,9 +14,8 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	GameObject* CreateGameObject();
 
 public:
-	int num_spheres = 0;
-	std::vector<float3> positions;
+	GameObject* root;
 };

@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleGeometry.h"
 #include "PanelProperties.h"
+#include "src/MathGeoLib.h"
 
 #include "glew/include/GL/glew.h"
 
