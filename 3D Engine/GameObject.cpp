@@ -39,8 +39,10 @@ void GameObject::Update()
 
 void GameObject::Draw()
 {
+	Component_Material* material = (Component_Material*)FindComponent(COMPONENT_MATERIAL); // Right now we can only have one and it works!
+
 	for (int i = 0; i < components.size(); i++)
-	{
+	{	
 		if (components[i]->type == COMPONENT_MESH)
 		{
 			Component_Mesh* mesh = (Component_Mesh*)components[i];
@@ -49,21 +51,19 @@ void GameObject::Draw()
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
 			glVertexPointer(3, GL_FLOAT, 0, NULL);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
-			glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glDisableClientState(GL_VERTEX_ARRAY);
-		}
-
-		if (components[i]->type == COMPONENT_MATERIAL)
-		{
-			Component_Material* material = (Component_Material*)components[i];
 
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
 			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-			glBindTexture(GL_TEXTURE_2D, material->id_texture);
+
+			if (material != nullptr) glBindTexture(GL_TEXTURE_2D, (GLuint)material->id_texture);
+			glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		}
 	}
@@ -93,4 +93,13 @@ void GameObject::CreateHierarchy()
 
 		ImGui::TreePop();
 	}
+}
+
+Component* GameObject::FindComponent(component_type type)
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (components[i]->type == type) return components[i];
+	}
+	return nullptr;
 }

@@ -66,7 +66,7 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 			// Creating mesh component(s)
 			Component_Mesh* new_component = new Component_Mesh();
 			go->AddComponent(new_component);
-			CONSOLELOG("Creating component mesh for Game Object %s with %d vertices.", go->name, new_component->num_vertices);
+			CONSOLELOG("Creating component mesh for Game Object '%s' with %d vertices.", go->name.c_str(), new_component->num_vertices);
 
 			// Vertices
 			aiMesh* new_mesh = scene->mMeshes[i];
@@ -146,7 +146,7 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 		// Creating component material
 		Component_Material* new_component = new Component_Material();
 		go->AddComponent(new_component);
-		CONSOLELOG("Creating component material for Game Object %s.", go->name);
+		CONSOLELOG("Creating component material for Game Object '%s'.", go->name.c_str());
 
 		// Flip the image if it is upside-down
 		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT) {
@@ -173,7 +173,8 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 
 			// Texture specifications
 			SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
-			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), new_component->width, new_component->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+			//glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), new_component->width, new_component->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 		}
 	}
 	else {

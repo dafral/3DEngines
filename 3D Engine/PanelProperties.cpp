@@ -4,7 +4,7 @@
 
 PanelProperties::PanelProperties(bool active = true) : Panel(active)
 {
-	x = 16;
+	x = 15;
 	y = 660;
 	w = 223;
 	h = 349;

@@ -8,10 +8,10 @@ class PanelInspector : public Panel
 public:
 	PanelInspector(bool active) : Panel(active)
 	{ 
-		x = 0; 
-	    y = 50; 
-	    w = 200; 
-	    h = 500;
+		x = 15; 
+	    y = 30; 
+	    w = 185; 
+	    h = 300;
 		selected = nullptr;
 	};
 
@@ -19,5 +19,4 @@ public:
 
 public:
 	GameObject* selected;
-	uint num_GO = 0;
 };

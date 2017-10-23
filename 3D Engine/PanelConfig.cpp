@@ -11,10 +11,10 @@ PanelConfig::PanelConfig(bool active = true) : Panel(active) {
 	resizable = fullscreen = borderless = false;
 	vsync = App->renderer3D->GetVsync();
 
-	x = 786;
+	x = 800;
 	y = 30;
-	w = 476;
-	h = 554;
+	w = 450;
+	h = 400;
 }
 
 PanelConfig::~PanelConfig() {

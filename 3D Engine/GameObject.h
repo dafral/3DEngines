@@ -13,7 +13,8 @@ public:
 	void Draw();
 	void Update();
 
-	/*Component* FindComponent(Component* comp);*/
+	Component* FindComponent(component_type type);
+
 	void AddChildren(GameObject* children);
 	void AddComponent(Component* component);
 	void CreateHierarchy();

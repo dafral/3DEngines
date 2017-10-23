@@ -3,10 +3,10 @@
 
 PanelConsole::PanelConsole(bool active = true) : Panel(active)
 {
-	x = 16;
-	y = 30;
+	x = 300;
+	y = 700;
 	w = 750;
-	h = 326;
+	h = 200;
 }
 
 PanelConsole::~PanelConsole() 
