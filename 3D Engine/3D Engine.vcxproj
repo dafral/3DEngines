@@ -109,6 +109,7 @@
     <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="PanelConfig.h" />
     <ClInclude Include="PanelConsole.h" />
+    <ClInclude Include="PanelInspector.h" />
     <ClInclude Include="PanelProperties.h" />
     <ClInclude Include="PhysBody3D.h" />
     <ClInclude Include="Primitive.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="PanelConfig.cpp" />
     <ClCompile Include="PanelConsole.cpp" />
+    <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="PanelProperties.cpp" />
     <ClCompile Include="PhysBody3D.cpp" />
     <ClCompile Include="Primitive.cpp" />
@@ -233,7 +235,6 @@
     <ClCompile Include="src\Math\TransformOps.cpp" />
     <ClCompile Include="src\Time\Clock.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Panel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Geometry\KDTree.inl" />

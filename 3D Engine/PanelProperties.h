@@ -9,7 +9,7 @@
 
 class PanelProperties : public Panel {
 public:
-	PanelProperties();
+	PanelProperties(bool active);
 	virtual ~PanelProperties();
 
 	void Draw();

@@ -149,7 +149,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->physics->Draw();
-	App->geometry->Draw();
+	/*App->geometry->Draw();*/
 	App->imgui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);

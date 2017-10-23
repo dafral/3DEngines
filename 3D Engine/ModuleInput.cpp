@@ -1,7 +1,9 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleImgui.h"
 #include "PanelProperties.h"
+#include "PanelInspector.h"
 
 #define MAX_KEYS 300
 
@@ -129,12 +131,12 @@ update_status ModuleInput::PreUpdate(float dt)
 				if (extension == "fbx" || extension == "FBX") {
 					CONSOLELOG("Dropped file: %s", dropped_filedir);
 					App->imgui->properties->SetGeometryName(dropped_filedir);
-					App->geometry->LoadGeometry(dropped_filedir);
+					App->geometry->LoadMeshes(dropped_filedir, App->imgui->inspector->selected);
 				}
 				else if (extension == "png" || extension == "PNG") {
 					CONSOLELOG("Dropped texture: %s", dropped_filedir);
 					App->imgui->properties->SetTextureName(dropped_filedir);
-					App->geometry->LoadTexture(dropped_filedir);
+					App->geometry->LoadMaterial(dropped_filedir, App->imgui->inspector->selected);
 				}
 				else {
 					CONSOLELOG("Invalid type of file dropped. This engine only supports FBX and PNG files!");

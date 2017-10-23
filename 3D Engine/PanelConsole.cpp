@@ -1,13 +1,12 @@
 #include "PanelConsole.h"
 #include "Application.h"
 
-PanelConsole::PanelConsole() 
+PanelConsole::PanelConsole(bool active = true) : Panel(active)
 {
 	x = 16;
 	y = 30;
 	w = 750;
 	h = 326;
-
 }
 
 PanelConsole::~PanelConsole() 

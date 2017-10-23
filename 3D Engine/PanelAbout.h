@@ -8,7 +8,7 @@
 
 class PanelAbout : public Panel {
 public:
-	PanelAbout();
+	PanelAbout(bool active);
 	virtual ~PanelAbout();
 
 	void Draw();

@@ -8,7 +8,7 @@
 
 class PanelConsole : public Panel {
 public:
-	PanelConsole();
+	PanelConsole(bool active);
 	virtual ~PanelConsole();
 
 	void Draw();

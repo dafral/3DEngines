@@ -2,7 +2,7 @@
 #include "PanelProperties.h"
 #include "ModuleGeometry.h"
 
-PanelProperties::PanelProperties()
+PanelProperties::PanelProperties(bool active = true) : Panel(active)
 {
 	x = 16;
 	y = 660;

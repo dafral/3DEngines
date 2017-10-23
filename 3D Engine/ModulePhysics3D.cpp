@@ -188,35 +188,22 @@ void ModulePhysics3D::Draw()
 		p.Render();
 	}
 
-	//for (int i = 0; i < App->scene_intro->num_spheres; i++)
-	//{
-	//	float3 p = App->scene_intro->positions[i];
+	// Visualitzation mode
 
-	//	PSphere s(2); // Bullet
-	//	s.color.Set(App->renderer3D->p_color[0], App->renderer3D->p_color[1], App->renderer3D->p_color[2]);
-	//	s.SetPos(p.x, p.y, p.z);	
+	if (App->renderer3D->wireframe) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		App->renderer3D->points = false;
+	}
 
-	//	glPushMatrix();
-
-	//	//Visualitzation mode
-
-		if (App->renderer3D->wireframe) {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			App->renderer3D->points = false;
-		}
-
-		else if (App->renderer3D->points) {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-			App->renderer3D->wireframe = false;
-		}
+	else if (App->renderer3D->points) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+		App->renderer3D->wireframe = false;
+	}
 	
-		else 
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	else 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		
-		glPopMatrix();
-		
-	//	s.Render();
-
+	glPopMatrix();	
 }
 
 // ---------------------------------------------------------

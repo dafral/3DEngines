@@ -1,9 +1,11 @@
 #include "Application.h"
 #include "ModuleGeometry.h"
 #include "PanelProperties.h"
-#include "src/MathGeoLib.h"
+#include "Component.h"
+#include "GameObject.h"
 
 #include "glew/include/GL/glew.h"
+#include "src/MathGeoLib.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilu.h"
@@ -48,85 +50,67 @@ update_status ModuleGeometry::Update(float dt)
 
 bool ModuleGeometry::CleanUp()
 {
-	if (meshes.size() > 0)
-	{
-		for (int i = 0; i < meshes.size(); i++)
-		{
-			delete meshes[i];
-		}
-		meshes.clear();
-	}
-
 	// detach log stream
 	aiDetachAllLogStreams();
 	return true;
 }
 
-void ModuleGeometry::LoadGeometry(const char* full_path)
+void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 {
 	const aiScene* scene = aiImportFile(full_path, aiProcessPreset_TargetRealtime_MaxQuality);
 
-	if (meshes.size() > 0)
-	{
-		for (int i = 0; i < meshes.size(); i++)
-		{
-			delete meshes[i];
-		}
-		meshes.clear();
-	}
-
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		CONSOLELOG("Loading scene with %d meshes.", scene->mNumMeshes);
-
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
-			mesh_data* data = new mesh_data;
+			// Creating mesh component(s)
+			Component_Mesh* new_component = new Component_Mesh();
+			go->AddComponent(new_component);
+			CONSOLELOG("Creating component mesh for Game Object %s with %d vertices.", go->name, new_component->num_vertices);
 
 			// Vertices
 			aiMesh* new_mesh = scene->mMeshes[i];
-			data->num_vertices = new_mesh->mNumVertices;
-			data->vertices = new float[data->num_vertices * 3];
-			memcpy(data->vertices, new_mesh->mVertices, sizeof(float) * data->num_vertices * 3);
-			CONSOLELOG("Mesh %d with %d vertices.", i+1, data->num_vertices);
+			new_component->num_vertices = new_mesh->mNumVertices;
+			new_component->vertices = new float[new_component->num_vertices * 3];
+			memcpy(new_component->vertices, new_mesh->mVertices, sizeof(float) * new_component->num_vertices * 3);
 
 			// Load buffer for vertices
-			glGenBuffers(1, (GLuint*) &(data->id_vertices));
-			glBindBuffer(GL_ARRAY_BUFFER, data->id_vertices);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data->num_vertices * 3, data->vertices, GL_STATIC_DRAW);
+			glGenBuffers(1, (GLuint*) &(new_component->id_vertices));
+			glBindBuffer(GL_ARRAY_BUFFER, new_component->id_vertices);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_component->num_vertices * 3, new_component->vertices, GL_STATIC_DRAW);
 
 			// Indices
 			if (new_mesh->HasFaces())
 			{
-				data->num_indices = new_mesh->mNumFaces * 3;
-				data->indices = new uint[data->num_indices];
+				new_component->num_indices = new_mesh->mNumFaces * 3;
+				new_component->indices = new uint[new_component->num_indices];
 				for (uint i = 0; i < new_mesh->mNumFaces; i++)
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3) {
 						CONSOLELOG("WARNING, geometry face with != 3 indices!");
 					}
 					else {
-						memcpy(&data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+						memcpy(&new_component->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 					}
 				}
 
 				// Load buffer for indices
-				glGenBuffers(1, (GLuint*) &(data->id_indices));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, data->id_indices);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * data->num_indices, data->indices, GL_STATIC_DRAW);
+				glGenBuffers(1, (GLuint*) &(new_component->id_indices));
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_component->id_indices);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_component->num_indices, new_component->indices, GL_STATIC_DRAW);
 			}
 
 			// UVs
 			if (new_mesh->HasTextureCoords(0))
 			{
-				data->num_uvs = new_mesh->mNumVertices;
-				data->texture_coords = new float[data->num_uvs * 3];
-				memcpy(data->texture_coords, new_mesh->mTextureCoords[0], sizeof(float) * data->num_uvs * 3);
+				new_component->num_uvs = new_mesh->mNumVertices;
+				new_component->texture_coords = new float[new_component->num_uvs * 3];
+				memcpy(new_component->texture_coords, new_mesh->mTextureCoords[0], sizeof(float) * new_component->num_uvs * 3);
 
 				// Load buffer for UVs
-				glGenBuffers(1, (GLuint*) &(data->id_uvs));
-				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)data->id_uvs);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * data->num_uvs * 3, data->texture_coords, GL_STATIC_DRAW);
+				glGenBuffers(1, (GLuint*) &(new_component->id_uvs));
+				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_component->id_uvs);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_component->num_uvs * 3, new_component->texture_coords, GL_STATIC_DRAW);
 			}		
 
 			// Focusing camera to the FBX 
@@ -137,10 +121,8 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 			vec3 midpoint = (box.CenterPoint().x, box.CenterPoint().y, box.CenterPoint().z);
 			App->imgui->properties->SetPosition(midpoint);
 			App->camera->Position = midpoint + (App->camera->Z *  box.Size().Length() * 1.2f);
-
-			// Push back of meshes
-			meshes.push_back(data);
 		}
+
 		aiReleaseImport(scene);
 	}
 	else {
@@ -148,7 +130,7 @@ void ModuleGeometry::LoadGeometry(const char* full_path)
 	}
 }
 
-void ModuleGeometry::LoadTexture(const char* full_path)
+void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 {
 	ILuint imageID;
 	ILenum error;
@@ -160,6 +142,11 @@ void ModuleGeometry::LoadTexture(const char* full_path)
 	{
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
+
+		// Creating component material
+		Component_Material* new_component = new Component_Material();
+		go->AddComponent(new_component);
+		CONSOLELOG("Creating component material for Game Object %s.", go->name);
 
 		// Flip the image if it is upside-down
 		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT) {
@@ -177,8 +164,8 @@ void ModuleGeometry::LoadTexture(const char* full_path)
 			glEnable(GL_TEXTURE_2D);
 
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glGenTextures(1, &tex.id_texture);
-			glBindTexture(GL_TEXTURE_2D, tex.id_texture);
+			glGenTextures(1, &new_component->id_texture);
+			glBindTexture(GL_TEXTURE_2D, new_component->id_texture);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -186,7 +173,7 @@ void ModuleGeometry::LoadTexture(const char* full_path)
 
 			// Texture specifications
 			SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
-			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), tex.width, tex.height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());	
+			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), new_component->width, new_component->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 		}
 	}
 	else {
@@ -196,63 +183,43 @@ void ModuleGeometry::LoadTexture(const char* full_path)
 	ilDeleteImages(1, &imageID);
 }
 
-void ModuleGeometry::Draw()
-{
-	for (int i = 0; i < meshes.size(); i++)
-	{
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, meshes[i]->id_vertices);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshes[i]->id_indices);
-
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, meshes[i]->id_uvs);
-		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-
-		glBindTexture(GL_TEXTURE_2D, (GLuint)tex.id_texture);
-		glDrawElements(GL_TRIANGLES, meshes[i]->num_indices, GL_UNSIGNED_INT, NULL);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	}
-}
-
 const int ModuleGeometry::GetVertices()
 {
-	int t_vertices = 0;
+	/*int t_vertices = 0;
 
 	for (int i = 0; i < meshes.size(); i++)
 		t_vertices += meshes[i]->num_vertices; 
 
-	return t_vertices;
+	return t_vertices;*/
+	return 0;
 }
 
 const int ModuleGeometry::GetIndices()
 {
-	int t_indices = 0;
+	//int t_indices = 0;
 
-	for (int i = 0; i < meshes.size(); i++)
-		t_indices += meshes[i]->num_indices;
+	//for (int i = 0; i < meshes.size(); i++)
+	//	t_indices += meshes[i]->num_indices;
 
-	return t_indices;
+	/*return t_indices;*/
+
+	return 0;
 }
 
 const int ModuleGeometry::GetTextureWidth()
 {
-	return tex.width;
+	//return tex.width;
+	return 0;
 }
 
 const int ModuleGeometry::GetTextureHeight()
 {
-	return tex.height;
+	//return tex.height;
+	return 0;
 }
 
 void ModuleGeometry::SetTextureDimensions(int w, int h)
 {
-	tex.width = w;
-	tex.height = h;
+	//tex.width = w;
+	//tex.height = h;
 }

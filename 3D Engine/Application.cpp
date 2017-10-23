@@ -10,7 +10,7 @@ Application::Application()
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
-	scene_intro = new ModuleScene(this);
+	scene = new ModuleScene(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	physics = new ModulePhysics3D(this);
@@ -29,7 +29,7 @@ Application::Application()
 	AddModule(physics);
 	
 	// Scenes
-	AddModule(scene_intro);
+	AddModule(scene);
 	AddModule(geometry);
 	AddModule(imgui);
 

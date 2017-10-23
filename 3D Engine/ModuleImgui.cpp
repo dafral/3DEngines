@@ -1,18 +1,18 @@
 #include "Globals.h"
 #include "Application.h"
-#include "Glew\include\GL\glew.h"
 #include "ModuleImgui.h"
 #include "ModuleWindow.h"
+
 #include "Panel.h"
 #include "PanelConsole.h"
 #include "PanelConfig.h"
 #include "PanelAbout.h"
 #include "PanelProperties.h"
+#include "PanelInspector.h"
 
 #include "Imgui\imgui.h"
 #include "imgui_impl_sdl.h"
-
-#include "Brofiler\Brofiler.h"
+#include "Glew\include\GL\glew.h"
 
 ModuleImgui::ModuleImgui(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -25,10 +25,11 @@ bool ModuleImgui::Init()
 	ImGui_ImplSdl_Init(App->window->window);
 
 	// Filling the vector with panels
-	panels.push_back(console = new PanelConsole());
-	panels.push_back(config = new PanelConfig());
-	panels.push_back(about = new PanelAbout());
-	panels.push_back(properties = new PanelProperties());
+	panels.push_back(console = new PanelConsole(true));
+	panels.push_back(config = new PanelConfig(true));
+	panels.push_back(about = new PanelAbout(false));
+	panels.push_back(properties = new PanelProperties(true));
+	panels.push_back(inspector = new PanelInspector(true));
 
 	return true;
 }
@@ -110,7 +111,6 @@ bool ModuleImgui::CleanUp()
 
 void ModuleImgui::Draw()
 {
-
 	if (!App->renderer3D->color)
 		glEnable(GL_COLOR_MATERIAL);
 

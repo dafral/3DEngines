@@ -5,13 +5,13 @@
 class Panel 
 {
 public:
-	Panel();
-	virtual ~Panel();
+	Panel(bool active = true) : active(active) {};
+	virtual ~Panel() {};
 	virtual void Draw() {};
-	void SwitchActive();
+	void SwitchActive() { active != active; };
 
 public:
 	bool active;
-	int x, y, h, w;
+	int x = 0, y = 0, h = 0, w = 0;
 	bool first = true;
 };

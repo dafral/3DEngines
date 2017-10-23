@@ -15,7 +15,7 @@
 class PanelConfig : public Panel 
 {
 public:
-	PanelConfig();
+	PanelConfig(bool active);
 	virtual ~PanelConfig();
 
 	void Draw();

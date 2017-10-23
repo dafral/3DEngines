@@ -6,7 +6,7 @@
 #include "ModuleImgui.h"
 #include "PanelAbout.h"
 
-PanelConfig::PanelConfig() {
+PanelConfig::PanelConfig(bool active = true) : Panel(active) {
 
 	resizable = fullscreen = borderless = false;
 	vsync = App->renderer3D->GetVsync();
@@ -15,7 +15,6 @@ PanelConfig::PanelConfig() {
 	y = 30;
 	w = 476;
 	h = 554;
-
 }
 
 PanelConfig::~PanelConfig() {

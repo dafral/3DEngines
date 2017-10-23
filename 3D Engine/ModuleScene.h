@@ -1,8 +1,9 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "GameObject.h"
 #include <string>
+
+class GameObject;
 
 class ModuleScene : public Module
 {
@@ -14,8 +15,8 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	GameObject* CreateGameObject();
+	GameObject* CreateGameObject(std::string name, GameObject* parent = nullptr);
 
 public:
-	GameObject* root;
+	GameObject* root = nullptr;
 };

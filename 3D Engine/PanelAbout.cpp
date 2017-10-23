@@ -3,14 +3,12 @@
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL.h"
 
-PanelAbout::PanelAbout() {
-
-	active = false;
+PanelAbout::PanelAbout(bool active = true) : Panel(active)
+{
 	x = 786;
 	y = 660;
 	w = 476;
 	h = 300;
-
 }
 
 PanelAbout::~PanelAbout() {
