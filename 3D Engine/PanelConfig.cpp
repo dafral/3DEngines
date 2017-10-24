@@ -23,8 +23,11 @@ PanelConfig::~PanelConfig() {
 
 void PanelConfig::Draw() {
 
-	ImGui::SetNextWindowPos(ImVec2(x, y));
-	ImGui::SetNextWindowContentSize(ImVec2(w, h));
+	if (first) {
+		ImGui::SetNextWindowPos(ImVec2(x, y));
+		ImGui::SetNextWindowContentSize(ImVec2(w, h));
+		first = false;
+	}
 
 	ImGui::Begin("Configuration", &active);
 
