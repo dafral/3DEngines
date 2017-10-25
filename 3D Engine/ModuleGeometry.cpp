@@ -63,10 +63,12 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 	{
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
-			// Creating mesh component(s)
-			Component_Mesh* new_component = new Component_Mesh();
+			CONSOLELOG("Creating component mesh for Game Object '%s'", go->name.c_str());
+
+			Component_Mesh* new_component = (Component_Mesh*)go->FindComponent(COMPONENT_MESH);
+			if (new_component != nullptr) go->DeleteComponentType(COMPONENT_MESH);
+			new_component = new Component_Mesh;
 			go->AddComponent(new_component);
-			CONSOLELOG("Creating component mesh for Game Object '%s' with %d vertices.", go->name.c_str(), new_component->num_vertices);
 
 			// Vertices
 			aiMesh* new_mesh = scene->mMeshes[i];
@@ -132,6 +134,8 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 
 void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 {
+	App->imgui->properties->GetTextureName();
+
 	ILuint imageID;
 	ILenum error;
 
@@ -143,15 +147,16 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
 
-		// Creating component material
-		Component_Material* new_component = new Component_Material();
+		CONSOLELOG("Creating component material for Game Object '%s'", go->name.c_str());
+
+		Component_Material* new_component = (Component_Material*)go->FindComponent(COMPONENT_MATERIAL);
+		if (new_component != nullptr) go->DeleteComponentType(COMPONENT_MATERIAL);
+		new_component = new Component_Material();
 		go->AddComponent(new_component);
-		CONSOLELOG("Creating component material for Game Object '%s'.", go->name.c_str());
 
 		// Flip the image if it is upside-down
-		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT) {
+		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
 			iluFlipImage();
-		}
 
 		if (!ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE))
 		{

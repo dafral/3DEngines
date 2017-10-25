@@ -17,6 +17,7 @@ public:
 
 	void AddChildren(GameObject* children);
 	void AddComponent(Component* component);
+	void DeleteComponentType(component_type type);
 	void CreateHierarchy();
 
 public:

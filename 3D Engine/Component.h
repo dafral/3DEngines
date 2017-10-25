@@ -19,11 +19,17 @@ public:
 
 // Different types of components ----------------------------------------------
 
+//0...*
 class Component_Mesh : public Component
 {
 public:
 	Component_Mesh() : Component(COMPONENT_MESH) {};
-	~Component_Mesh() {};
+	~Component_Mesh() 
+	{
+		delete[] indices;
+		delete[] vertices;
+		delete[] texture_coords;
+	};
 
 public:
 	uint id_vertices = 0;
@@ -39,6 +45,7 @@ public:
 	float* texture_coords = nullptr;
 };
 
+//0...1
 class Component_Material : public Component
 {
 public:
