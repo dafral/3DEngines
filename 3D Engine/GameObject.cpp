@@ -107,12 +107,13 @@ Component* GameObject::FindComponent(component_type type)
 // This function deletes all components of that type
 void GameObject::DeleteComponentType(component_type type)
 {
-	for (int i = 0; i < components.size(); i++)
+	for (int i = 0; i < components.size(); )
 	{
 		if (components[i]->type == type)
 		{
 			delete components[i];
 			components.erase(components.begin() + i);
 		}
+		else i++;
 	}
 }

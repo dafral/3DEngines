@@ -61,13 +61,13 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		if (go->FindComponent(COMPONENT_MESH) != nullptr) go->DeleteComponentType(COMPONENT_MESH);
+
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
 			CONSOLELOG("Creating component mesh for Game Object '%s'", go->name.c_str());
-
-			Component_Mesh* new_component = (Component_Mesh*)go->FindComponent(COMPONENT_MESH);
-			if (new_component != nullptr) go->DeleteComponentType(COMPONENT_MESH);
-			new_component = new Component_Mesh;
+		
+			Component_Mesh* new_component = new Component_Mesh;
 			go->AddComponent(new_component);
 
 			// Vertices
@@ -149,9 +149,8 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 
 		CONSOLELOG("Creating component material for Game Object '%s'", go->name.c_str());
 
-		Component_Material* new_component = (Component_Material*)go->FindComponent(COMPONENT_MATERIAL);
-		if (new_component != nullptr) go->DeleteComponentType(COMPONENT_MATERIAL);
-		new_component = new Component_Material();
+		if (go->FindComponent(COMPONENT_MATERIAL) != nullptr) go->DeleteComponentType(COMPONENT_MATERIAL);
+		Component_Material* new_component = new Component_Material();
 		go->AddComponent(new_component);
 
 		// Flip the image if it is upside-down

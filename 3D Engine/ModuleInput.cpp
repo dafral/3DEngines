@@ -129,24 +129,20 @@ update_status ModuleInput::PreUpdate(float dt)
 				extension = str.substr(dot_pos + 1, 3);
 				CONSOLELOG("Dropped file: %s", dropped_filedir);
 
-				if (extension == "fbx" || extension == "FBX") 
-				{		
-					if (App->imgui->inspector->selected != nullptr && App->imgui->inspector->selected != App->scene->root) 
-						App->geometry->LoadMeshes(dropped_filedir, App->imgui->inspector->selected);
-					else {
-						CONSOLELOG("Select one Game Object before dropping the file.");
-					}
-				}
-				else if (extension == "png" || extension == "PNG") 
+				if (App->imgui->inspector->selected != nullptr && App->imgui->inspector->selected != App->scene->root)
 				{
-					if (App->imgui->inspector->selected != nullptr && App->imgui->inspector->selected != App->scene->root) 
+					if (extension == "fbx" || extension == "FBX")
+						App->geometry->LoadMeshes(dropped_filedir, App->imgui->inspector->selected);
+
+					else if (extension == "png" || extension == "PNG")
 						App->geometry->LoadMaterial(dropped_filedir, App->imgui->inspector->selected);
+
 					else {
-						CONSOLELOG("Select one Game Object before dropping the file.");
+						CONSOLELOG("Invalid type of file dropped. This engine only supports FBX and PNG files!");
 					}
 				}
 				else {
-					CONSOLELOG("Invalid type of file dropped. This engine only supports FBX and PNG files!");
+					CONSOLELOG("Select one Game Object before dropping the file.");
 				}
 				
 				SDL_free(dropped_filedir);
