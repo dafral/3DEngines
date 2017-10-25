@@ -16,13 +16,6 @@ public:
 
 	void LoadMeshes(const char* full_path, GameObject* go);
 	void LoadMaterial(const char* full_path, GameObject* go);
-
-	void SetTextureDimensions(int w, int h);
-
-	const int GetVertices();
-	const int GetIndices();
-	const int GetTextureWidth();
-	const int GetTextureHeight();
 };
 
 #endif // __ModuleGeometry_H__

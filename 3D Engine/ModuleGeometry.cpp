@@ -121,7 +121,6 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 			box.Enclose((float3*)new_mesh->mVertices, new_mesh->mNumVertices);
 
 			vec3 midpoint = (box.CenterPoint().x, box.CenterPoint().y, box.CenterPoint().z);
-			App->imgui->properties->SetPosition(midpoint);
 			App->camera->Position = midpoint + (App->camera->Z *  box.Size().Length() * 1.2f);
 		}
 
@@ -176,9 +175,8 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 			// Texture specifications
-			SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
-			//glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), new_component->width, new_component->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
-			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+			go->SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
+			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), new_component->width, new_component->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 		}
 	}
 	else {
@@ -188,43 +186,11 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 	ilDeleteImages(1, &imageID);
 }
 
-const int ModuleGeometry::GetVertices()
-{
-	/*int t_vertices = 0;
+//void ModuleGeometry::LoadTransform()
+//{
+//
+//}
+ 
+// =====================================================================================================
 
-	for (int i = 0; i < meshes.size(); i++)
-		t_vertices += meshes[i]->num_vertices; 
 
-	return t_vertices;*/
-	return 0;
-}
-
-const int ModuleGeometry::GetIndices()
-{
-	//int t_indices = 0;
-
-	//for (int i = 0; i < meshes.size(); i++)
-	//	t_indices += meshes[i]->num_indices;
-
-	/*return t_indices;*/
-
-	return 0;
-}
-
-const int ModuleGeometry::GetTextureWidth()
-{
-	//return tex.width;
-	return 0;
-}
-
-const int ModuleGeometry::GetTextureHeight()
-{
-	//return tex.height;
-	return 0;
-}
-
-void ModuleGeometry::SetTextureDimensions(int w, int h)
-{
-	//tex.width = w;
-	//tex.height = h;
-}

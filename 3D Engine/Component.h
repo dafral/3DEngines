@@ -1,5 +1,6 @@
 #pragma once
 #include "Globals.h"
+#include "src\MathGeoLib.h"
 
 enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL};
 
@@ -56,4 +57,19 @@ public:
 	uint id_texture = 0;
 	uint height = 0;
 	uint width = 0;
+};
+
+//0...1
+class Component_Transform : public Component
+{
+public:
+	Component_Transform() : Component(COMPONENT_TRANSFORM) {};
+	~Component_Transform() {};
+
+public:
+	float4x4 transform;
+	float3 position;
+	float3 scale;
+	Quat rotation;
+	float3 euler_rotation;
 };

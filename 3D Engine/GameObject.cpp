@@ -117,3 +117,55 @@ void GameObject::DeleteComponentType(component_type type)
 		else i++;
 	}
 }
+
+// ============================================================================
+
+const int GameObject::GetVertices()
+{
+	int t_vertices = 0;
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (components[i]->type == COMPONENT_MESH)
+		{
+			Component_Mesh* aux = (Component_Mesh*)components[i];
+			t_vertices += aux->num_vertices;
+		}
+	}
+	return t_vertices;
+}
+
+const int GameObject::GetIndices()
+{
+	int t_indices = 0;
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (components[i]->type == COMPONENT_MESH)
+		{
+			Component_Mesh* aux = (Component_Mesh*)components[i];
+			t_indices += aux->num_indices;
+		}
+	}
+
+	return t_indices;
+}
+
+const int GameObject::GetTextureWidth()
+{
+	Component_Material* aux = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
+	return aux->width;
+}
+
+const int GameObject::GetTextureHeight()
+{
+	Component_Material* aux = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
+	return aux->height;
+}
+
+void GameObject::SetTextureDimensions(int w, int h)
+{
+	Component_Material* aux = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
+	aux->width = w;
+	aux->height = h;
+}

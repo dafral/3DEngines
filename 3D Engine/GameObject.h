@@ -20,6 +20,12 @@ public:
 	void DeleteComponentType(component_type type);
 	void CreateHierarchy();
 
+	const int GetVertices();
+	const int GetIndices();
+	const int GetTextureWidth();
+	const int GetTextureHeight();
+	void SetTextureDimensions(int w, int h);
+
 public:
 	std::string name;
 	GameObject* parent;
