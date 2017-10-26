@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "ModuleImgui.h"
-#include "PanelInspector.h"
+#include "PanelHierarchy.h"
 
 #include "GameObject.h"
 #include "glew/include/GL/glew.h"
@@ -77,7 +77,7 @@ void GameObject::CreateHierarchy()
 	if (childrens.empty())
 		flag |= ImGuiTreeNodeFlags_Leaf;
 
-	if (App->imgui->inspector->selected == this) 
+	if (App->imgui->hierarchy->selected == this)
 		flag |= ImGuiTreeNodeFlags_Selected;
 
 	// Creating tree
@@ -85,7 +85,10 @@ void GameObject::CreateHierarchy()
 	{
 		// Know if a GO is selected
 		if (ImGui::IsItemClicked())
-			App->imgui->inspector->selected = this;
+			App->imgui->hierarchy->selected = this;
+
+		if (ImGui::IsMouseDoubleClicked(0) && !ImGui::IsWindowFocused())
+			App->imgui->hierarchy->selected = nullptr;
 
 		// Recursion
 		for (int i = 0; i < childrens.size(); i++)

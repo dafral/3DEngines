@@ -17,7 +17,6 @@ public:
 	void SetGeometryName(char* reference);
 	void SetTextureName(char* reference);
 	const char* GetGeometryName();
-	const char* GetTextureName();
 
 private:
 	std::string geometry_name;

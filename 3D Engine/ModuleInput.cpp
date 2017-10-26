@@ -3,7 +3,7 @@
 #include "ModuleInput.h"
 #include "ModuleImgui.h"
 #include "PanelProperties.h"
-#include "PanelInspector.h"
+#include "PanelHierarchy.h"
 
 #define MAX_KEYS 300
 
@@ -129,20 +129,30 @@ update_status ModuleInput::PreUpdate(float dt)
 				extension = str.substr(dot_pos + 1, 3);
 				CONSOLELOG("Dropped file: %s", dropped_filedir);
 
-				if (App->imgui->inspector->selected != nullptr && App->imgui->inspector->selected != App->scene->root)
+				if (extension == "fbx" || extension == "FBX")
 				{
-					if (extension == "fbx" || extension == "FBX")
-						App->geometry->LoadMeshes(dropped_filedir, App->imgui->inspector->selected);
-
-					else if (extension == "png" || extension == "PNG")
-						App->geometry->LoadMaterial(dropped_filedir, App->imgui->inspector->selected);
-
-					else {
-						CONSOLELOG("Invalid type of file dropped. This engine only supports FBX and PNG files!");
+					GameObject*	aux;
+					App->imgui->properties->SetGeometryName(dropped_filedir);
+					if (App->imgui->hierarchy->selected == nullptr) 
+						aux = App->scene->CreateGameObject(App->imgui->properties->GetGeometryName(), App->scene->root);
+					else aux = App->scene->CreateGameObject(App->imgui->properties->GetGeometryName(), App->imgui->hierarchy->selected);
+					App->geometry->LoadMeshes(dropped_filedir, aux);	
+				}
+				else if ((extension == "png" || extension == "PNG"))
+				{
+					if (App->imgui->hierarchy->selected != nullptr)
+					{
+						App->geometry->LoadMaterial(dropped_filedir, App->imgui->hierarchy->selected);
+						App->imgui->properties->SetTextureName(dropped_filedir);
+					}
+					else
+					{
+						CONSOLELOG("Select a Game Object before dropping the texture!");
 					}
 				}
-				else {
-					CONSOLELOG("Select one Game Object before dropping the file.");
+				else 
+				{
+					CONSOLELOG("Invalid type of file dropped. This engine only supports FBX and PNG files!");
 				}
 				
 				SDL_free(dropped_filedir);

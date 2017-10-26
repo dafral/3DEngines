@@ -8,7 +8,7 @@
 #include "PanelConfig.h"
 #include "PanelAbout.h"
 #include "PanelProperties.h"
-#include "PanelInspector.h"
+#include "PanelHierarchy.h"
 
 #include "Imgui\imgui.h"
 #include "imgui_impl_sdl.h"
@@ -29,7 +29,7 @@ bool ModuleImgui::Init()
 	panels.push_back(config = new PanelConfig(true));
 	panels.push_back(about = new PanelAbout(false));
 	panels.push_back(properties = new PanelProperties(true));
-	panels.push_back(inspector = new PanelInspector(true));
+	panels.push_back(hierarchy = new PanelHierarchy(true));
 
 	return true;
 }

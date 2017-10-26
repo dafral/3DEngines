@@ -3,10 +3,10 @@
 #include "Panel.h"
 #include "GameObject.h"
 
-class PanelInspector : public Panel
+class PanelHierarchy : public Panel
 {
 public:
-	PanelInspector(bool active) : Panel(active)
+	PanelHierarchy(bool active) : Panel(active)
 	{ 
 		x = 15; 
 	    y = 30; 

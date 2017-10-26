@@ -133,8 +133,6 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 
 void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 {
-	App->imgui->properties->GetTextureName();
-
 	ILuint imageID;
 	ILenum error;
 

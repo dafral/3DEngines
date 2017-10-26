@@ -2,7 +2,6 @@
 #include "Globals.h"
 #include "ModuleScene.h"
 #include "ModuleImgui.h"
-#include "PanelInspector.h"
 #include "GameObject.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
