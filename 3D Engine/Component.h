@@ -76,7 +76,7 @@ public:
 
 	const float4x4 GetGlobalTransform() 
 	{ 
-		transform.FromTRS(position, rotation, scale);
+		transform = transform.FromTRS(position, rotation, scale);
 		return transform.Transposed();
 	};
 

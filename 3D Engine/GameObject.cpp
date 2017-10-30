@@ -42,15 +42,15 @@ void GameObject::Draw()
 	Component_Material* material = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
 	Component_Transform* transform = (Component_Transform*)FindComponent(COMPONENT_TRANSFORM);
 
+	glPushMatrix();
+	if (transform != nullptr) 
+		glMultMatrixf(transform->GetGlobalTransform().ptr());
+
 	for (int i = 0; i < components.size(); i++)
 	{	
 		if (components[i]->type == COMPONENT_MESH)
 		{
 			Component_Mesh* mesh = (Component_Mesh*)components[i];
-
-			glPushMatrix();
-
-			/*if (transform != nullptr) glMultMatrixf(transform->GetGlobalTransform().ptr());*/
 
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
@@ -70,10 +70,10 @@ void GameObject::Draw()
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glPopMatrix();
 		}
 	}
+
+	glPopMatrix();
 }
 
 void GameObject::CreateHierarchy()
