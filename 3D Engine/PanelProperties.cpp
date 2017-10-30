@@ -24,44 +24,49 @@ void PanelProperties::Draw()
 
 	if (go != nullptr && go != App->scene->root)
 	{
-		// Name
 		ImGui::Begin("Properties", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
-		ImGui::Text("3D Model: %s", go->name.c_str());
 
-		ImGui::Separator();
+		// Name
+		ImGui::Text("Name: %s", go->name.c_str());
 
 		// Transformation
 		if (go->FindComponent(COMPONENT_TRANSFORM) != nullptr)
 		{
-			Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
+			if (ImGui::CollapsingHeader("Transform"))
+			{
+				Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
 
-			float3 position = trans->GetPosition();
-			float3 scale = trans->GetScale();
-			Quat rotation = trans->GetRotation();
+				float3 position = trans->GetPosition();
+				float3 scale = trans->GetScale();
+				Quat rotation = trans->GetRotation();
 
-			if (ImGui::DragFloat3("Position", (float*)&position, 0.25f))
-				trans->SetPosition(position);
-			if (ImGui::DragFloat3("Rotation", (float*)&rotation))
-				trans->SetRotation(rotation);
-			if (ImGui::DragFloat3("Scale", (float*)&scale, 0.05f))
-				trans->SetScale(scale);
+				if (ImGui::DragFloat3("Position", (float*)&position, 0.1f))
+					trans->SetPosition(position);
+				if (ImGui::DragFloat3("Rotation", (float*)&rotation))
+					trans->SetRotation(rotation);
+				if (ImGui::DragFloat3("Scale", (float*)&scale, 0.01f))
+					trans->SetScale(scale);
+			}
 		}
 
 		// Meshes
 		if (go->FindComponent(COMPONENT_MESH) != nullptr)
 		{
-			ImGui::Text("Geometry\n");
-			ImGui::Text("Vertices: %d", go->GetVertices());
-			ImGui::Text("Triangles: %d", go->GetIndices() / 3);
-			ImGui::Separator();
+			if (ImGui::CollapsingHeader("Meshes"))
+			{
+				ImGui::Text("Vertices: %d", go->GetVertices());
+				ImGui::Text("Triangles: %d", go->GetIndices() / 3);
+			}
 		}
 
 		// Texture
 		if (go->FindComponent(COMPONENT_MATERIAL) != nullptr)
 		{
-			ImGui::Text("Texture\n");
-			ImGui::Text("Texture name: %s", texture_name.c_str());
-			ImGui::Text("Texture dimensions: %d x %d", go->GetTextureWidth(), go->GetTextureHeight());
+			if (ImGui::CollapsingHeader("Texture"))
+			{
+				ImGui::Text("Texture name: %s", texture_name.c_str());
+				ImGui::Text("Texture dimensions: %d x %d", go->GetTextureWidth(), go->GetTextureHeight());
+			}
 		}
 
 		ImGui::End();

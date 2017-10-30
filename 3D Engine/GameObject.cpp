@@ -50,7 +50,7 @@ void GameObject::Draw()
 
 			glPushMatrix();
 
-			if (transform != nullptr) glMultMatrixf(transform->GetGlobalTransform().ptr());
+			/*if (transform != nullptr) glMultMatrixf(transform->GetGlobalTransform().ptr());*/
 
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
