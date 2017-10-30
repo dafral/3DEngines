@@ -131,12 +131,11 @@ update_status ModuleInput::PreUpdate(float dt)
 
 				if (extension == "fbx" || extension == "FBX")
 				{
-					GameObject*	aux;
 					App->imgui->properties->SetGeometryName(dropped_filedir);
-					if (App->imgui->hierarchy->selected == nullptr) 
-						aux = App->scene->CreateGameObject(App->imgui->properties->GetGeometryName(), App->scene->root);
-					else aux = App->scene->CreateGameObject(App->imgui->properties->GetGeometryName(), App->imgui->hierarchy->selected);
-					App->geometry->LoadMeshes(dropped_filedir, aux);	
+					const char* name = App->imgui->properties->GetGeometryName();
+					GameObject* new_go = App->scene->CreateGameObject(name, App->scene->root);
+
+					App->geometry->LoadMeshes(dropped_filedir, new_go);
 				}
 				else if ((extension == "png" || extension == "PNG"))
 				{

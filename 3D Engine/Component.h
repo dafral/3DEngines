@@ -66,10 +66,25 @@ public:
 	Component_Transform() : Component(COMPONENT_TRANSFORM) {};
 	~Component_Transform() {};
 
-public:
-	float4x4 transform;
+	const float3 GetPosition() { return position; };
+	const float3 GetScale() { return scale; };
+	const Quat GetRotation() { return rotation; };
+
+	void SetPosition(float3 pos) { position = pos; };
+	void SetScale(float3 scl) { scale = scl; };
+	void SetRotation(Quat rot) { rotation = rot; };
+
+	const float4x4 GetGlobalTransform() 
+	{ 
+		transform.FromTRS(position, rotation, scale);
+		return transform.Transposed();
+	};
+
+private:
 	float3 position;
 	float3 scale;
 	Quat rotation;
+
 	float3 euler_rotation;
+	float4x4 transform;
 };

@@ -61,12 +61,11 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		if (go->FindComponent(COMPONENT_MESH) != nullptr) go->DeleteComponentType(COMPONENT_MESH);
+		// Creating mesh components.
+		CONSOLELOG("Creating component mesh for Game Object '%s'", go->name.c_str());
 
 		for (int i = 0; i < scene->mNumMeshes; i++)
-		{
-			CONSOLELOG("Creating component mesh for Game Object '%s'", go->name.c_str());
-		
+		{	
 			Component_Mesh* new_component = new Component_Mesh;
 			go->AddComponent(new_component);
 
@@ -75,7 +74,7 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 			new_component->num_vertices = new_mesh->mNumVertices;
 			new_component->vertices = new float[new_component->num_vertices * 3];
 			memcpy(new_component->vertices, new_mesh->mVertices, sizeof(float) * new_component->num_vertices * 3);
-
+			
 			// Load buffer for vertices
 			glGenBuffers(1, (GLuint*) &(new_component->id_vertices));
 			glBindBuffer(GL_ARRAY_BUFFER, new_component->id_vertices);
@@ -124,6 +123,32 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 			App->camera->Position = midpoint + (App->camera->Z *  box.Size().Length() * 1.2f);
 		}
 
+		// Loading transform
+		aiNode* node = scene->mRootNode;
+
+		if (node != nullptr)
+		{
+			CONSOLELOG("Creating component transform for Game Object '%s'", go->name.c_str());
+
+			Component_Transform* new_component = new Component_Transform;
+			go->AddComponent(new_component);
+
+			aiVector3D translation;
+			aiVector3D scaling;
+			aiQuaternion rotation;
+
+			node->mTransformation.Decompose(scaling, rotation, translation);
+
+			float3 pos(translation.x, translation.y, translation.z);
+			float3 scale(scaling.x, scaling.y, scaling.z);
+			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+
+			new_component->SetPosition(pos);
+			new_component->SetRotation(rot);
+			new_component->SetScale(scale);
+		}
+
+		// Releasing scene
 		aiReleaseImport(scene);
 	}
 	else {
@@ -183,12 +208,4 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 
 	ilDeleteImages(1, &imageID);
 }
-
-//void ModuleGeometry::LoadTransform()
-//{
-//
-//}
- 
-// =====================================================================================================
-
 

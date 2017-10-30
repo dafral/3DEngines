@@ -33,11 +33,18 @@ void PanelProperties::Draw()
 		// Transformation
 		if (go->FindComponent(COMPONENT_TRANSFORM) != nullptr)
 		{
-			ImGui::Text("Transformation\n");
-			ImGui::Text("Position X: 0 Y: 0 Z: 0");
-			ImGui::Text("Rotation X: 0 Y: 0 Z: 0");
-			ImGui::Text("Scale\tX: 1 Y: 1 Z: 1");
-			ImGui::Separator();
+			Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
+
+			float3 position = trans->GetPosition();
+			float3 scale = trans->GetScale();
+			Quat rotation = trans->GetRotation();
+
+			if (ImGui::DragFloat3("Position", (float*)&position, 0.25f))
+				trans->SetPosition(position);
+			if (ImGui::DragFloat3("Rotation", (float*)&rotation))
+				trans->SetRotation(rotation);
+			if (ImGui::DragFloat3("Scale", (float*)&scale, 0.05f))
+				trans->SetScale(scale);
 		}
 
 		// Meshes
