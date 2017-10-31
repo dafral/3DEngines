@@ -3,7 +3,7 @@
 #include "ModuleGeometry.h"
 #include "ModuleImgui.h"
 #include "PanelHierarchy.h"
-#include "src/MathGeoLib.h"
+#include "MathGeoLib/MathGeoLib.h"
 
 PanelProperties::PanelProperties(bool active = true) : Panel(active)
 {

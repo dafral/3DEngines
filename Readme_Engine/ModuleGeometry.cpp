@@ -5,7 +5,7 @@
 #include "GameObject.h"
 
 #include "glew/include/GL/glew.h"
-#include "src/MathGeoLib.h"
+#include "MathGeoLib/MathGeoLib.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilu.h"

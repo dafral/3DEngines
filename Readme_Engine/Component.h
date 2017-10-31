@@ -1,6 +1,6 @@
 #pragma once
 #include "Globals.h"
-#include "src\MathGeoLib.h"
+#include "MathGeoLib\MathGeoLib.h"
 
 enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL};
 
