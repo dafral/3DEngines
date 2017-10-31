@@ -43,8 +43,7 @@ void GameObject::Draw()
 	Component_Transform* transform = (Component_Transform*)FindComponent(COMPONENT_TRANSFORM);
 
 	glPushMatrix();
-	if (transform != nullptr) 
-		glMultMatrixf(transform->GetGlobalTransform().ptr());
+	if (transform != nullptr) glMultMatrixf(GetGlobalTransform(transform).ptr());
 
 	for (int i = 0; i < components.size(); i++)
 	{	
@@ -178,4 +177,18 @@ void GameObject::SetTextureDimensions(int w, int h)
 	Component_Material* aux = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
 	aux->width = w;
 	aux->height = h;
+}
+
+const float4x4 GameObject::GetGlobalTransform(Component_Transform* trans)
+{
+	float4x4 ret = trans->GetTransform();
+
+	if (parent != nullptr)
+	{
+		Component_Transform* parent_trans = (Component_Transform*)parent->FindComponent(COMPONENT_TRANSFORM);
+
+		if (parent_trans != nullptr) ret = ret * parent_trans->GetTransform();
+	}
+
+	return ret;
 }

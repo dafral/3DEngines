@@ -49,7 +49,7 @@ void PanelProperties::Draw()
 				if (ImGui::DragFloat3("Rotation", (float*)&euler_rotation, 0.1f))
 					trans->SetRotation(DegToRad(euler_rotation));
 
-				if (ImGui::DragFloat3("Scale", (float*)&scale, 0.01f))
+				if (ImGui::DragFloat3("Scale", (float*)&scale, 1.0f))
 					trans->SetScale(scale);
 			}
 		}

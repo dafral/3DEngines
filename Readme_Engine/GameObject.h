@@ -24,7 +24,9 @@ public:
 	const int GetIndices();
 	const int GetTextureWidth();
 	const int GetTextureHeight();
+
 	void SetTextureDimensions(int w, int h);
+	const float4x4 GetGlobalTransform(Component_Transform* trans);
 
 public:
 	std::string name;

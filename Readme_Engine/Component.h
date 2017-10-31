@@ -75,7 +75,7 @@ public:
 	void SetRotation(Quat rot) { rotation = rot; };
 	void SetRotation(float3 rot) { rotation = Quat::FromEulerXYZ(rot.x, rot.y, rot.z); };
 
-	float4x4 GetGlobalTransform() 
+	float4x4 GetTransform() 
 	{ 
 		transform = transform.FromTRS(position, rotation, scale);
 		return transform.Transposed();
