@@ -92,6 +92,8 @@ void ModuleGeometry::LoadScene(char* full_path)
 
 		for (int i = 0; i < node->mNumChildren; i++)
 			LoadGeometry(empty_go, scene, node->mChildren[i]);
+
+		CONSOLELOG("FBX file loaded!")
 	}
 	else 
 	{
@@ -109,7 +111,6 @@ void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, cons
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[i]];
 
 		// Creating a Game Object (child of parent) for each mesh.
-		CONSOLELOG("Creating game object %s", new_mesh->mName.C_Str());
 		GameObject* go = App->scene->CreateGameObject(new_mesh->mName.C_Str(), parent);
 
 		// Adding component mesh
@@ -163,8 +164,6 @@ void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, cons
 		// Adding component transform
 		if (node != nullptr)
 		{
-			CONSOLELOG("Creating component transform for Game Object '%s'", go->name.c_str());
-
 			Component_Transform* new_component = new Component_Transform;
 			go->AddComponent(new_component);
 
@@ -198,8 +197,6 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
 
-		CONSOLELOG("Creating component material for Game Object '%s'", go->name.c_str());
-
 		if (go->FindComponent(COMPONENT_MATERIAL) != nullptr) go->DeleteComponentType(COMPONENT_MATERIAL);
 		Component_Material* new_component = new Component_Material();
 		go->AddComponent(new_component);
@@ -229,6 +226,8 @@ void ModuleGeometry::LoadMaterial(const char* full_path, GameObject* go)
 			// Texture specifications
 			go->SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
 			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), new_component->width, new_component->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+
+			CONSOLELOG("Texture loaded!");
 		}
 	}
 	else {

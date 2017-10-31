@@ -43,6 +43,8 @@ void PanelProperties::Draw()
 
 				float3 euler_rotation = RadToDeg(rotation.ToEulerXYZ());
 
+				ImGui::Text("  X       Y      Z");
+
 				if (ImGui::DragFloat3("Position", (float*)&position, 0.1f))
 					trans->SetPosition(position);
 
