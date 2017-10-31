@@ -37,6 +37,7 @@
 #include "Clock.h"
 #include "../Math/myassert.h"
 #include "../Math/assume.h"
+#include <intrin.h> 
 
 MATH_BEGIN_NAMESPACE
 
