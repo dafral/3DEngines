@@ -131,11 +131,8 @@ update_status ModuleInput::PreUpdate(float dt)
 
 				if (extension == "fbx" || extension == "FBX")
 				{
-					App->imgui->properties->SetGeometryName(dropped_filedir);
-					const char* name = App->imgui->properties->GetGeometryName();
-					GameObject* new_go = App->scene->CreateGameObject(name, App->scene->root);
-
-					App->geometry->LoadMeshes(dropped_filedir, new_go);
+					CONSOLELOG("Loading dropped FBX file...")
+					App->geometry->LoadScene(dropped_filedir);
 				}
 				else if ((extension == "png" || extension == "PNG"))
 				{

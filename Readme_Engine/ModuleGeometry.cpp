@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleGeometry.h"
+#include "ModuleScene.h"
 #include "PanelProperties.h"
 #include "Component.h"
 #include "GameObject.h"
@@ -55,77 +56,111 @@ bool ModuleGeometry::CleanUp()
 	return true;
 }
 
-void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
+void ModuleGeometry::LoadScene(char* full_path)
 {
+	// Creating the parent (empty game object) 
+	App->imgui->properties->SetGeometryName(full_path);
+	const char* name = App->imgui->properties->GetGeometryName();
+	GameObject* empty_go = App->scene->CreateGameObject(name, App->scene->root);
+
+	// Loading scene
 	const aiScene* scene = aiImportFile(full_path, aiProcessPreset_TargetRealtime_MaxQuality);
+	aiNode* node = scene->mRootNode;
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		// Creating mesh components.
-		CONSOLELOG("Creating component mesh for Game Object '%s'", go->name.c_str());
+		// Adding component transform for empty_go (this way we will change all its childs transforms)
+		if (node != nullptr)
+		{
+			Component_Transform* new_component = new Component_Transform;
+			empty_go->AddComponent(new_component);
 
-		for (int i = 0; i < scene->mNumMeshes; i++)
-		{	
-			Component_Mesh* new_component = new Component_Mesh;
-			go->AddComponent(new_component);
+			aiVector3D translation;
+			aiVector3D scaling;
+			aiQuaternion rotation;
 
-			// Vertices
-			aiMesh* new_mesh = scene->mMeshes[i];
-			new_component->num_vertices = new_mesh->mNumVertices;
-			new_component->vertices = new float[new_component->num_vertices * 3];
-			memcpy(new_component->vertices, new_mesh->mVertices, sizeof(float) * new_component->num_vertices * 3);
-			
-			// Load buffer for vertices
-			glGenBuffers(1, (GLuint*) &(new_component->id_vertices));
-			glBindBuffer(GL_ARRAY_BUFFER, new_component->id_vertices);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_component->num_vertices * 3, new_component->vertices, GL_STATIC_DRAW);
+			node->mTransformation.Decompose(scaling, rotation, translation);
 
-			// Indices
-			if (new_mesh->HasFaces())
-			{
-				new_component->num_indices = new_mesh->mNumFaces * 3;
-				new_component->indices = new uint[new_component->num_indices];
-				for (uint i = 0; i < new_mesh->mNumFaces; i++)
-				{
-					if (new_mesh->mFaces[i].mNumIndices != 3) {
-						CONSOLELOG("WARNING, geometry face with != 3 indices!");
-					}
-					else {
-						memcpy(&new_component->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
-					}
-				}
+			float3 pos(translation.x, translation.y, translation.z);
+			float3 scale(scaling.x, scaling.y, scaling.z);
+			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 
-				// Load buffer for indices
-				glGenBuffers(1, (GLuint*) &(new_component->id_indices));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_component->id_indices);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_component->num_indices, new_component->indices, GL_STATIC_DRAW);
-			}
-
-			// UVs
-			if (new_mesh->HasTextureCoords(0))
-			{
-				new_component->num_uvs = new_mesh->mNumVertices;
-				new_component->texture_coords = new float[new_component->num_uvs * 3];
-				memcpy(new_component->texture_coords, new_mesh->mTextureCoords[0], sizeof(float) * new_component->num_uvs * 3);
-
-				// Load buffer for UVs
-				glGenBuffers(1, (GLuint*) &(new_component->id_uvs));
-				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_component->id_uvs);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_component->num_uvs * 3, new_component->texture_coords, GL_STATIC_DRAW);
-			}		
-
-			// Focusing camera to the FBX 
-			AABB box;
-			box.SetNegativeInfinity();
-			box.Enclose((float3*)new_mesh->mVertices, new_mesh->mNumVertices);
-
-			vec3 midpoint = (box.CenterPoint().x, box.CenterPoint().y, box.CenterPoint().z);
-			App->camera->Position = midpoint + (App->camera->Z *  box.Size().Length() * 1.2f);
+			new_component->SetPosition(pos);
+			new_component->SetRotation(rot);
+			new_component->SetScale(scale);
 		}
 
-		// Loading transform
-		aiNode* node = scene->mRootNode;
+		for (int i = 0; i < node->mNumChildren; i++)
+			LoadGeometry(empty_go, scene, node->mChildren[i]);
+	}
+	else 
+	{
+		CONSOLELOG("Error loading scene %s", full_path);
+	}
 
+	// Releasing scene
+	aiReleaseImport(scene);
+}
+
+void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, const aiNode* node)
+{
+	for (int i = 0; i < node->mNumMeshes; i++)
+	{	
+		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[i]];
+
+		// Creating a Game Object (child of parent) for each mesh.
+		CONSOLELOG("Creating game object %s", new_mesh->mName.C_Str());
+		GameObject* go = App->scene->CreateGameObject(new_mesh->mName.C_Str(), parent);
+
+		// Adding component mesh
+		Component_Mesh* new_component = new Component_Mesh;
+		go->AddComponent(new_component);
+
+		// Vertices
+		new_component->num_vertices = new_mesh->mNumVertices;
+		new_component->vertices = new float[new_component->num_vertices * 3];
+		memcpy(new_component->vertices, new_mesh->mVertices, sizeof(float) * new_component->num_vertices * 3);
+			
+		// Load buffer for vertices
+		glGenBuffers(1, (GLuint*) &(new_component->id_vertices));
+		glBindBuffer(GL_ARRAY_BUFFER, new_component->id_vertices);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_component->num_vertices * 3, new_component->vertices, GL_STATIC_DRAW);
+
+		// Indices
+		if (new_mesh->HasFaces())
+		{
+			new_component->num_indices = new_mesh->mNumFaces * 3;
+			new_component->indices = new uint[new_component->num_indices];
+			for (uint i = 0; i < new_mesh->mNumFaces; i++)
+			{
+				if (new_mesh->mFaces[i].mNumIndices != 3) {
+					CONSOLELOG("WARNING, geometry face with != 3 indices!");
+				}
+				else {
+					memcpy(&new_component->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+				}
+			}
+
+			// Load buffer for indices
+			glGenBuffers(1, (GLuint*) &(new_component->id_indices));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_component->id_indices);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_component->num_indices, new_component->indices, GL_STATIC_DRAW);
+		}
+
+		// UVs
+		if (new_mesh->HasTextureCoords(0))
+		{
+			new_component->num_uvs = new_mesh->mNumVertices;
+			new_component->texture_coords = new float[new_component->num_uvs * 3];
+			memcpy(new_component->texture_coords, new_mesh->mTextureCoords[0], sizeof(float) * new_component->num_uvs * 3);
+
+			// Load buffer for UVs
+			glGenBuffers(1, (GLuint*) &(new_component->id_uvs));
+			glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_component->id_uvs);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_component->num_uvs * 3, new_component->texture_coords, GL_STATIC_DRAW);
+		}		
+
+		// Adding component transform
 		if (node != nullptr)
 		{
 			CONSOLELOG("Creating component transform for Game Object '%s'", go->name.c_str());
@@ -147,12 +182,6 @@ void ModuleGeometry::LoadMeshes(const char* full_path, GameObject* go)
 			new_component->SetRotation(rot);
 			new_component->SetScale(scale);
 		}
-
-		// Releasing scene
-		aiReleaseImport(scene);
-	}
-	else {
-		CONSOLELOG("Error loading scene %s", full_path);
 	}
 }
 

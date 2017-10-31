@@ -4,6 +4,9 @@
 #include "Module.h"
 #include "Globals.h"
 
+struct aiScene;
+struct aiNode;
+
 class ModuleGeometry : public Module
 {
 public:
@@ -14,7 +17,9 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void LoadMeshes(const char* full_path, GameObject* go);
+	void LoadScene(char* full_path);
+	void LoadGeometry(GameObject* parent, const aiScene* scene, const aiNode* node);
+
 	void LoadMaterial(const char* full_path, GameObject* go);
 };
 

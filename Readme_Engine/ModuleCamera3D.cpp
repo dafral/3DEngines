@@ -59,7 +59,6 @@ update_status ModuleCamera3D::Update(float dt)
 		MoveUp();
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		MoveDown();
-
 	
 	//ROTATION
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
@@ -68,8 +67,7 @@ update_status ModuleCamera3D::Update(float dt)
 	//FOCUS
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) 
 	{
-		LookAt(vec3(0, 0, 0));
-		
+		LookAt(vec3(0, 0, 0));	
 	}
 
 	Position;
