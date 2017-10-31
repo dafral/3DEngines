@@ -3,6 +3,7 @@
 #include "ModuleGeometry.h"
 #include "ModuleImgui.h"
 #include "PanelHierarchy.h"
+#include "src/MathGeoLib.h"
 
 PanelProperties::PanelProperties(bool active = true) : Panel(active)
 {
@@ -40,10 +41,14 @@ void PanelProperties::Draw()
 				float3 scale = trans->GetScale();
 				Quat rotation = trans->GetRotation();
 
+				float3 euler_rotation = RadToDeg(rotation.ToEulerXYZ());
+
 				if (ImGui::DragFloat3("Position", (float*)&position, 0.1f))
 					trans->SetPosition(position);
-				if (ImGui::DragFloat3("Rotation", (float*)&rotation))
-					trans->SetRotation(rotation);
+
+				if (ImGui::DragFloat3("Rotation", (float*)&euler_rotation, 0.1f))
+					trans->SetRotation(DegToRad(euler_rotation));
+
 				if (ImGui::DragFloat3("Scale", (float*)&scale, 0.01f))
 					trans->SetScale(scale);
 			}

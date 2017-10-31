@@ -73,8 +73,9 @@ public:
 	void SetPosition(float3 pos) { position = pos; };
 	void SetScale(float3 scl) { scale = scl; };
 	void SetRotation(Quat rot) { rotation = rot; };
+	void SetRotation(float3 rot) { rotation = Quat::FromEulerXYZ(rot.x, rot.y, rot.z); };
 
-	const float4x4 GetGlobalTransform() 
+	float4x4 GetGlobalTransform() 
 	{ 
 		transform = transform.FromTRS(position, rotation, scale);
 		return transform.Transposed();
@@ -83,8 +84,8 @@ public:
 private:
 	float3 position;
 	float3 scale;
-	Quat rotation;
-
 	float3 euler_rotation;
+
+	Quat rotation;
 	float4x4 transform;
 };

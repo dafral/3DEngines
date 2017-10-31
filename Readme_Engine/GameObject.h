@@ -13,7 +13,7 @@ public:
 	void Draw();
 	void Update();
 
-	Component* FindComponent(component_type type);
+	const Component* FindComponent(component_type type);
 
 	void AddChildren(GameObject* children);
 	void AddComponent(Component* component);

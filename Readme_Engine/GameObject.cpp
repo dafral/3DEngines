@@ -105,7 +105,7 @@ void GameObject::CreateHierarchy()
 	}
 }
 
-Component* GameObject::FindComponent(component_type type)
+const Component* GameObject::FindComponent(component_type type)
 {
 	for (int i = 0; i < components.size(); i++)
 	{
