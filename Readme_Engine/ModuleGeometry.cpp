@@ -69,27 +69,6 @@ void ModuleGeometry::LoadScene(char* full_path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		// Adding component transform for empty_go (this way we will change all its childs transforms)
-		if (node != nullptr)
-		{
-			Component_Transform* new_component = new Component_Transform;
-			empty_go->AddComponent(new_component);
-
-			aiVector3D translation;
-			aiVector3D scaling;
-			aiQuaternion rotation;
-
-			node->mTransformation.Decompose(scaling, rotation, translation);
-
-			float3 pos(translation.x, translation.y, translation.z);
-			float3 scale(scaling.x, scaling.y, scaling.z);
-			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
-
-			new_component->SetPosition(pos);
-			new_component->SetRotation(rot);
-			new_component->SetScale(scale);
-		}
-
 		for (int i = 0; i < node->mNumChildren; i++)
 			LoadGeometry(empty_go, scene, node->mChildren[i]);
 
@@ -161,11 +140,10 @@ void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, cons
 			glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_component->num_uvs * 3, new_component->texture_coords, GL_STATIC_DRAW);
 		}		
 
-		// Adding component transform
+		// Changing transform
 		if (node != nullptr)
 		{
-			Component_Transform* new_component = new Component_Transform;
-			go->AddComponent(new_component);
+			Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
 
 			aiVector3D translation;
 			aiVector3D scaling;
@@ -177,9 +155,9 @@ void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, cons
 			float3 scale(scaling.x, scaling.y, scaling.z);
 			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 
-			new_component->SetPosition(pos);
-			new_component->SetRotation(rot);
-			new_component->SetScale(scale);
+			trans->SetPosition(pos);
+			trans->SetRotation(rot);
+			trans->SetScale(scale);
 		}
 	}
 }

@@ -48,6 +48,10 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	if (parent != nullptr)
 		parent->AddChildren(aux);
 
+	// Add component trans by default
+	Component_Transform* new_component = new Component_Transform;
+	aux->AddComponent(new_component);
+
 	return aux;
 }
 

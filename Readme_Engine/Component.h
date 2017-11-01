@@ -63,7 +63,12 @@ public:
 class Component_Transform : public Component
 {
 public:
-	Component_Transform() : Component(COMPONENT_TRANSFORM) {};
+	Component_Transform() : Component(COMPONENT_TRANSFORM) 
+	{
+		position = { 0.0f, 0.0f, 0.0f };
+		scale = { 1.0f, 1.0f, 1.0f };
+		rotation = { 0.0f, 0.0f, 0.0f, 0.0f};
+	};
 	~Component_Transform() {};
 
 	const float3 GetPosition() { return position; };
