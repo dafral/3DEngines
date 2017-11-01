@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include "MathGeoLib/MathGeoLib.h"
 
-enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL};
+enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL, COMPONENT_CAMERA };
 
 class Component
 {
@@ -93,4 +93,24 @@ private:
 
 	Quat rotation;
 	float4x4 transform;
+};
+
+class Component_Camera : public Component
+{
+public:
+	Component_Camera() : Component(COMPONENT_CAMERA) {};
+	~Component_Camera() {};	
+
+	const float GetFOV() { return fov; };
+	const float GetDepth() { return depth; };
+	void SetFOV(float new_fov) { fov = new_fov; };
+	void SetDepth(float new_depth) { depth = new_depth; };
+
+public:
+
+	Frustum frustum;
+	float fov;
+	float depth;
+	float aspect_ratio;
+
 };
