@@ -35,6 +35,17 @@ void PanelProperties::Draw()
 		{
 			if (ImGui::CollapsingHeader("Transform"))
 			{
+				//Gizmos
+				static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+				static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+				if (ImGui::IsKeyPressed(87))
+					mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+				if (ImGui::IsKeyPressed(69))
+					mCurrentGizmoOperation = ImGuizmo::ROTATE;
+				if (ImGui::IsKeyPressed(82)) // r Key
+					mCurrentGizmoOperation = ImGuizmo::SCALE;
+				float GizmoMatrix[9];
+
 				Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
 
 				float3 position = trans->GetPosition();
@@ -42,6 +53,10 @@ void PanelProperties::Draw()
 				Quat rotation = trans->GetRotation();
 
 				float3 euler_rotation = RadToDeg(rotation.ToEulerXYZ());
+
+
+
+				ImGuizmo::DecomposeMatrixToComponents(GizmoMatrix, (float*)&position, (float*)&euler_rotation, (float*)&scale);
 
 				ImGui::Text("  X       Y      Z");
 
@@ -53,6 +68,27 @@ void PanelProperties::Draw()
 
 				if (ImGui::DragFloat3("Scale", (float*)&scale, 1.0f))
 					trans->SetScale(scale);
+
+				ImGuizmo::RecomposeMatrixFromComponents((float*)&position, (float*)&euler_rotation, (float*)&scale, GizmoMatrix);
+
+				//	//vec_t snap;
+				//	switch (mCurrentGizmoOperation)
+				//	{
+				//	case ImGuizmo::TRANSLATE:
+				//		//snap = config.mSnapTranslation;
+				//		ImGui::InputFloat3("Snap", &snap.x);
+				//		break;
+				//	case ImGuizmo::ROTATE:
+				//		snap = config.mSnapRotation;
+				//		//ImGui::InputFloat("Angle Snap", &snap.x);
+				//		break;
+				//	case ImGuizmo::SCALE:
+				//		//snap = config.mSnapScale;
+				//		ImGui::InputFloat("Scale Snap", &snap.x);
+				//		break;
+				//}
+
+					//ImGuizmo::Manipulate((float)App->camera->Position, camera.mProjection.m16, mCurrentGizmoOperation, mCurrentGizmoMode, GizmoMatrix, NULL, NULL);
 			}
 		}
 
