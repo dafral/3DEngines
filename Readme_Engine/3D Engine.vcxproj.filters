@@ -52,6 +52,9 @@
     <Filter Include="Sources\External Libraries\MathGeoLib\Algorithm\Random">
       <UniqueIdentifier>{be91bb30-ecd5-4f77-ae7b-12fe1861c0fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\External Libraries\ImGuizmo">
+      <UniqueIdentifier>{53888526-5d4e-4110-be42-6c9cb1fac6d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -354,6 +357,9 @@
     <ClInclude Include="MathGeoLib\Time\Clock.h">
       <Filter>Sources\External Libraries\MathGeoLib\Time</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuizmo\ImGuizmo.h">
+      <Filter>Sources\External Libraries\ImGuizmo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -535,6 +541,9 @@
     </ClCompile>
     <ClCompile Include="MathGeoLib\Time\Clock.cpp">
       <Filter>Sources\External Libraries\MathGeoLib\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
+      <Filter>Sources\External Libraries\ImGuizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
