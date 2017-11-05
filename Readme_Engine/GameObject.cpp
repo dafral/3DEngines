@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleImgui.h"
 #include "PanelHierarchy.h"
+#include "Component.h"
 
 #include "GameObject.h"
 #include "glew/include/GL/glew.h"
@@ -35,6 +36,9 @@ void GameObject::Update()
 			childrens[i]->Update();
 		}
 	}
+
+	for (int i = 0; i < components.size(); i++)
+		components[i].Update();
 }
 
 void GameObject::Draw()

@@ -98,8 +98,10 @@ private:
 class Component_Camera : public Component
 {
 public:
-	Component_Camera() : Component(COMPONENT_CAMERA) {};
+	Component_Camera();
 	~Component_Camera() {};	
+
+	virtual void Update();
 
 	const float GetFOV() { return fov; };
 	const float GetDepth() { return depth; };

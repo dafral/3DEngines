@@ -3,6 +3,7 @@
 #include "ModuleScene.h"
 #include "ModuleImgui.h"
 #include "GameObject.h"
+#include "Component.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -19,6 +20,8 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	root = CreateGameObject("Root");
+	Component_Camera* prueba = new Component_Camera;
+	root->AddComponent(prueba);
 
 	return ret;
 }
@@ -26,7 +29,7 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	root->Update();
-
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -54,4 +57,5 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 	return aux;
 }
+
 
