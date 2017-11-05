@@ -105,7 +105,7 @@ public:
 
 	const float GetFOV() { return fov; };
 	const float GetDepth() { return depth; };
-	void SetFOV(float new_fov) { fov = new_fov; };
+	void SetFOV(float new_fov);
 	void SetDepth(float new_depth) { depth = new_depth; };
 
 public:

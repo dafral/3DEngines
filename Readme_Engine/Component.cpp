@@ -1,3 +1,5 @@
+#include "Application.h"
+#include "ModuleInput.h"
 #include "Color.h"
 #include "Component.h"
 #include "MathGeoLib\MathGeoLib.h"
@@ -89,7 +91,21 @@ void Component_Camera::Update()
 
 	glLineWidth(1);
 
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		SetFOV(179);
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		SetFOV(10);
+
 	delete[] lines;
 }
 
+void Component_Camera::SetFOV(float FOV)
+{
+	//if (FOV < 1) {
+		fov = FOV;
+		frustum.verticalFov = DEGTORAD * FOV;
+		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov / 2.0f) * aspect_ratio);
+	//}
+}
 
