@@ -20,8 +20,8 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	root = CreateGameObject("Root");
-	Component_Camera* prueba = new Component_Camera;
-	root->AddComponent(prueba);
+	//Component_Camera* prueba = new Component_Camera;
+	//root->AddComponent(prueba);
 
 	return ret;
 }
@@ -53,7 +53,9 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 	// Add component trans by default
 	Component_Transform* new_component = new Component_Transform;
+	Component_Camera* new_cam_component = new Component_Camera;
 	aux->AddComponent(new_component);
+	//aux->AddComponent(new_cam_component);
 
 	return aux;
 }

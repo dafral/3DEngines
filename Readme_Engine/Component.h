@@ -105,7 +105,11 @@ public:
 
 	const float GetFOV() { return fov; };
 	const float GetDepth() { return depth; };
+	void SetPos(float3 pos) { frustum.pos = pos; };
+	void SetZDir(const float3 & front) { frustum.front = front.Normalized(); };
+	void SetYDir(const float3 & up) { frustum.up = up.Normalized(); };
 	void SetFOV(float new_fov);
+	void SetAspectRatio(const float & set);
 	void SetDepth(float new_depth) { depth = new_depth; };
 
 public:

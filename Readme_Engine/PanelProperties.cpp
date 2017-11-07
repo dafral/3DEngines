@@ -3,6 +3,7 @@
 #include "ModuleGeometry.h"
 #include "ModuleImgui.h"
 #include "PanelHierarchy.h"
+#include "GameObject.h"
 #include "MathGeoLib/MathGeoLib.h"
 
 PanelProperties::PanelProperties(bool active = true) : Panel(active)
@@ -35,18 +36,19 @@ void PanelProperties::Draw()
 		{
 			if (ImGui::CollapsingHeader("Transform"))
 			{
-				//Gizmos
-				static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
-				static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
-				if (ImGui::IsKeyPressed(87))
-					mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-				if (ImGui::IsKeyPressed(69))
-					mCurrentGizmoOperation = ImGuizmo::ROTATE;
-				if (ImGui::IsKeyPressed(82)) // r Key
-					mCurrentGizmoOperation = ImGuizmo::SCALE;
-				float GizmoMatrix[9];
+				////Gizmos
+				//static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+				//static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+				//if (ImGui::IsKeyPressed(87))
+				//	mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+				//if (ImGui::IsKeyPressed(69))
+				//	mCurrentGizmoOperation = ImGuizmo::ROTATE;
+				//if (ImGui::IsKeyPressed(82)) // r Key
+				//	mCurrentGizmoOperation = ImGuizmo::SCALE;
+				//float GizmoMatrix[9];
 
 				Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
+				Component_Camera* cam = (Component_Camera*)go->FindComponent(COMPONENT_CAMERA);
 
 				float3 position = trans->GetPosition();
 				float3 scale = trans->GetScale();
@@ -56,12 +58,12 @@ void PanelProperties::Draw()
 
 
 
-				ImGuizmo::DecomposeMatrixToComponents(GizmoMatrix, (float*)&position, (float*)&euler_rotation, (float*)&scale);
+				//ImGuizmo::DecomposeMatrixToComponents(GizmoMatrix, (float*)&position, (float*)&euler_rotation, (float*)&scale);
 
 				ImGui::Text("  X       Y      Z");
 
 				if (ImGui::DragFloat3("Position", (float*)&position, 0.1f))
-					trans->SetPosition(position);
+					trans->SetPosition(position);					
 
 				if (ImGui::DragFloat3("Rotation", (float*)&euler_rotation, 0.1f))
 					trans->SetRotation(DegToRad(euler_rotation));
@@ -69,7 +71,13 @@ void PanelProperties::Draw()
 				if (ImGui::DragFloat3("Scale", (float*)&scale, 1.0f))
 					trans->SetScale(scale);
 
-				ImGuizmo::RecomposeMatrixFromComponents((float*)&position, (float*)&euler_rotation, (float*)&scale, GizmoMatrix);
+				if (cam != nullptr) {
+					cam->SetPos(position);
+					cam->SetZDir(trans->GetTransform().WorldZ());
+					cam->SetYDir(trans->GetTransform().WorldY());
+				}
+
+				//ImGuizmo::RecomposeMatrixFromComponents((float*)&position, (float*)&euler_rotation, (float*)&scale, GizmoMatrix);
 
 				//	//vec_t snap;
 				//	switch (mCurrentGizmoOperation)
