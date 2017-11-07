@@ -4,8 +4,8 @@
 
 Application::Application()
 {
-	fps_counter = 0;
-	last_frame_fps = 0;
+	PlayClock.fps_counter = 0;
+	PlayClock.last_frame_fps = 0;
 
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
@@ -51,7 +51,7 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
-	fps_timer.Start();
+	PlayClock.fps_timer.Start();
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
@@ -72,16 +72,16 @@ bool Application::Init()
 		item = item->next;
 	}
 	
-	ms_timer.Start();
+	PlayClock.ms_timer.Start();
 	return ret;
 }
 
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	dt = (float)ms_timer.Read() / 1000.0f;
+	PlayClock.dt = (float)PlayClock.ms_timer.Read() / 1000.0f;
 
-	ms_timer.Start();
+	PlayClock.ms_timer.Start();
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -94,7 +94,7 @@ update_status Application::Update()
 	
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled()) ret = item->data->PreUpdate(dt);
+		if (item->data->IsEnabled()) ret = item->data->PreUpdate(PlayClock.dt);
 		item = item->next;
 	}
 
@@ -102,7 +102,7 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled()) ret = item->data->Update(dt);
+		if (item->data->IsEnabled()) ret = item->data->Update(PlayClock.dt);
 		item = item->next;
 	}
 
@@ -110,7 +110,7 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled()) ret = item->data->PostUpdate(dt);
+		if (item->data->IsEnabled()) ret = item->data->PostUpdate(PlayClock.dt);
 		item = item->next;
 	}
 
@@ -121,22 +121,22 @@ update_status Application::Update()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
-	fps_counter++;
+	PlayClock.fps_counter++;
 
-	if (fps_timer.Read() >= 1000) // 1 sec
+	if (PlayClock.fps_timer.Read() >= 1000) // 1 sec
 	{
-		last_frame_fps = fps_counter;
-		fps_counter = 0;
-		fps_timer.Start();
+		PlayClock.last_frame_fps = PlayClock.fps_counter;
+		PlayClock.fps_counter = 0;
+		PlayClock.fps_timer.Start();
 	}
 
 	// FPS cap
-	int frame_ms = (1000 / App->imgui->config->GetFPSCap()) - ms_timer.Read();
+	int frame_ms = (1000 / App->imgui->config->GetFPSCap()) - PlayClock.ms_timer.Read();
 	if (frame_ms > 0) SDL_Delay(frame_ms);
 
 	// Add fps and ms to the vector
-	App->imgui->config->AddMs(ms_timer.Read());
-	App->imgui->config->AddFps(last_frame_fps);
+	App->imgui->config->AddMs(PlayClock.ms_timer.Read());
+	App->imgui->config->AddFps(PlayClock.last_frame_fps);
 	App->imgui->config->AddMemory(m_getMemoryStatistics().totalActualMemory);
 }
 
