@@ -157,3 +157,29 @@ void Application::AddModule(Module* mod)
 {
 	list_modules.add(mod);
 }
+
+void Application::SetState(State state)
+{
+	if (state == State::PLAY)
+	{
+		if (EngineState == State::PLAY)
+		{
+			EngineState = State::STOP;
+			PlayClock.ms_timer.Reset();
+			PlayClock.fps_timer.Reset();
+			//ChangeCamera("Scene");
+			//WantToLoad();
+		}
+		else
+		{
+			EngineState = State::PLAY;
+			//ChangeCamera("Game");
+			//WantToSave();
+		}
+	}
+	else
+	{
+		EngineState = state;
+	}
+	CONSOLELOG("Engine State is Now: %i", EngineState);
+}
