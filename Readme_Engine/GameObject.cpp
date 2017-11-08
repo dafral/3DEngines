@@ -26,7 +26,7 @@ void GameObject::AddComponent(Component* component)
 void GameObject::Update()
 {
 	// Doing stuff
-	//Draw();
+	Draw();
 
 	// Calling childrens Update()
 	if (!childrens.empty())
