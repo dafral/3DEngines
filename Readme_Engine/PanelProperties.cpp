@@ -3,6 +3,7 @@
 #include "ModuleGeometry.h"
 #include "ModuleImgui.h"
 #include "PanelHierarchy.h"
+#include "GameObject.h"
 #include "MathGeoLib/MathGeoLib.h"
 
 PanelProperties::PanelProperties(bool active = true) : Panel(active)
@@ -37,6 +38,7 @@ void PanelProperties::Draw()
 			{
 				Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
 				Component_Mesh* mesh = (Component_Mesh*)go->FindComponent(COMPONENT_MESH);
+				Component_Camera* cam = (Component_Camera*)go->FindComponent(COMPONENT_CAMERA);
 
 				float3 position = trans->GetPosition();
 				float3 scale = trans->GetScale();
@@ -53,7 +55,7 @@ void PanelProperties::Draw()
 					mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
 					mesh->bounding_box.TransformAsAABB(trans->GetTransform());
 				}
-					
+
 				if (ImGui::DragFloat3("Rotation", (float*)&euler_rotation, 0.1f))
 				{
 					trans->SetRotation(DegToRad(euler_rotation));
@@ -69,6 +71,13 @@ void PanelProperties::Draw()
 					mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
 					mesh->bounding_box.TransformAsAABB(trans->GetTransform());
 				}		
+
+				if (cam != nullptr) 
+				{
+					cam->SetPos(position);
+					cam->SetZDir(trans->GetTransform().WorldZ());
+					cam->SetYDir(trans->GetTransform().WorldY());
+				}
 			}
 		}
 

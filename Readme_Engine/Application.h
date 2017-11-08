@@ -17,6 +17,17 @@
 #include "ModuleImgui.h"
 #include "ModuleGeometry.h"
 
+enum State { PLAY = 0, PAUSE, STOP };
+
+struct EngineClock
+{
+	Timer	ms_timer;
+	Timer   fps_timer;
+	float	dt;
+	float   fps_counter;
+	int     last_frame_fps;
+};
+
 class Application
 {
 public:
@@ -35,11 +46,6 @@ public:
 
 private:
 
-	Timer	ms_timer;
-	Timer   fps_timer;
-	float	dt;
-	float   fps_counter;
-	int     last_frame_fps;
 	p2List<Module*> list_modules;
 
 public:
@@ -50,6 +56,11 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+	void SetState(State state);
+
+	State EngineState;
+	EngineClock PlayClock;
+	EngineClock EditorClock;
 
 private:
 
