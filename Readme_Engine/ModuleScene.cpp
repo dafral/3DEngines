@@ -43,8 +43,8 @@ update_status ModuleScene::Update(float dt)
 		App->SetState(State::STOP);
 	}
 
-	CONSOLELOG("%f", (App->EditorClock.ms_timer));
-	CONSOLELOG("%f", (App->PlayClock.ms_timer));
+	//CONSOLELOG("%f", (App->EditorClock.ms_timer));
+	//CONSOLELOG("%f", (App->PlayClock.ms_timer));
 
 	return UPDATE_CONTINUE;
 }
