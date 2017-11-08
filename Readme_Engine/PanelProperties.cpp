@@ -49,37 +49,13 @@ void PanelProperties::Draw()
 				ImGui::Text("  X       Y      Z");
 
 				if (ImGui::DragFloat3("Position", (float*)&position, 0.1f))
-				{
 					trans->SetPosition(position);
-					if (mesh != nullptr)
-					{
-						mesh->bounding_box.SetNegativeInfinity();
-						mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
-						mesh->bounding_box.TransformAsAABB(trans->GetTransform());
-					}
-				}
 
 				if (ImGui::DragFloat3("Rotation", (float*)&euler_rotation, 0.1f))
-				{
 					trans->SetRotation(DegToRad(euler_rotation));
-					if (mesh != nullptr)
-					{
-						mesh->bounding_box.SetNegativeInfinity();
-						mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
-						mesh->bounding_box.TransformAsAABB(trans->GetTransform());
-					}
-				}
 					
 				if (ImGui::DragFloat3("Scale", (float*)&scale, 1.0f))
-				{
-					trans->SetScale(scale);
-					if (mesh != nullptr)
-					{
-						mesh->bounding_box.SetNegativeInfinity();
-						mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
-						mesh->bounding_box.TransformAsAABB(trans->GetTransform());
-					}
-				}		
+					trans->SetScale(scale);	
 
 				if (cam != nullptr) 
 				{

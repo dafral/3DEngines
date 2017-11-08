@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "Component.h"
+#include "GameObject.h"
 
 Component_Camera::Component_Camera() : Component(COMPONENT_CAMERA) 
 {
@@ -61,3 +62,9 @@ void Component_Mesh::Update()
 	App->debug->DrawBoundingBox(bounding_box.CenterPoint(), bounding_box.Size());
 }
 
+void Component_Mesh::AdaptBoundingBox(GameObject* go, Component_Transform* trans)
+{
+	bounding_box.SetNegativeInfinity();
+	bounding_box.Enclose((float3*)vertices, num_vertices);
+	bounding_box.TransformAsAABB(go->GetGlobalTransform(trans).Transposed());
+}

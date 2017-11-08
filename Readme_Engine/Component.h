@@ -3,6 +3,8 @@
 #include "MathGeoLib/MathGeoLib.h"
 
 enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL, COMPONENT_CAMERA };
+class GameObject;
+class Component_Transform;
 
 class Component
 {
@@ -20,7 +22,7 @@ public:
 
 // Different types of components ----------------------------------------------
 
-//0...*
+//0...1
 class Component_Mesh : public Component
 {
 public:
@@ -33,6 +35,7 @@ public:
 	};
 
 	void Update();
+	void AdaptBoundingBox(GameObject* go, Component_Transform* trans);
 
 public:
 	uint id_vertices = 0;

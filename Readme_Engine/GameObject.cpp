@@ -74,6 +74,9 @@ void GameObject::Draw()
 	}
 
 	glPopMatrix();
+
+	// Bounding box
+	if (mesh != nullptr) mesh->AdaptBoundingBox(this, transform);
 }
 
 void GameObject::CreateHierarchy()
