@@ -90,7 +90,7 @@ void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, cons
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[i]];
 
 		// Creating a Game Object (child of parent) for each mesh.
-		GameObject* go = App->scene->CreateGameObject(new_mesh->mName.C_Str(), parent);
+		GameObject* go = App->scene->CreateGameObject(node->mName.C_Str(), parent);
 
 		// Adding component mesh
 		Component_Mesh* new_component = new Component_Mesh;

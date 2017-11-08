@@ -63,6 +63,7 @@ void GameObject::Draw()
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 
 		if (material != nullptr) glBindTexture(GL_TEXTURE_2D, (GLuint)material->id_texture);
+		glColor3f(1.0f, 1.0f, 1.0f);
 		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

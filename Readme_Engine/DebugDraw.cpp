@@ -14,12 +14,12 @@ void DebugDraw::Draw(float3* vertices, int num_vertices) const
 	glLineWidth(line_width);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR);
+	glColor3f(1.0f, 0.0f, 0.0f);
 	glVertexPointer(3, GL_FLOAT, 0, (float*)vertices->ptr());
-	glEnableClientState(GL_COLOR_ARRAY);
-	glColorPointer(3, GL_FLOAT, 0, &color);
 	glDrawArrays(GL_LINES, 0, num_vertices);
+	glDisableClientState(GL_COLOR);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
 }
 
 void DebugDraw::DrawFrustum(float3* corners)
