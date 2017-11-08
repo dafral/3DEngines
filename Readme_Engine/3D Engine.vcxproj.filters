@@ -360,6 +360,9 @@
     <ClInclude Include="ImGuizmo\ImGuizmo.h">
       <Filter>Sources\External Libraries\ImGuizmo</Filter>
     </ClInclude>
+    <ClInclude Include="DebugDraw.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -544,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
       <Filter>Sources\External Libraries\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDraw.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

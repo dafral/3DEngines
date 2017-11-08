@@ -37,6 +37,7 @@ void GameObject::Update()
 		}
 	}
 
+	// Calling components Update()
 	for (int i = 0; i < components.size(); i++)
 		components[i]->Update();
 }
@@ -45,35 +46,31 @@ void GameObject::Draw()
 {
 	Component_Material* material = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
 	Component_Transform* transform = (Component_Transform*)FindComponent(COMPONENT_TRANSFORM);
+	Component_Mesh* mesh = (Component_Mesh*)FindComponent(COMPONENT_MESH);
 
 	glPushMatrix();
 	if (transform != nullptr) glMultMatrixf(GetGlobalTransform(transform).ptr());
 
-	for (int i = 0; i < components.size(); i++)
-	{	
-		if (components[i]->type == COMPONENT_MESH)
-		{
-			Component_Mesh* mesh = (Component_Mesh*)components[i];
+	if (mesh != nullptr)
+	{
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
-			glVertexPointer(3, GL_FLOAT, 0, NULL);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
-			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+		if (material != nullptr) glBindTexture(GL_TEXTURE_2D, (GLuint)material->id_texture);
+		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
-			if (material != nullptr) glBindTexture(GL_TEXTURE_2D, (GLuint)material->id_texture);
-			glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		}
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
 	glPopMatrix();
@@ -185,7 +182,7 @@ void GameObject::SetTextureDimensions(int w, int h)
 
 const float4x4 GameObject::GetGlobalTransform(Component_Transform* trans)
 {
-	float4x4 ret = trans->GetTransform();
+	float4x4 ret = trans->GetTransform().Transposed();
 
 	if (parent != nullptr)
 	{

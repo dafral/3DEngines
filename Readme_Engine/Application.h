@@ -3,7 +3,8 @@
 #include "p2List.h"
 #include "Globals.h"
 #include "Timer.h"
-#include "Imgui\imgui.h"
+#include "DebugDraw.h"
+#include "Imgui/imgui.h"
 
 #include "Module.h"
 #include "ModuleWindow.h"
@@ -30,6 +31,7 @@ public:
 	ModuleGeometry* geometry;
 
 	ImGuiTextBuffer text;
+	DebugDraw* debug;
 
 private:
 

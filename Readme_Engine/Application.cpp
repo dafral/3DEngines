@@ -4,6 +4,7 @@
 
 Application::Application()
 {
+	debug = new DebugDraw();
 	fps_counter = 0;
 	last_frame_fps = 0;
 
@@ -46,6 +47,8 @@ Application::~Application()
 		delete item->data;
 		item = item->prev;
 	}
+
+	delete debug;
 }
 
 bool Application::Init()

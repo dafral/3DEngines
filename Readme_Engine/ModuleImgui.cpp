@@ -10,9 +10,9 @@
 #include "PanelProperties.h"
 #include "PanelHierarchy.h"
 
-#include "Imgui\imgui.h"
+#include "Imgui/imgui.h"
 #include "imgui_impl_sdl.h"
-#include "Glew\include\GL\glew.h"
+#include "Glew/include/GL/glew.h"
 
 ModuleImgui::ModuleImgui(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}

@@ -96,6 +96,7 @@ void Primitive::Scale(float x, float y, float z)
 }
 
 // CUBE =======================================================
+
 PCube::PCube() : Primitive(), size(1.0f, 1.0f, 1.0f)
 {
 	type = PrimitiveTypes::Primitive_Cube;
@@ -154,6 +155,7 @@ void PCube::InnerRender() const
 }
 
 // SPHERE ============================================
+
 PSphere::PSphere() : Primitive(), radius(1.0f)
 {
 	type = PrimitiveTypes::Primitive_Sphere;
@@ -168,7 +170,6 @@ void PSphere::InnerRender() const
 {
 	//glutSolidSphere(radius, 25, 25);
 }
-
 
 // CYLINDER ============================================
 PCylinder::PCylinder() : Primitive(), radius(1.0f), height(1.0f)

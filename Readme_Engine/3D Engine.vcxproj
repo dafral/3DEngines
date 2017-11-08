@@ -77,6 +77,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Glew\include\GL\eglew.h" />
     <ClInclude Include="Glew\include\GL\glew.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp" />

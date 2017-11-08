@@ -141,10 +141,10 @@ void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, cons
 		}		
 
 		// Changing transform
+		Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
+
 		if (node != nullptr)
 		{
-			Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
-
 			aiVector3D translation;
 			aiVector3D scaling;
 			aiQuaternion rotation;
@@ -159,6 +159,11 @@ void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, cons
 			trans->SetRotation(rot);
 			trans->SetScale(scale);
 		}
+
+		// Bounding box
+		new_component->bounding_box.SetNegativeInfinity();
+		new_component->bounding_box.Enclose((float3*)new_mesh->mVertices, new_mesh->mNumVertices);
+		new_component->bounding_box.TransformAsAABB(trans->GetTransform());
 	}
 }
 

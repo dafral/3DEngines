@@ -32,6 +32,8 @@ public:
 		delete[] texture_coords;
 	};
 
+	void Update();
+
 public:
 	uint id_vertices = 0;
 	uint num_indices = 0;
@@ -44,6 +46,8 @@ public:
 	uint id_uvs = 0;
 	uint num_uvs = 0;
 	float* texture_coords = nullptr;
+
+	AABB bounding_box;
 };
 
 //0...1
@@ -83,7 +87,7 @@ public:
 	float4x4 GetTransform() 
 	{ 
 		transform = transform.FromTRS(position, rotation, scale);
-		return transform.Transposed();
+		return transform;
 	};
 
 private:
@@ -95,24 +99,23 @@ private:
 	float4x4 transform;
 };
 
+//0...1
 class Component_Camera : public Component
 {
 public:
 	Component_Camera();
 	~Component_Camera() {};	
 
-	virtual void Update();
+	void Update();
 
 	const float GetFOV() { return fov; };
 	const float GetDepth() { return depth; };
 	void SetFOV(float new_fov);
 	void SetDepth(float new_depth) { depth = new_depth; };
 
-public:
-
+private:
 	Frustum frustum;
 	float fov;
 	float depth;
 	float aspect_ratio;
-
 };
