@@ -22,6 +22,7 @@ bool ModuleScene::Start()
 	root = CreateGameObject("Root");
 
 	Component_Camera* test = new Component_Camera;
+	test->SwitchActive();
 	root->AddComponent(test);
 
 	return ret;

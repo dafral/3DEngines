@@ -24,7 +24,7 @@ void PanelProperties::Draw()
 
 	GameObject* go = App->imgui->hierarchy->selected;
 
-	if (go != nullptr && go != App->scene->root)
+	if (go != nullptr && go /*!= App->scene->root*/)
 	{
 		ImGui::Begin("Properties", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
 
@@ -83,6 +83,16 @@ void PanelProperties::Draw()
 			{
 				ImGui::Text("Texture name: %s", texture_name.c_str());
 				ImGui::Text("Texture dimensions: %d x %d", go->GetTextureWidth(), go->GetTextureHeight());
+			}
+		}
+
+		if (go->FindComponent(COMPONENT_CAMERA) != nullptr)
+		{
+			if (ImGui::CollapsingHeader("Camera"))
+			{
+				Component_Camera* cam = (Component_Camera*)go->FindComponent(COMPONENT_CAMERA);
+
+				if (ImGui::Checkbox("Active", &cam->active_camera));
 			}
 		}
 
