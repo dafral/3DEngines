@@ -51,25 +51,34 @@ void PanelProperties::Draw()
 				if (ImGui::DragFloat3("Position", (float*)&position, 0.1f))
 				{
 					trans->SetPosition(position);
-					mesh->bounding_box.SetNegativeInfinity();
-					mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
-					mesh->bounding_box.TransformAsAABB(trans->GetTransform());
+					if (mesh != nullptr)
+					{
+						mesh->bounding_box.SetNegativeInfinity();
+						mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
+						mesh->bounding_box.TransformAsAABB(trans->GetTransform());
+					}
 				}
 
 				if (ImGui::DragFloat3("Rotation", (float*)&euler_rotation, 0.1f))
 				{
 					trans->SetRotation(DegToRad(euler_rotation));
-					mesh->bounding_box.SetNegativeInfinity();
-					mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
-					mesh->bounding_box.TransformAsAABB(trans->GetTransform());
+					if (mesh != nullptr)
+					{
+						mesh->bounding_box.SetNegativeInfinity();
+						mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
+						mesh->bounding_box.TransformAsAABB(trans->GetTransform());
+					}
 				}
 					
 				if (ImGui::DragFloat3("Scale", (float*)&scale, 1.0f))
 				{
 					trans->SetScale(scale);
-					mesh->bounding_box.SetNegativeInfinity();
-					mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
-					mesh->bounding_box.TransformAsAABB(trans->GetTransform());
+					if (mesh != nullptr)
+					{
+						mesh->bounding_box.SetNegativeInfinity();
+						mesh->bounding_box.Enclose((float3*)mesh->vertices, mesh->num_vertices);
+						mesh->bounding_box.TransformAsAABB(trans->GetTransform());
+					}
 				}		
 
 				if (cam != nullptr) 

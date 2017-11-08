@@ -1,6 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
-#include "Glew\include\GL\glew.h"
+#include "Glew/include/GL/glew.h"
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
 #include "Primitive.h"
@@ -23,13 +23,11 @@ ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(
 	dispatcher = new btCollisionDispatcher(collision_conf);
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
-	debug_draw = new DebugDrawer();
 }
 
 // Destructor
 ModulePhysics3D::~ModulePhysics3D()
 {
-	delete debug_draw;
 	delete solver;
 	delete broad_phase;
 	delete dispatcher;
@@ -53,7 +51,6 @@ bool ModulePhysics3D::Start()
 	CONSOLELOG("Creating Physics environment");
 
 	world = new btDiscreteDynamicsWorld(dispatcher, broad_phase, solver, collision_conf);
-	world->setDebugDrawer(debug_draw);
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 
@@ -321,40 +318,4 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 	world->addConstraint(hinge, disable_collision);
 	constraints.add(hinge);
 	hinge->setDbgDrawSize(2.0f);
-}
-
-// =============================================
-void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
-{
-	line.origin.Set(from.getX(), from.getY(), from.getZ());
-	line.destination.Set(to.getX(), to.getY(), to.getZ());
-	line.color.Set(color.getX(), color.getY(), color.getZ());
-	line.Render();
-}
-
-void DebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
-{
-	point.transform.translate(PointOnB.getX(), PointOnB.getY(), PointOnB.getZ());
-	point.color.Set(color.getX(), color.getY(), color.getZ());
-	point.Render();
-}
-
-void DebugDrawer::reportErrorWarning(const char* warningString)
-{
-	CONSOLELOG("Bullet warning: %s", warningString);
-}
-
-void DebugDrawer::draw3dText(const btVector3& location, const char* textString)
-{
-	CONSOLELOG("Bullet draw text: %s", textString);
-}
-
-void DebugDrawer::setDebugMode(int debugMode)
-{
-	mode = (DebugDrawModes) debugMode;
-}
-
-int	 DebugDrawer::getDebugMode() const
-{
-	return mode;
 }

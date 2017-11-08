@@ -1,7 +1,7 @@
 #include "PanelAbout.h"
 #include "Application.h"
-#include "Glew\include\GL\glew.h"
-#include "SDL\include\SDL.h"
+#include "Glew/include/GL/glew.h"
+#include "SDL/include/SDL.h"
 
 PanelAbout::PanelAbout(bool active = true) : Panel(active)
 {

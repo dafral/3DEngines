@@ -1,4 +1,4 @@
-#include "Glew\include\GL\glew.h"
+#include "Glew/include/GL/glew.h"
 #include "PanelConfig.h"
 #include "Application.h"
 #include "Module.h"

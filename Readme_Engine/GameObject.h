@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Globals.h"
-#include "ImGuizmo\ImGuizmo.h"
+#include "ImGuizmo/ImGuizmo.h"
 #include <vector>
 #include <string>
 

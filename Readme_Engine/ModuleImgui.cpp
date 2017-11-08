@@ -37,6 +37,7 @@ bool ModuleImgui::Init()
 update_status ModuleImgui::PreUpdate(float dt)
 {
 	ImGui_ImplSdl_NewFrame(App->window->window);
+	ImGuiIO& io = ImGui::GetIO();
 
 	return UPDATE_CONTINUE;
 }

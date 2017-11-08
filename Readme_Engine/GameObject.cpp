@@ -94,7 +94,7 @@ void GameObject::CreateHierarchy()
 		if (ImGui::IsItemClicked())
 			App->imgui->hierarchy->selected = this;
 
-		if (ImGui::IsMouseDoubleClicked(0) && !ImGui::IsWindowFocused())
+		if (ImGui::IsMouseDoubleClicked(1) && !ImGui::IsWindowFocused())
 			App->imgui->hierarchy->selected = nullptr;
 
 		// Recursion
@@ -188,7 +188,7 @@ const float4x4 GameObject::GetGlobalTransform(Component_Transform* trans)
 	{
 		Component_Transform* parent_trans = (Component_Transform*)parent->FindComponent(COMPONENT_TRANSFORM);
 
-		if (parent_trans != nullptr) ret = ret * parent_trans->GetTransform();
+		if (parent_trans != nullptr) ret = ret * parent_trans->GetTransform().Transposed();
 	}
 
 	return ret;

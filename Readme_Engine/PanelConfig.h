@@ -5,7 +5,7 @@
 
 #include "Panel.h"
 #include "Globals.h"
-#include "Imgui\imgui.h"
+#include "Imgui/imgui.h"
 #include <vector>
 
 #define FPS_LOG_NUM 50

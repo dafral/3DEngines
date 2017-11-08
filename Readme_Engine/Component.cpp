@@ -18,8 +18,6 @@ Component_Camera::Component_Camera() : Component(COMPONENT_CAMERA)
 
 	SetAspectRatio(1.3f);
 	SetFOV(30);
-
-
 };
 
 void Component_Camera::Update()
