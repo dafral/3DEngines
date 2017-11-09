@@ -26,12 +26,17 @@ public:
 	const int GetTextureWidth();
 	const int GetTextureHeight();
 
+	void SetVisible(bool new_visible);
+	void SetStatic(bool new_static);
+
 	void SetTextureDimensions(int w, int h);
 	const float4x4 GetGlobalTransform(Component_Transform* trans);
 
 public:
 	std::string name;
 	GameObject* parent;
+	bool is_static = false;
+	bool is_visible = true;
 
 private:
 	std::vector<Component*> components;

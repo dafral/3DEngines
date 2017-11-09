@@ -179,7 +179,7 @@ void ModulePhysics3D::Draw()
 	if (App->renderer3D->grid) 
 	{
 		PPlane p(0, 1, 0, 0);
-		p.axis = false;
+		p.axis = true;
 		p.wire = true;
 		p.color = White;
 		p.Render();

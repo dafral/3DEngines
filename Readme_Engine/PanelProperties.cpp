@@ -28,8 +28,14 @@ void PanelProperties::Draw()
 	{
 		ImGui::Begin("Properties", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
 
-		// Name
+		// Name, static and visible
 		ImGui::Text("Name: %s", go->name.c_str());
+
+		if (ImGui::Checkbox("Static", &go->is_static))
+			go->SetStatic(go->is_static);
+
+		if (ImGui::Checkbox("Visible", &go->is_visible))
+			go->SetVisible(go->is_visible);
 
 		// Transformation
 		if (go->FindComponent(COMPONENT_TRANSFORM) != nullptr)
@@ -86,6 +92,7 @@ void PanelProperties::Draw()
 			}
 		}
 
+		// Camera
 		if (go->FindComponent(COMPONENT_CAMERA) != nullptr)
 		{
 			if (ImGui::CollapsingHeader("Camera"))
@@ -95,14 +102,9 @@ void PanelProperties::Draw()
 				if (ImGui::Checkbox("Active", &cam->active_camera))
 				{
 					if (cam->active_camera)
-					{
 						App->scene->SetActiveCam(cam);
-					}
-
 					else
-					{
 						App->scene->SetActiveCam(nullptr);
-					}
 				}
 			}
 		}
