@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include <string>
+#include "Component.h"
 
 class GameObject;
 
@@ -16,7 +17,10 @@ public:
 	bool CleanUp();
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent = nullptr);
+	void SetActiveCam(Component_Camera* cam);
+	Component_Camera* GetActiveCam();
 
 public:
 	GameObject* root = nullptr;
+	Component_Camera* play_camera = nullptr;
 };

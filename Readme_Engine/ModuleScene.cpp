@@ -3,7 +3,6 @@
 #include "ModuleScene.h"
 #include "ModuleImgui.h"
 #include "GameObject.h"
-#include "Component.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -76,6 +75,16 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	//aux->AddComponent(new_cam_component);
 
 	return aux;
+}
+
+Component_Camera* ModuleScene::GetActiveCam()
+{
+	return play_camera;
+}
+
+void ModuleScene::SetActiveCam(Component_Camera* cam)
+{
+	play_camera = cam;
 }
 
 

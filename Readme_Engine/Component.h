@@ -119,6 +119,7 @@ public:
 	void SetYDir(const float3 & up) { frustum.up = up.Normalized(); };
 	void SetFOV(float new_fov);
 	void SetAspectRatio(const float & set);
+	bool AABBInside(AABB &aabb);
 
 	bool active_camera = false;
 

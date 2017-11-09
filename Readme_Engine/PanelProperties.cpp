@@ -92,7 +92,18 @@ void PanelProperties::Draw()
 			{
 				Component_Camera* cam = (Component_Camera*)go->FindComponent(COMPONENT_CAMERA);
 
-				if (ImGui::Checkbox("Active", &cam->active_camera));
+				if (ImGui::Checkbox("Active", &cam->active_camera))
+				{
+					if (cam->active_camera)
+					{
+						App->scene->SetActiveCam(cam);
+					}
+
+					else
+					{
+						App->scene->SetActiveCam(nullptr);
+					}
+				}
 			}
 		}
 

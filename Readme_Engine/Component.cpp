@@ -29,11 +29,6 @@ void Component_Camera::Update()
 
 	App->debug->DrawFrustum(corners);
 	
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		SetFOV(179);
-
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		SetFOV(10);
 }
 
 void Component_Camera::SetFOV(float FOV)
@@ -54,6 +49,28 @@ void Component_Camera::SetAspectRatio(const float& ar)
 	if(frustum.verticalFov > 0)
 		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect_ratio);
 }
+
+bool Component_Camera::AABBInside(AABB &aabb)
+{
+	int vertex_num = aabb.NumVertices();
+	for (int i = 0; i < 6; i++)
+	{
+		int points_out = 0;
+		for (int j = 0; j < vertex_num; j++)
+		{
+			Plane plane = frustum.GetPlane(i);
+			if (plane.IsOnPositiveSide(aabb.CornerPoint(j)))
+			{
+				points_out++;
+			}
+		}
+
+		if (points_out == 8) return false;
+	}
+
+	return true;
+}
+
 
 // COMPONENT MESH ==================================================
 

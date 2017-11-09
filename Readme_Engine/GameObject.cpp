@@ -47,31 +47,35 @@ void GameObject::Draw()
 	Component_Material* material = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
 	Component_Transform* transform = (Component_Transform*)FindComponent(COMPONENT_TRANSFORM);
 	Component_Mesh* mesh = (Component_Mesh*)FindComponent(COMPONENT_MESH);
+	Component_Camera* cam = App->scene->GetActiveCam();
 
 	glPushMatrix();
 	if (transform != nullptr) glMultMatrixf(GetGlobalTransform(transform).ptr());
 
-	if (mesh != nullptr)
+	if (mesh != nullptr && cam != nullptr)
 	{
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+		if (cam->AABBInside(mesh->bounding_box))
+		{
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+			glVertexPointer(3, GL_FLOAT, 0, NULL);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
-		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 
-		if (material != nullptr) glBindTexture(GL_TEXTURE_2D, (GLuint)material->id_texture);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+			if (material != nullptr) glBindTexture(GL_TEXTURE_2D, (GLuint)material->id_texture);
+			glColor3f(1.0f, 1.0f, 1.0f);
+			glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisableClientState(GL_VERTEX_ARRAY);
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		}
 	}
 
 	glPopMatrix();
