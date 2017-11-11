@@ -113,7 +113,7 @@ public:
 
 	const float GetFOV() { return fov; };
 	const bool IsActive() { return active_camera; };
-	void SwitchActive() { active_camera = !active_camera; };
+	void SwitchActive(bool new_active) { active_camera = new_active; };
 	void SetPos(float3 pos) { frustum.pos = pos; };
 	void SetZDir(const float3 & front) { frustum.front = front.Normalized(); };
 	void SetYDir(const float3 & up) { frustum.up = up.Normalized(); };
@@ -121,6 +121,7 @@ public:
 	void SetAspectRatio(const float & set);
 	bool AABBInside(AABB &aabb);
 
+public:
 	bool active_camera = false;
 
 private:

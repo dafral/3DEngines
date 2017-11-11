@@ -24,9 +24,14 @@ void PanelProperties::Draw()
 
 	GameObject* go = App->imgui->hierarchy->selected;
 
-	if (go != nullptr && go /*!= App->scene->root*/)
+	if (go != nullptr/* && go != App->scene->root*/)
 	{
 		ImGui::Begin("Properties", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
+
+		Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
+		Component_Mesh* mesh = (Component_Mesh*)go->FindComponent(COMPONENT_MESH);
+		Component_Camera* cam = (Component_Camera*)go->FindComponent(COMPONENT_CAMERA);
+		Component_Material* material = (Component_Material*)go->FindComponent(COMPONENT_MATERIAL);
 
 		// Name, static and visible
 		ImGui::Text("Name: %s", go->name.c_str());
@@ -38,14 +43,10 @@ void PanelProperties::Draw()
 			go->SetVisible(go->is_visible);
 
 		// Transformation
-		if (go->FindComponent(COMPONENT_TRANSFORM) != nullptr)
+		if (trans != nullptr)
 		{
 			if (ImGui::CollapsingHeader("Transform"))
 			{
-				Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
-				Component_Mesh* mesh = (Component_Mesh*)go->FindComponent(COMPONENT_MESH);
-				Component_Camera* cam = (Component_Camera*)go->FindComponent(COMPONENT_CAMERA);
-
 				float3 position = trans->GetPosition();
 				float3 scale = trans->GetScale();
 				Quat rotation = trans->GetRotation();
@@ -73,7 +74,7 @@ void PanelProperties::Draw()
 		}
 
 		// Meshes
-		if (go->FindComponent(COMPONENT_MESH) != nullptr)
+		if (mesh != nullptr)
 		{
 			if (ImGui::CollapsingHeader("Meshes"))
 			{
@@ -83,7 +84,7 @@ void PanelProperties::Draw()
 		}
 
 		// Texture
-		if (go->FindComponent(COMPONENT_MATERIAL) != nullptr)
+		if (material != nullptr)
 		{
 			if (ImGui::CollapsingHeader("Texture"))
 			{
@@ -93,19 +94,15 @@ void PanelProperties::Draw()
 		}
 
 		// Camera
-		if (go->FindComponent(COMPONENT_CAMERA) != nullptr)
+		if (cam != nullptr)
 		{
 			if (ImGui::CollapsingHeader("Camera"))
 			{
-				Component_Camera* cam = (Component_Camera*)go->FindComponent(COMPONENT_CAMERA);
-
 				if (ImGui::Checkbox("Active", &cam->active_camera))
 				{
-					if (cam->active_camera)
-						App->scene->SetActiveCam(cam);
-					else
-						App->scene->SetActiveCam(nullptr);
-				}
+					cam->SwitchActive(cam->active_camera);
+					App->scene->SetActiveCam(cam);
+				}	
 			}
 		}
 

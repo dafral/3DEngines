@@ -20,9 +20,9 @@ bool ModuleScene::Start()
 
 	root = CreateGameObject("Root");
 
-	Component_Camera* test = new Component_Camera;
-	test->SwitchActive();
-	root->AddComponent(test);
+	Component_Camera* main_camera = new Component_Camera;
+	root->AddComponent(main_camera);
+	SetActiveCam(main_camera);
 
 	return ret;
 }
@@ -42,9 +42,6 @@ update_status ModuleScene::Update(float dt)
 	{
 		App->SetState(State::STOP);
 	}
-
-	//CONSOLELOG("%f", (App->EditorClock.ms_timer));
-	//CONSOLELOG("%f", (App->PlayClock.ms_timer));
 
 	return UPDATE_CONTINUE;
 }
@@ -71,11 +68,10 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	Component_Transform* new_component = new Component_Transform;
 	aux->AddComponent(new_component);
 
-	//Component_Camera* new_cam_component = new Component_Camera;
-	//aux->AddComponent(new_cam_component);
-
 	return aux;
 }
+
+// --------------------------------------------------------------
 
 Component_Camera* ModuleScene::GetActiveCam()
 {
@@ -84,7 +80,20 @@ Component_Camera* ModuleScene::GetActiveCam()
 
 void ModuleScene::SetActiveCam(Component_Camera* cam)
 {
-	play_camera = cam;
+	if (cam->active_camera == false)
+	{
+		Component_Camera* main_camera = (Component_Camera*)root->FindComponent(COMPONENT_CAMERA);
+		main_camera->SwitchActive(true);
+		play_camera = main_camera;
+	}
+	else
+	{
+		// Setting to active = false the older camera
+		if (play_camera != nullptr) play_camera->SwitchActive(false);
+
+		// New camera
+		play_camera = cam;
+	}
 }
 
 
