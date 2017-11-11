@@ -55,6 +55,9 @@
     <Filter Include="Sources\External Libraries\ImGuizmo">
       <UniqueIdentifier>{53888526-5d4e-4110-be42-6c9cb1fac6d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\External Libraries\JSON">
+      <UniqueIdentifier>{17639a6c-36e3-4708-8bc4-eaf1c879367d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -366,6 +369,9 @@
     <ClInclude Include="Octree.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="JSON\parson.h">
+      <Filter>Sources\External Libraries\JSON</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -556,6 +562,9 @@
     </ClCompile>
     <ClCompile Include="Octree.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="JSON\parson.c">
+      <Filter>Sources\External Libraries\JSON</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
