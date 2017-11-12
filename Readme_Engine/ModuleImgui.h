@@ -22,6 +22,7 @@ public:
 	update_status Update(float dt);
 	void Draw();
 	bool CleanUp();
+	void AdjustAllPanels();
 
 public:
 	PanelConsole* console =  nullptr;

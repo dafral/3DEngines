@@ -7,12 +7,7 @@
 #include "MathGeoLib/MathGeoLib.h"
 
 PanelProperties::PanelProperties(bool active = true) : Panel(active)
-{
-	x = 15;
-	y = 660;
-	w = 223;
-	h = 349;
-}
+{}
 
 PanelProperties::~PanelProperties()
 {}
@@ -20,13 +15,13 @@ PanelProperties::~PanelProperties()
 void PanelProperties::Draw()
 {
 	ImGui::SetNextWindowPos(ImVec2(x, y));
-	ImGui::SetNextWindowContentSize(ImVec2(w, h));
+	ImGui::SetNextWindowSize(ImVec2(w, h));
 
-	GameObject* go = App->imgui->hierarchy->selected;
+	GameObject* go = App->imgui->hierarchy->go_selected;
 
-	if (go != nullptr/* && go != App->scene->root*/)
+	if (active && go != nullptr/* && go != App->scene->root*/)
 	{
-		ImGui::Begin("Properties", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
+		ImGui::Begin("Properties", &active);
 
 		Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
 		Component_Mesh* mesh = (Component_Mesh*)go->FindComponent(COMPONENT_MESH);
@@ -38,7 +33,7 @@ void PanelProperties::Draw()
 
 		if (ImGui::Checkbox("Static", &go->is_static))
 			go->SetStatic(go->is_static);
-
+		ImGui::SameLine();
 		if (ImGui::Checkbox("Visible", &go->is_visible))
 			go->SetVisible(go->is_visible);
 
@@ -135,4 +130,14 @@ void PanelProperties::SetTextureName(char* reference)
 	int name_length = dot_pos - bar_pos - 1;
 
 	texture_name = str.substr(bar_pos + 1, name_length);
+}
+
+// ---------------------------------------------------------------
+
+void PanelProperties::AdjustPanel()
+{
+	x = MARGIN_X;
+	y = (MARGIN_Y * 2) + App->window->GetHeight() / 2;
+	w = 300;
+	h = 400;
 }

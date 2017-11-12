@@ -18,6 +18,7 @@ public:
 	void SetGeometryName(char* reference);
 	void SetTextureName(char* reference);
 	const char* GetGeometryName();
+	void AdjustPanel();
 
 private:
 	std::string geometry_name;

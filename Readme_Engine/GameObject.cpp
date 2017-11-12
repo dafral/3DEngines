@@ -2,6 +2,7 @@
 #include "ModuleImgui.h"
 #include "PanelHierarchy.h"
 #include "Component.h"
+#include "Octree.h"
 
 #include "GameObject.h"
 #include "glew/include/GL/glew.h"
@@ -95,7 +96,7 @@ void GameObject::CreateHierarchy()
 	if (childrens.empty())
 		flag |= ImGuiTreeNodeFlags_Leaf;
 
-	if (App->imgui->hierarchy->selected == this)
+	if (App->imgui->hierarchy->go_selected == this)
 		flag |= ImGuiTreeNodeFlags_Selected;
 
 	// Creating tree
@@ -103,10 +104,10 @@ void GameObject::CreateHierarchy()
 	{
 		// Know if a GO is selected
 		if (ImGui::IsItemClicked())
-			App->imgui->hierarchy->selected = this;
+			App->imgui->hierarchy->go_selected = this;
 
 		if (ImGui::IsMouseDoubleClicked(1) && !ImGui::IsWindowFocused())
-			App->imgui->hierarchy->selected = nullptr;
+			App->imgui->hierarchy->go_selected = nullptr;
 
 		// Recursion
 		for (int i = 0; i < childrens.size(); i++)
@@ -217,6 +218,13 @@ void GameObject::SetVisible(bool new_visible)
 void GameObject::SetStatic(bool new_static) 
 { 
 	is_static = new_static; 
+
+	// Adding to or removing from static list
+	if (is_static) App->scene->octree->AddStatic(this);
+	else App->scene->octree->AddStatic(this);
+
+	// Doing again the Octree
+	App->scene->octree->StartOctree();
 
 	// Doing the same for childs
 	for (int i = 0; i < childrens.size(); i++)

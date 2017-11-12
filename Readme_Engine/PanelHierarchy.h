@@ -1,22 +1,19 @@
 #pragma once
 
 #include "Panel.h"
-#include "GameObject.h"
+
+class GameObject;
 
 class PanelHierarchy : public Panel
 {
 public:
-	PanelHierarchy(bool active) : Panel(active)
-	{ 
-		x = 15; 
-	    y = 30; 
-	    w = 185; 
-	    h = 300;
-		selected = nullptr;
-	};
+	PanelHierarchy(bool active);
+	virtual ~PanelHierarchy() {};
 
 	void Draw();
+	void AdjustPanel();
 
 public:
-	GameObject* selected;
+	GameObject* go_selected;
+
 };

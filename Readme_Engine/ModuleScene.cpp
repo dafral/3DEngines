@@ -19,6 +19,7 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	root = CreateGameObject("Root");
+	octree = new Octree;
 
 	Component_Camera* main_camera = new Component_Camera;
 	root->AddComponent(main_camera);

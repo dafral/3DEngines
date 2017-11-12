@@ -6,13 +6,13 @@
 #include "Panel.h"
 #include "Imgui/imgui.h"
 
-class PanelAbout : public Panel {
+class PanelAbout : public Panel 
+{
 public:
 	PanelAbout(bool active);
 	virtual ~PanelAbout();
 
 	void Draw();
-
 };
 
 #endif

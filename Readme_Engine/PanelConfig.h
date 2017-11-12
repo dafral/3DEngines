@@ -19,13 +19,15 @@ public:
 	virtual ~PanelConfig();
 
 	void Draw();
+	void AdjustPanel();
+
 	void AddFps(float fps);
 	void AddMs(float ms);
 	void AddMemory(uint mem);
 	int GetFPSCap();
 
 private:
-	bool resizable, fullscreen, borderless, vsync;
+	bool resizable, fullscreen, borderless, vsync, adapt_panels;
 	float brightness;
 	int fps_cap = 0;
 	std::vector<float> fps_buffer;
