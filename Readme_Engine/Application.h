@@ -17,6 +17,10 @@
 #include "ModuleImgui.h"
 #include "ModuleGeometry.h"
 #include "ModuleJSON.h"
+#include "ModuleFileSystem.h"
+#include "MaterialImporter.h"
+#include "MeshImporter.h"
+
 
 enum State { PLAY = 0, PAUSE, STOP };
 
@@ -42,6 +46,10 @@ public:
 	ModuleImgui* imgui;
 	ModuleGeometry* geometry;
 	ModuleJSON* json;
+	ModuleFileSystem* filesystem;
+	MaterialImporter* material_imp;
+	//MeshImporter
+	
 
 	ImGuiTextBuffer text;
 	DebugDraw* debug;
