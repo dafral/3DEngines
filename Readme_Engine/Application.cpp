@@ -18,6 +18,7 @@ Application::Application()
 	physics = new ModulePhysics3D(this);
 	imgui = new ModuleImgui(this);
 	geometry = new ModuleGeometry(this);
+	json = new ModuleJSON(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -33,6 +34,7 @@ Application::Application()
 	// Scenes
 	AddModule(scene);
 	AddModule(geometry);
+	AddModule(json);
 	AddModule(imgui);
 
 	// Renderer last!

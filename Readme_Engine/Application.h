@@ -16,6 +16,7 @@
 #include "ModulePhysics3D.h"
 #include "ModuleImgui.h"
 #include "ModuleGeometry.h"
+#include "ModuleJSON.h"
 
 enum State { PLAY = 0, PAUSE, STOP };
 
@@ -40,6 +41,7 @@ public:
 	ModulePhysics3D* physics;
 	ModuleImgui* imgui;
 	ModuleGeometry* geometry;
+	ModuleJSON* json;
 
 	ImGuiTextBuffer text;
 	DebugDraw* debug;
