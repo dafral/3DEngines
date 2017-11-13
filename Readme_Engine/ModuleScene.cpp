@@ -32,18 +32,6 @@ update_status ModuleScene::Update(float dt)
 {
 	root->Update();
 
-	if (ImGui::Button("Play", ImVec2(0, 0)))
-	{
-		App->SetState(State::PLAY);
-	}
-
-	ImGui::SameLine();
-
-	if (ImGui::Button("Stop", ImVec2(0, 0))) 
-	{
-		App->SetState(State::STOP);
-	}
-
 	return UPDATE_CONTINUE;
 }
 
