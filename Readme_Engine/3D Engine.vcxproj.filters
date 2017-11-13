@@ -58,6 +58,9 @@
     <Filter Include="Sources\External Libraries\JSON">
       <UniqueIdentifier>{17639a6c-36e3-4708-8bc4-eaf1c879367d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\Importer">
+      <UniqueIdentifier>{855c81ba-8614-4882-aa12-675662fe74c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -375,6 +378,12 @@
     <ClInclude Include="ModuleJSON.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialImporter.h">
+      <Filter>Sources\Modules\Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshImporter.h">
+      <Filter>Sources\Modules\Importer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -571,6 +580,12 @@
     </ClCompile>
     <ClCompile Include="ModuleJSON.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialImporter.cpp">
+      <Filter>Sources\Modules\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshImporter.cpp">
+      <Filter>Sources\Modules\Importer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,8 @@ Application::Application()
 	imgui = new ModuleImgui(this);
 	geometry = new ModuleGeometry(this);
 	json = new ModuleJSON(this);
+	material_imp = new MaterialImporter(this);
+	
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -35,6 +37,7 @@ Application::Application()
 	AddModule(scene);
 	AddModule(geometry);
 	AddModule(json);
+	AddModule(material_imp);
 	AddModule(imgui);
 
 	// Renderer last!
