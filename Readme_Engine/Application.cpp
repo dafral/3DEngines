@@ -19,6 +19,7 @@ Application::Application()
 	imgui = new ModuleImgui(this);
 	geometry = new ModuleGeometry(this);
 	json = new ModuleJSON(this);
+	filesystem = new ModuleFileSystem(this);
 	material_imp = new MaterialImporter(this);
 	
 
@@ -37,6 +38,7 @@ Application::Application()
 	AddModule(scene);
 	AddModule(geometry);
 	AddModule(json);
+	AddModule(filesystem);
 	AddModule(material_imp);
 	AddModule(imgui);
 
