@@ -3,21 +3,31 @@
 #include "PanelHierarchy.h"
 #include "Imgui/imgui.h"
 
+PanelHierarchy::PanelHierarchy(bool active = true) : Panel(active)
+{
+	go_selected = nullptr;
+}
+
 void PanelHierarchy::Draw()
 {
-	// Setting dimensions
-	ImGui::SetNextWindowPos(ImVec2(x, y));
-	ImGui::SetNextWindowContentSize(ImVec2(w, h));
+	if (active)
+	{
+		ImGui::SetNextWindowPos(ImVec2(x, y));
+		ImGui::SetNextWindowSize(ImVec2(w, h));
 
-	// Content
-	ImGui::Begin("Hierarchy", &active);
+		// Content
+		ImGui::Begin("Hierarchy", &active);
+		App->scene->root->CreateHierarchy();
+		ImGui::End();
+	}
+}
 
-	//if (ImGui::Button("+ Create Game Object", { (float)w, 20 }))
-	//{
-	//	if (selected != nullptr) App->scene->CreateGameObject("New Game Object", selected);
-	//	else App->scene->CreateGameObject("New Game Object", App->scene->root);
-	//}
+// ---------------------------------------------------------------
 
-	App->scene->root->CreateHierarchy();
-	ImGui::End();
+void PanelHierarchy::AdjustPanel()
+{
+	x = MARGIN_X;
+	y = MARGIN_Y;
+	w = 300;
+	h = App->window->GetHeight() / 2;
 }

@@ -141,9 +141,9 @@ update_status ModuleInput::PreUpdate(float dt)
 				}
 				else if ((extension == "png" || extension == "PNG"))
 				{
-					if (App->imgui->hierarchy->selected != nullptr)
+					if (App->imgui->hierarchy->go_selected != nullptr)
 					{
-						App->geometry->LoadMaterial(dropped_filedir, App->imgui->hierarchy->selected);
+						App->geometry->LoadMaterial(dropped_filedir, App->imgui->hierarchy->go_selected);
 						App->imgui->properties->SetTextureName(dropped_filedir);
 					}
 					else

@@ -45,7 +45,6 @@ public:
 	SDL_Surface* screen_surface;
 
 	bool resizable = true;
-
 };
 
 #endif // __ModuleWindow_H__

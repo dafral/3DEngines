@@ -6,28 +6,22 @@
 #include "ModuleImgui.h"
 #include "PanelAbout.h"
 
-PanelConfig::PanelConfig(bool active = true) : Panel(active) {
-
-	resizable = fullscreen = borderless = false;
+PanelConfig::PanelConfig(bool active = true) : Panel(active) 
+{
+	resizable = WIN_RESIZABLE;
+	fullscreen = WIN_FULLSCREEN_DESKTOP;
+	borderless = WIN_BORDERLESS;
+	adapt_panels = false;
 	vsync = App->renderer3D->GetVsync();
-
-	x = 800;
-	y = 30;
-	w = 450;
-	h = 400;
 }
 
-PanelConfig::~PanelConfig() {
+PanelConfig::~PanelConfig()
+{}
 
-}
-
-void PanelConfig::Draw() {
-
-	if (first) {
-		ImGui::SetNextWindowPos(ImVec2(x, y));
-		ImGui::SetNextWindowContentSize(ImVec2(w, h));
-		first = false;
-	}
+void PanelConfig::Draw() 
+{
+	ImGui::SetNextWindowPos(ImVec2(x, y));
+	ImGui::SetNextWindowSize(ImVec2(w, h));
 
 	ImGui::Begin("Configuration", &active);
 
@@ -110,6 +104,13 @@ void PanelConfig::DrawApplication()
 
 void PanelConfig::DrawWindow()
 {
+	// Check if we have to adapt panels position
+	if (adapt_panels = true && !ImGui::IsAnyItemActive())
+	{
+		adapt_panels = false;
+		App->imgui->AdjustAllPanels();
+	}
+
 	//SLIDERS
 	brightness = App->window->GetBrightness();
 	if (ImGui::SliderFloat("Brightness", &brightness, 0, 1))
@@ -117,17 +118,25 @@ void PanelConfig::DrawWindow()
 
 	int width = App->window->GetWidth();
 	if (ImGui::SliderInt("Width", &width, 900, 1920))
+	{
 		App->window->SetWidth(width);
+		adapt_panels = true;
+	}		
 
 	int height = App->window->GetHeight();
-	if (ImGui::SliderInt("Height", &height, 600, 1024))
+	if (ImGui::SliderInt("Height", &height, 600, 1080))
+	{	
 		App->window->SetHeight(height);
+		adapt_panels = true;
+	}	
 
 	//BUTTONS
 	if (ImGui::Checkbox("Fullscreen", &fullscreen))
+	{
 		App->window->SwitchFullScreen(fullscreen);
+		adapt_panels = true;
+	}	
 
-	ImGui::SameLine();
 	if (ImGui::Checkbox("Resizable", &resizable));
 		App->window->SwitchResizable();
 
@@ -244,7 +253,15 @@ void PanelConfig::DrawInput()
 		App->camera->SetSensitivity(sensitivity);
 }
 
-void PanelConfig::DrawTexture()
+void PanelConfig::DrawTexture() 
 {
 
+}
+
+void PanelConfig::AdjustPanel()
+{
+	w = 400;
+	h = App->window->GetHeight() / 2;
+	x = App->window->GetWidth() - (MARGIN_X + w);
+	y = MARGIN_Y;
 }

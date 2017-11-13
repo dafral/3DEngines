@@ -1,8 +1,10 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include <string>
 #include "Component.h"
+#include "Octree.h"
+
+#include <string>
 
 class GameObject;
 
@@ -23,4 +25,5 @@ public:
 public:
 	GameObject* root = nullptr;
 	Component_Camera* play_camera = nullptr;
+	Octree* octree = nullptr;
 };

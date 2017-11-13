@@ -12,7 +12,7 @@ public:
 	virtual ~PanelConsole();
 
 	void Draw();
-
+	void AdjustPanel();
 	void ConsoleText(const char* log);
 };
 

@@ -11,17 +11,16 @@ PanelAbout::PanelAbout(bool active = true) : Panel(active)
 	h = 300;
 }
 
-PanelAbout::~PanelAbout() {
+PanelAbout::~PanelAbout() 
+{}
 
-}
+void PanelAbout::Draw() 
+{
+	ImGui::SetNextWindowPos(ImVec2(x, y));
+	ImGui::SetNextWindowSize(ImVec2(w, h));
 
-void PanelAbout::Draw() {
-
-	if (active) {
-
-		ImGui::SetNextWindowPos(ImVec2(x, y));
-		ImGui::SetNextWindowContentSize(ImVec2(w, h));
-
+	if (active) 
+	{
 		ImGui::Begin("About", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
 
 		ImGui::TextColored(ImVec4(1.00f, 0.00f, 0.50f, 1.00f), "3D ENGINE\n");

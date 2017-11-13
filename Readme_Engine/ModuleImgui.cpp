@@ -31,6 +31,9 @@ bool ModuleImgui::Init()
 	panels.push_back(properties = new PanelProperties(true));
 	panels.push_back(hierarchy = new PanelHierarchy(true));
 
+	// Adjust all panels
+	AdjustAllPanels();
+
 	return true;
 }
 
@@ -127,4 +130,13 @@ void ModuleImgui::Draw()
 	ImGui::Render();
 }
 
+// --------------------------------------------------------
+
+void ModuleImgui::AdjustAllPanels()
+{
+	for (int i = 0; i < panels.size(); i++)
+	{
+		panels[i]->AdjustPanel();
+	}
+}
 
