@@ -14,7 +14,6 @@ public:
 	~ModuleGeometry();
 
 	bool Init();
-	update_status Update(float dt);
 	bool CleanUp();
 
 	void LoadScene(char* full_path);

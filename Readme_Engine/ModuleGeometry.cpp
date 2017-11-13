@@ -42,12 +42,7 @@ bool ModuleGeometry::Init()
 	ilutRenderer(ILUT_OPENGL);
 
 	return true;
-}
-
-update_status ModuleGeometry::Update(float dt)
-{
-	return UPDATE_CONTINUE;
-}                                                                           
+}                                                                        
 
 bool ModuleGeometry::CleanUp()
 {
