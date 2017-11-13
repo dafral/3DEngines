@@ -206,6 +206,8 @@ const float4x4 GameObject::GetGlobalTransform(Component_Transform* trans)
 	return ret;
 }
 
+// ----------------------------------------------------------
+
 void GameObject::SetVisible(bool new_visible)
 { 
 	is_visible = new_visible;
@@ -221,10 +223,7 @@ void GameObject::SetStatic(bool new_static)
 
 	// Adding to or removing from static list
 	if (is_static) App->scene->octree->AddStatic(this);
-	else App->scene->octree->AddStatic(this);
-
-	// Doing again the Octree
-	App->scene->octree->StartOctree();
+	else App->scene->octree->RemoveStatic(this);
 
 	// Doing the same for childs
 	for (int i = 0; i < childrens.size(); i++)

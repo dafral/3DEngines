@@ -187,5 +187,6 @@ void Application::SetState(State state)
 	{
 		EngineState = state;
 	}
-	/*CONSOLELOG("Engine State is Now: %i", EngineState);*/
+
+	CONSOLELOG("Engine State is Now: %i", EngineState);
 }

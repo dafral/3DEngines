@@ -2,6 +2,7 @@
 #include "ModuleInput.h"
 #include "Component.h"
 #include "GameObject.h"
+#include "Color.h"
 
 Component_Camera::Component_Camera() : Component(COMPONENT_CAMERA) 
 {
@@ -29,8 +30,7 @@ void Component_Camera::Update()
 	float3 corners[8];
 	frustum.GetCornerPoints(corners);
 
-	App->debug->DrawFrustum(corners);
-	
+	App->debug->DrawFrustum(corners, 3, Yellow);
 }
 
 void Component_Camera::SetFOV(float FOV)
@@ -78,7 +78,7 @@ bool Component_Camera::AABBInside(AABB &aabb)
 
 void Component_Mesh::Update()
 {
-	App->debug->DrawBoundingBox(bounding_box.CenterPoint(), bounding_box.Size());
+	App->debug->DrawBoundingBox(bounding_box.CenterPoint(), bounding_box.Size(), 3, Red);
 }
 
 void Component_Mesh::AdaptBoundingBox(GameObject* go, Component_Transform* trans)

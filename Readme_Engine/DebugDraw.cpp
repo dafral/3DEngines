@@ -1,4 +1,6 @@
 #include "DebugDraw.h"
+#include "Color.h"
+
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -9,20 +11,18 @@ DebugDraw::DebugDraw()
 DebugDraw::~DebugDraw()
 {}
 
-void DebugDraw::Draw(float3* vertices, int num_vertices) const
+void DebugDraw::Draw(float3* vertices, int num_vertices, float line_width, Color color) const
 {
 	glLineWidth(line_width);
+	glColor3f(color.r, color.g, color.b);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR);
-	glColor3f(1.0f, 0.0f, 0.0f);
 	glVertexPointer(3, GL_FLOAT, 0, (float*)vertices->ptr());
 	glDrawArrays(GL_LINES, 0, num_vertices);
-	glDisableClientState(GL_COLOR);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void DebugDraw::DrawFrustum(float3* corners)
+void DebugDraw::DrawFrustum(float3* corners, float line_width, Color color)
 {
 	int num_vertices = 24;
 
@@ -64,12 +64,12 @@ void DebugDraw::DrawFrustum(float3* corners)
 	vertices[22] = float3(corners[6].x, corners[6].y, corners[6].z);
 	vertices[23] = float3(corners[7].x, corners[7].y, corners[7].z);
 
-	Draw(vertices, num_vertices);
+	Draw(vertices, num_vertices, line_width, color);
 
 	delete[] vertices;
 }
 
-void DebugDraw::DrawBoundingBox(float3 center, float3 size)
+void DebugDraw::DrawBoundingBox(float3 center, float3 size, float line_width, Color color)
 {
 	int num_vertices = 24;
 
@@ -112,7 +112,7 @@ void DebugDraw::DrawBoundingBox(float3 center, float3 size)
 	vertices[22] = float3(center.x + half_size.x, center.y + half_size.y, center.z - half_size.z);
 	vertices[23] = float3(center.x + half_size.x, center.y - half_size.y, center.z - half_size.z);
 
-	Draw(vertices, num_vertices);
+	Draw(vertices, num_vertices, line_width, color);
 
 	delete[] vertices;
 }

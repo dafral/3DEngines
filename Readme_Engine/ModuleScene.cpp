@@ -19,7 +19,7 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	root = CreateGameObject("Root");
-	octree = new Octree;
+	octree = new Octree();
 
 	Component_Camera* main_camera = new Component_Camera;
 	root->AddComponent(main_camera);
@@ -31,6 +31,22 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	root->Update();
+	if(App->EngineState == PLAY) octree->Draw();
+
+	// Provisional button for octree
+	if (ImGui::Button("Play", ImVec2(0, 0)))
+	{
+		App->SetState(State::PLAY);
+		octree->StartOctree();
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Stop", ImVec2(0, 0)))
+	{
+		App->SetState(State::STOP);
+		octree->CleanUp();
+	}
 
 	return UPDATE_CONTINUE;
 }
