@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "PanelHierarchy.h"
+#include "GameObject.h"
 #include "Imgui/imgui.h"
 
 PanelHierarchy::PanelHierarchy(bool active = true) : Panel(active)

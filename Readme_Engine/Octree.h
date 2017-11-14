@@ -1,11 +1,12 @@
 #pragma once
 #include <vector>
-#include "GameObject.h"
+
+class GameObject;
 
 class Octree_Node
 {
 public:
-	Octree_Node(AABB box, Octree_Node* parent) : box(box), parent(parent) {};
+	Octree_Node(AABB box) : box(box) {};
 	~Octree_Node() {};
 
 	void Draw();
@@ -15,7 +16,6 @@ public:
 
 public:
 	AABB box;
-	Octree_Node* parent = nullptr;
 
 	bool divided = false;
 	Octree_Node* childs[8];

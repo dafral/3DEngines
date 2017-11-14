@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Octree.h"
+#include "GameObject.h"
 #include "Color.h"
 
 void Octree::AddStatic(GameObject* static_go)
@@ -52,7 +53,7 @@ void Octree::StartOctree()
 
 	// Creating root node
 	AABB root_box(min_point, max_point);
-	root_node = new Octree_Node(root_box, nullptr);
+	root_node = new Octree_Node(root_box);
 
 	// Slpit root node
 	root_node->objects_in_node = all_static_go;
@@ -84,7 +85,7 @@ void Octree_Node::DivideNode()
 
 					AABB new_box(min_point, max_point);
 
-					childs[children_count] = new Octree_Node(new_box, this);
+					childs[children_count] = new Octree_Node(new_box);
 					children_count++;
 				}
 			}
@@ -148,7 +149,6 @@ void Octree::CleanUp()
 
 void Octree_Node::CleanUp()
 {
-	parent = nullptr;
 	objects_in_node.clear(); // We don't want to delete the GOs, only to clear the vector
 
 	if (divided)

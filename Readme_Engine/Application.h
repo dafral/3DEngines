@@ -49,7 +49,6 @@ public:
 	ModuleFileSystem* filesystem;
 	MaterialImporter* material_imp;
 	//MeshImporter
-	
 
 	ImGuiTextBuffer text;
 	DebugDraw* debug;
@@ -68,7 +67,7 @@ public:
 	bool CleanUp();
 	void SetState(State state);
 
-	State EngineState;
+	State EngineState = STOP;
 	EngineClock PlayClock;
 	EngineClock EditorClock;
 

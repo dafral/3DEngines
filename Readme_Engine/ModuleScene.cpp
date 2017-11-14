@@ -34,7 +34,7 @@ update_status ModuleScene::Update(float dt)
 	if(App->EngineState == PLAY) octree->Draw();
 
 	// Provisional button for octree
-	if (ImGui::Button("Play", ImVec2(0, 0)))
+	if (ImGui::Button("Play", ImVec2(0, 0)) && App->EngineState == STOP)
 	{
 		App->SetState(State::PLAY);
 		octree->StartOctree();
@@ -42,7 +42,7 @@ update_status ModuleScene::Update(float dt)
 
 	ImGui::SameLine();
 
-	if (ImGui::Button("Stop", ImVec2(0, 0)))
+	if (ImGui::Button("Stop", ImVec2(0, 0)) && App->EngineState == PLAY)
 	{
 		App->SetState(State::STOP);
 		octree->CleanUp();
