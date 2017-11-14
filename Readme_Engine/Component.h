@@ -123,10 +123,9 @@ public:
 
 public:
 	bool active_camera = false;
-
-private:
-	Frustum frustum;
 	float fov;
 	float aspect_ratio;
 
+private:
+	Frustum frustum;
 };

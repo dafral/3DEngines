@@ -21,7 +21,7 @@ Component_Camera::Component_Camera() : Component(COMPONENT_CAMERA)
 	frustum.up = float3::unitY;
 
 	SetAspectRatio(1.3f);
-	SetFOV(30);
+	SetFOV(30.0f);
 };
 
 void Component_Camera::Update()
@@ -35,6 +35,8 @@ void Component_Camera::Update()
 
 void Component_Camera::SetFOV(float FOV)
 {
+	fov = FOV;
+
 	if (FOV > 0) {
 		frustum.verticalFov = DEGTORAD * FOV;
 		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov / 2.0f) * aspect_ratio);
