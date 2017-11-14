@@ -21,6 +21,7 @@ public:
 	//Folder Functions
 	string CreateFolder(const char* path, const char* name);
 	bool SaveFile(const char * path, const char * file_content, const char * name, const char * extension, int size);
+	bool SaveUnique(const char * path, const char * file_content, const char * name, const char * extension, int size, string& output_file, bool gen_uid);
 
 	string GetFileFromPath(const char* path, bool extension);
 	string GetExtension(const char * path);

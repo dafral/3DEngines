@@ -36,7 +36,29 @@ bool MaterialImporter::Init()
 
 bool MaterialImporter::Import(const char* file, const char* path, std::string& output_file) 
 {
-	return true;
+	bool ret = false;
+
+	ILuint size;
+	ILubyte *data;
+
+	ilSetInteger(IL_DXTC_FORMAT, IL_DXT5);// To pick a specific DXT compression use
+	size = ilSaveL(IL_DDS, NULL, 0); // Get the size of the data buffer
+
+	if (size > 0) 
+	{
+		data = new ILubyte[size]; // allocate data buffer
+		if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
+			ret = App->filesystem->SaveUnique("Library/Textures/", (char*)data, file, "dds", size, output_file, (file == ""));
+		
+		if (data != nullptr) {
+			delete[] data;
+		}
+	}
+
+	if (ret == false)
+		CONSOLELOG("ERROR importing texture");
+
+	return ret;
 }
 
 void MaterialImporter::Load(const char* full_path, GameObject* go)

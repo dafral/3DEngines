@@ -74,6 +74,49 @@ bool ModuleFileSystem::SaveFile(const char * path, const char * file_content, co
 	return ret;
 }
 
+bool ModuleFileSystem::SaveUnique(const char * path, const char * file_content, const char * name, const char * extension, int size, std::string& output_file, bool gen_uid)
+{
+	bool ret = false;
+
+	uint uniqueID = 0;
+	string file;
+	struct stat buffer;
+
+	if (gen_uid == true) {
+		do {
+			file = path;
+			file += name;
+			file += "_";
+			file += to_string(uniqueID++);
+			file += ".";
+			file += extension;
+		} while (stat(file.c_str(), &buffer) == 0);
+
+	}
+	else {
+		file = path;
+		file += name;
+		file += ".";
+		file += extension;
+	}
+
+	FILE* new_file = fopen(file.c_str(), "wb");
+
+	if (new_file != nullptr)
+	{
+		fwrite(file_content, sizeof(char), size, new_file);
+		output_file = file;
+		ret = true;
+		fclose(new_file);
+	}
+	else
+	{
+		CONSOLELOG("ERROR unique saving file:\n\t%s\n\tERROR: %s ", name, strerror(errno));
+	}
+
+	return ret;
+}
+
 string ModuleFileSystem::GetFileFromPath(const char * path, bool take_extension)
 {
 	string ret;
