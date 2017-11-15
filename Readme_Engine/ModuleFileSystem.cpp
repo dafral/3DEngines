@@ -15,7 +15,6 @@ bool ModuleFileSystem::Init()
 {
 	//Libraries
 	CreateFolder("", "Library");
-	CreateFolder("Library", "Textures");
 	CreateFolder("Library", "Meshes");
 	CreateFolder("Library", "Materials");
 

@@ -48,7 +48,7 @@ bool MaterialImporter::Import(const char* file, const char* path, std::string& o
 	{
 		data = new ILubyte[size]; // allocate data buffer
 		if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
-			ret = App->filesystem->SaveUnique("Library/Textures/", (char*)data, file, "dds", size, output_file, (file == ""));
+			ret = App->filesystem->SaveUnique("Library/Materials/", (char*)data, file, "dds", size, output_file, (file == ""));
 		
 		if (data != nullptr) {
 			delete[] data;
