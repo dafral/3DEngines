@@ -64,9 +64,9 @@ void Octree::StartOctree()
 
 void Octree_Node::DivideNode()
 {
-	// If there are more than 1 go inside divide node in 8 new nodes
-	if (IsFull())
+	if (IsFull() && App->scene->octree->divisions <= MAX_DIVISIONS)
 	{
+		App->scene->octree->divisions++;
 		divided = true;
 
 		// Creating 8 new nodes
@@ -98,14 +98,13 @@ void Octree_Node::DivideNode()
 			{
 				Component_Mesh* mesh = (Component_Mesh*)objects_in_node[j]->FindComponent(COMPONENT_MESH);
 
-				if (mesh != nullptr && childs[i]->box.Contains(mesh->bounding_box.CenterPoint()))
+				if (mesh != nullptr && childs[i]->box.Intersects(mesh->bounding_box))
 				{
 					childs[i]->objects_in_node.push_back(objects_in_node[j]);
-					objects_in_node.erase(objects_in_node.begin() + j);
-					j--;
 				}
 			}
 		}
+		objects_in_node.clear();
 
 		// Recursion for childs
 		for (int i = 0; i < SUBDIVISIONS; i++)
@@ -140,6 +139,7 @@ void Octree::CleanUp()
 	{
 		root_node->CleanUp();
 		root_node = nullptr;
+		divisions = 0;
 	}
 }
 

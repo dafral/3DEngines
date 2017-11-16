@@ -4,7 +4,8 @@
 class GameObject;
 class Component_Camera;
 
-#define MAX_OBJ_IN_NODE 4
+#define MAX_OBJ_IN_NODE 6
+#define MAX_DIVISIONS 100
 #define SUBDIVISIONS 8
 
 class Octree_Node
@@ -23,6 +24,7 @@ public:
 private:
 	AABB box;
 	bool divided = false;
+	uint divisions = 0;
 	Octree_Node* childs[SUBDIVISIONS];
 
 public:
@@ -46,4 +48,7 @@ public:
 private:
 	Octree_Node* root_node = nullptr;
 	std::vector<GameObject*> all_static_go;	
+
+public:
+	uint divisions = 0;
 };
