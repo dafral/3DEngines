@@ -31,13 +31,13 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	root->Update();
-	if(App->EngineState == PLAY) octree->Draw();
+	octree->CollectFrustumIntersections(GetActiveCam());
+	octree->Draw();
 
 	// Provisional button for octree
 	if (ImGui::Button("Play", ImVec2(0, 0)) && App->EngineState == STOP)
 	{
 		App->SetState(State::PLAY);
-		octree->StartOctree();
 	}
 
 	ImGui::SameLine();
@@ -45,7 +45,6 @@ update_status ModuleScene::Update(float dt)
 	if (ImGui::Button("Stop", ImVec2(0, 0)) && App->EngineState == PLAY)
 	{
 		App->SetState(State::STOP);
-		octree->CleanUp();
 	}
 
 	return UPDATE_CONTINUE;

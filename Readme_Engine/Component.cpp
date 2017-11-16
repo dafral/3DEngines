@@ -19,7 +19,7 @@ Component_Camera::Component_Camera() : Component(COMPONENT_CAMERA)
 	frustum.pos = float3::zero;
 	frustum.front = -float3::unitZ;
 	frustum.up = float3::unitY;
-
+	
 	SetAspectRatio(1.3f);
 	SetFOV(30.0f);
 };
@@ -56,23 +56,7 @@ void Component_Camera::SetAspectRatio(const float& ar)
 
 bool Component_Camera::AABBInside(AABB &aabb)
 {
-	int vertex_num = aabb.NumVertices();
-	for (int i = 0; i < 6; i++)
-	{
-		int points_out = 0;
-		for (int j = 0; j < vertex_num; j++)
-		{
-			Plane plane = frustum.GetPlane(i);
-			if (plane.IsOnPositiveSide(aabb.CornerPoint(j)))
-			{
-				points_out++;
-			}
-		}
-
-		if (points_out == 8) return false;
-	}
-
-	return true;
+	return frustum.Intersects(aabb);
 }
 
 

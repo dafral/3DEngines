@@ -32,7 +32,12 @@ void PanelProperties::Draw()
 		ImGui::Text("Name: %s", go->name.c_str());
 
 		if (ImGui::Checkbox("Static", &go->is_static))
+		{
+			App->scene->octree->CleanUp();
 			go->SetStatic(go->is_static);
+			App->scene->octree->StartOctree();
+		}
+
 		ImGui::SameLine();
 		if (ImGui::Checkbox("Visible", &go->is_visible))
 			go->SetVisible(go->is_visible);

@@ -2,6 +2,10 @@
 #include <vector>
 
 class GameObject;
+class Component_Camera;
+
+#define MAX_OBJ_IN_NODE 4
+#define SUBDIVISIONS 8
 
 class Octree_Node
 {
@@ -11,31 +15,35 @@ public:
 
 	void Draw();
 	void CleanUp();
+	void CollectFrustumIntersections(Component_Camera* curr_camera);
+
 	void DivideNode();
-	bool IsFull() { return objects_in_node.size() > 1; };
+	const bool IsFull() { return objects_in_node.size() > MAX_OBJ_IN_NODE; };
+
+private:
+	AABB box;
+	bool divided = false;
+	Octree_Node* childs[SUBDIVISIONS];
 
 public:
-	AABB box;
-
-	bool divided = false;
-	Octree_Node* childs[8];
-
 	std::vector<GameObject*> objects_in_node;
 };
 
 class Octree
 {
 public:
-	Octree() {};
+	Octree() { root_node = nullptr; };
 	~Octree() {};
 
 	void AddStatic(GameObject* static_go);
 	void RemoveStatic(GameObject* static_go);
 	void StartOctree();
+
 	void Draw();
 	void CleanUp();
+	void CollectFrustumIntersections(Component_Camera* curr_camera);
 
 private:
-	std::vector<GameObject*> all_static_go;
-	Octree_Node* root_node;
+	Octree_Node* root_node = nullptr;
+	std::vector<GameObject*> all_static_go;	
 };

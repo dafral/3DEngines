@@ -1,13 +1,15 @@
-#include "Globals.h"
-#include "Glew/include/GL/glew.h"
 #include "Application.h"
+#include "Globals.h"
+#include "GameObject.h"
 #include "ModuleRenderer3D.h"
+
+#include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
+#pragma comment (lib, "glu32.lib")    
+#pragma comment (lib, "opengl32.lib") 
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -149,7 +151,13 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->physics->Draw();
-	/*App->geometry->Draw();*/
+
+	for (int i = 0; i < objects_to_draw.size(); i++)
+	{
+		objects_to_draw[i]->Draw();
+	}
+	objects_to_draw.clear();
+
 	App->imgui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
