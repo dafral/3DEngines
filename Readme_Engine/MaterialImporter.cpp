@@ -34,85 +34,109 @@ bool MaterialImporter::Init()
 	return true;
 }
 
-bool MaterialImporter::Import(const char* file, const char* path, std::string& output_file) 
+bool MaterialImporter::CleanUp()
 {
-	bool ret = false;
-
-	ILuint size;
-	ILubyte *data;
-
-	ilSetInteger(IL_DXTC_FORMAT, IL_DXT5);// To pick a specific DXT compression use
-	size = ilSaveL(IL_DDS, NULL, 0); // Get the size of the data buffer
-
-	if (size > 0) 
+	bool ret = true;
+	//delete the non erased materials
+	for (std::list<Component_Material*>::iterator m = materials.begin(); m != materials.end(); )
 	{
-		data = new ILubyte[size]; // allocate data buffer
-		if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
-			ret = App->filesystem->SaveUnique("Library/Materials/", (char*)data, file, "dds", size, output_file, (file == ""));
-		
-		if (data != nullptr) {
-			delete[] data;
-		}
+		RELEASE(*m);
+		m = materials.erase(m);
 	}
-
-	if (ret == false)
-		CONSOLELOG("ERROR importing texture");
 
 	return ret;
 }
 
-void MaterialImporter::Load(const char* full_path, GameObject* go)
+Component_Material* MaterialImporter::Import(const char* path)
 {
-	ILuint imageID;
+	uint id = 0;
 	ILenum error;
-
-	ilGenImages(1, &imageID);
-	ilBindImage(imageID);
-
-	if (ilLoadImage(full_path))
+	Component_Material* m = nullptr;
+	//Data will be handled by renderer. Devil is only used to load the image.
+	if (ilLoad(IL_TYPE_UNKNOWN, path))
 	{
-		ILinfo ImageInfo;
-		iluGetImageInfo(&ImageInfo);
-
-		if (go->FindComponent(COMPONENT_MATERIAL) != nullptr) go->DeleteComponentType(COMPONENT_MATERIAL);
-		Component_Material* new_component = new Component_Material();
-		go->AddComponent(new_component);
-
-		// Flip the image if it is upside-down
-		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+		ILinfo info;
+		iluGetImageInfo(&info);
+		if (info.Origin == IL_ORIGIN_UPPER_LEFT)
+		{
 			iluFlipImage();
-
-		if (!ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE))
-		{
-			error = ilGetError();
-			CONSOLELOG("Texture conversion failed: %d %s", error, iluErrorString(error));
 		}
-		else
-		{
-			// Enabling texture
-			glEnable(GL_TEXTURE_2D);
 
-			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glGenTextures(1, &new_component->id_texture);
-			glBindTexture(GL_TEXTURE_2D, new_component->id_texture);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+		int w = ilGetInteger(IL_IMAGE_WIDTH);
+		int h = ilGetInteger(IL_IMAGE_HEIGHT);
+		uint buff_id = 0;
 
-			// Texture specifications
-			go->SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
-			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), new_component->width, new_component->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glGenTextures(1, &buff_id);
+		glBindTexture(GL_TEXTURE_2D, buff_id);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), w, h, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 
-			CONSOLELOG("Texture loaded!");
-		}
+		id = buff_id;
+
+		m = new Component_Material();
+		materials.push_back(m);
+		m->id_texture = id;
+		m->width = w;
+		m->height = h;
+		//m->path = path;
+
+		SaveAsDDS();
+
+		ilDeleteImage(ilGetInteger(IL_ACTIVE_IMAGE));
 	}
-	else {
+	else
+	{
 		error = ilGetError();
+		CONSOLELOG("Error loading image %s. Error %d.", path, error);
 	}
 
-	ilDeleteImages(1, &imageID);
+	return m;
 }
+
+void MaterialImporter::SaveAsDDS()
+{
+	ILuint		size;
+	ILubyte*	data;
+
+	ilSetInteger(IL_DXTC_FORMAT, IL_DXT5);
+
+	size = ilSaveL(IL_DDS, NULL, 0);
+	if (size > 0)
+	{
+		data = new ILubyte[size];
+		if (ilSaveL(IL_DDS, data, size) > 0)
+		{
+			char file[69];
+			sprintf_s(file, "Library\\Materials\\texture_%d.dds", save_id++);
+			FILE* tex_file = fopen(file, "wb");
+			fwrite(data, sizeof(ILubyte), size, tex_file);
+			fclose(tex_file);
+			CONSOLELOG("New material texture saved: %s.", file);
+		}
+	}
+
+}
+
+void MaterialImporter::RemoveMaterial(Component_Material * mat)
+{
+	for (std::list<Component_Material*>::iterator m = materials.begin(); m != materials.end(); ++m)
+	{
+		if (*m == mat)
+		{
+			RELEASE(*m);
+
+			materials.erase(m);
+			break;
+		}
+	}
+}
+
+
 
 
 

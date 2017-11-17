@@ -5,6 +5,8 @@
 #include "Globals.h"
 #include "Module.h"
 
+class Component_Material;
+
 class MaterialImporter : public Module
 {
 public: 
@@ -12,11 +14,18 @@ public:
 	~MaterialImporter();
 	
 	bool Init();
+	bool CleanUp();
 
-	bool Import(const char* file, const char* path, std::string& output_file);
-	//bool Import(const void* buffer, uint size, std::string& output_file);
-	void Load(const char* full_path, GameObject* go);
+	Component_Material* Import(const char* path);
 	//bool LoadCheckers(Texture* resource);
+
+	void SaveAsDDS();
+
+	void RemoveMaterial(Component_Material* mat);
+	
+private:
+	list<Component_Material*> materials;
+	uint save_id = 0;
 
 };
 

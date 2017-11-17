@@ -5,6 +5,7 @@
 enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL, COMPONENT_CAMERA };
 class GameObject;
 class Component_Transform;
+class json_file;
 
 class Component
 {
@@ -59,6 +60,14 @@ class Component_Material : public Component
 public:
 	Component_Material() : Component(COMPONENT_MATERIAL) {};
 	~Component_Material() {};
+
+	void OnLoad(json_file* config);
+	void OnSave(json_file& config)const;
+	void OpenTexture();
+	void CloseTexture();
+
+	void Set(Component_Material* new_cmp);
+
 
 public:
 	uint id_texture = 0;

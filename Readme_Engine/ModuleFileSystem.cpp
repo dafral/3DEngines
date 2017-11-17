@@ -89,7 +89,7 @@ bool ModuleFileSystem::SaveUnique(const char * path, const char * file_content, 
 			file += to_string(uniqueID++);
 			file += ".";
 			file += extension;
-		} while (stat(file.c_str(), &buffer) == 0);
+		} while (exists(file));
 
 	}
 	else {
@@ -149,3 +149,4 @@ string ModuleFileSystem::GetExtension(const char * path)
 
 	return extension;
 }
+
