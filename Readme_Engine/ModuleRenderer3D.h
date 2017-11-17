@@ -4,6 +4,9 @@
 #include "glmath.h"
 #include "Light.h"
 
+#include <vector>
+class GameObject;
+
 #define MAX_LIGHTS 8
 
 class ModuleRenderer3D : public Module
@@ -30,6 +33,8 @@ public:
 	void SwitchTexture();
 	void SwitchLights();
 
+	void AddObjectToDraw(GameObject* go) { objects_to_draw.push_back(go); };
+
 public:
 
 	Light lights[MAX_LIGHTS];
@@ -50,7 +55,6 @@ public:
 
 private:
 	bool vsync;
-
 	float depth_range;
-	
+	std::vector<GameObject*> objects_to_draw;	
 };

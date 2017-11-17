@@ -64,9 +64,9 @@ void Octree::StartOctree()
 
 void Octree_Node::DivideNode()
 {
-	// If there are more than 1 go inside divide node in 8 new nodes
-	if (IsFull())
+	if (IsFull() && App->scene->octree->divisions <= MAX_DIVISIONS)
 	{
+		App->scene->octree->divisions++;
 		divided = true;
 
 		// Creating 8 new nodes
@@ -92,26 +92,23 @@ void Octree_Node::DivideNode()
 		}
 
 		// Reallocate the GOs from the parent to its childs
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < SUBDIVISIONS; i++)
 		{
 			for (int j = 0; j < objects_in_node.size(); j++)
 			{
 				Component_Mesh* mesh = (Component_Mesh*)objects_in_node[j]->FindComponent(COMPONENT_MESH);
 
-				if (mesh != nullptr && childs[i]->box.Contains(mesh->bounding_box.CenterPoint()))
+				if (mesh != nullptr && childs[i]->box.Intersects(mesh->bounding_box))
 				{
 					childs[i]->objects_in_node.push_back(objects_in_node[j]);
-					objects_in_node.erase(objects_in_node.begin() + j);
-					j--;
 				}
 			}
 		}
+		objects_in_node.clear();
 
 		// Recursion for childs
-		for (int i = 0; i < 8; i++)
-		{
+		for (int i = 0; i < SUBDIVISIONS; i++)
 			childs[i]->DivideNode();
-		}
 	}
 }
 
@@ -129,10 +126,8 @@ void Octree_Node::Draw()
 
 	if (divided)
 	{
-		for (int i = 0; i < 8; i++)
-		{
+		for (int i = 0; i < SUBDIVISIONS; i++)
 			childs[i]->Draw();
-		}
 	}
 }
 
@@ -144,6 +139,7 @@ void Octree::CleanUp()
 	{
 		root_node->CleanUp();
 		root_node = nullptr;
+		divisions = 0;
 	}
 }
 
@@ -153,11 +149,39 @@ void Octree_Node::CleanUp()
 
 	if (divided)
 	{
-		for (int i = 0; i < 8; i++)
-		{
+		for (int i = 0; i < SUBDIVISIONS; i++)
 			childs[i]->CleanUp();
-		}
 	}
 
 	delete this;
+}
+
+// ---------------------------------------------------------------
+
+void Octree::CollectFrustumIntersections(Component_Camera* curr_camera)
+{
+	if (root_node != nullptr)
+		root_node->CollectFrustumIntersections(curr_camera);
+}
+
+void Octree_Node::CollectFrustumIntersections(Component_Camera* curr_camera)
+{
+	if (curr_camera->AABBInside(box))
+	{
+		// Add objects in node to draw
+		for (int i = 0; i < objects_in_node.size(); i++)
+		{
+			Component_Mesh* mesh = (Component_Mesh*)objects_in_node[i]->FindComponent(COMPONENT_MESH);
+			
+			if(mesh != nullptr && curr_camera->AABBInside(mesh->bounding_box))
+				App->renderer3D->AddObjectToDraw(objects_in_node[i]);
+		}
+
+		// Recursion
+		if(divided)
+		{
+			for (int i = 0; i < SUBDIVISIONS; i++)
+				childs[i]->CollectFrustumIntersections(curr_camera);
+		}
+	}
 }
