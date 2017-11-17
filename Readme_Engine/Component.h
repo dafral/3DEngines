@@ -61,18 +61,13 @@ public:
 	Component_Material() : Component(COMPONENT_MATERIAL) {};
 	~Component_Material() {};
 
-	void OnLoad(json_file* config);
-	void OnSave(json_file& config)const;
-	void OpenTexture();
-	void CloseTexture();
-
-	void Set(Component_Material* new_cmp);
 
 
 public:
 	uint id_texture = 0;
 	uint height = 0;
 	uint width = 0;
+	string path;
 };
 
 //0...1

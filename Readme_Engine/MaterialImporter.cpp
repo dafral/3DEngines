@@ -83,7 +83,7 @@ Component_Material* MaterialImporter::Import(const char* path)
 		m->id_texture = id;
 		m->width = w;
 		m->height = h;
-		//m->path = path;
+		m->path = path;
 
 		SaveAsDDS();
 
