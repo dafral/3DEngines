@@ -143,11 +143,10 @@ update_status ModuleInput::PreUpdate(float dt)
 				{
 					if (App->imgui->hierarchy->go_selected != nullptr)
 					{
-						string tex_path;
-						if (App->material_imp->Import("prueba", dropped_filedir, tex_path)) {
-							App->geometry->LoadMaterial(dropped_filedir, App->imgui->hierarchy->go_selected);
-							App->imgui->properties->SetTextureName(dropped_filedir);
-						}
+						App->material_imp->Import(str.c_str());
+						App->geometry->LoadMaterial(dropped_filedir, App->imgui->hierarchy->go_selected);
+						App->imgui->properties->SetTextureName(dropped_filedir);
+						
 					}
 					else
 					{
