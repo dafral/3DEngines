@@ -18,10 +18,11 @@ Application::Application()
 	physics = new ModulePhysics3D(this);
 	imgui = new ModuleImgui(this);
 	geometry = new ModuleGeometry(this);
+	octree = new ModuleOctree(this);
 	json = new ModuleJSON(this);
 	filesystem = new ModuleFileSystem(this);
 	material_imp = new MaterialImporter(this);
-	octree = new ModuleOctree(this);
+	mesh_imp = new MeshImporter(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order

@@ -3,6 +3,13 @@
 #include "MathGeoLib/MathGeoLib.h"
 #include <string>
 
+#include "Glew\include\GL\glew.h"
+#include "SDL\include\SDL_opengl.h"
+
+#include <string>
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
 enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL, COMPONENT_CAMERA };
 
 class GameObject;
@@ -30,6 +37,7 @@ class Component_Mesh : public Component
 {
 public:
 	Component_Mesh() : Component(COMPONENT_MESH) {};
+	Component_Mesh(uint num_ver, float* ver, uint num_ind, uint* ind, uint num_uv = 0, float* uv = nullptr, uint num_norm = 0, float* norm = nullptr);
 	~Component_Mesh() 
 	{
 		delete[] indices;

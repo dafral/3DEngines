@@ -17,9 +17,6 @@ public:
 	bool CleanUp();
 
 	void LoadScene(char* full_path);
-	void LoadGeometry(GameObject* parent, const aiScene* scene, const aiNode* node);
-
-	void LoadMaterial(const char* full_path, GameObject* go);
 };
 
 #endif // __ModuleGeometry_H__

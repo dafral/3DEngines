@@ -17,9 +17,9 @@ public:
 	bool CleanUp();
 
 	Component_Material* Import(const char* path);
-	//bool LoadCheckers(Texture* resource);
-
 	void SaveAsDDS();
+
+	void LoadMaterial(const char* full_path, GameObject* go);
 
 	void RemoveMaterial(Component_Material* mat);
 	

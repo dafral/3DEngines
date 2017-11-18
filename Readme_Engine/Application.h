@@ -52,7 +52,7 @@ public:
 	ModuleOctree* octree;
 
 	MaterialImporter* material_imp;
-	//MeshImporter
+	MeshImporter* mesh_imp;
 
 	ImGuiTextBuffer text;
 	DebugDraw* debug;
