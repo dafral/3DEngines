@@ -27,7 +27,7 @@ bool MeshImporter::Start()
 	return true;
 }
 
-void MeshImporter::SaveToLibrary(Component_Mesh * mesh)
+void MeshImporter::Import(Component_Mesh * mesh)
 {
 	// Save Mesh to file
 	// file structure has: 
@@ -116,4 +116,103 @@ void MeshImporter::LoadFile(const char * path)
 	meshes.push_back(geo);
 
 	RELEASE_ARRAY(data);
+}
+
+void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNode* node)
+{
+	if (node->mNumMeshes <= 0)
+	{
+		// Recursion
+		for (int i = 0; i < node->mNumChildren; i++)
+			LoadMesh(parent, scene, node->mChildren[i]);
+	}
+	else
+	{
+		for (int i = 0; i < node->mNumMeshes; i++)
+		{
+			aiMesh* new_mesh = scene->mMeshes[node->mMeshes[i]];
+
+			// Creating a Game Object (child of parent) for each mesh.
+			GameObject* go = App->scene->CreateGameObject(node->mName.C_Str(), parent);
+
+			// Adding component mesh
+			Component_Mesh* new_component = new Component_Mesh;
+			go->AddComponent(new_component);
+
+			// Vertices
+			new_component->num_vertices = new_mesh->mNumVertices;
+			new_component->vertices = new float[new_component->num_vertices * 3];
+			memcpy(new_component->vertices, new_mesh->mVertices, sizeof(float) * new_component->num_vertices * 3);
+
+			// Load buffer for vertices
+			glGenBuffers(1, (GLuint*) &(new_component->id_vertices));
+			glBindBuffer(GL_ARRAY_BUFFER, new_component->id_vertices);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_component->num_vertices * 3, new_component->vertices, GL_STATIC_DRAW);
+
+			// Indices
+			if (new_mesh->HasFaces())
+			{
+				new_component->num_indices = new_mesh->mNumFaces * 3;
+				new_component->indices = new uint[new_component->num_indices];
+				for (uint i = 0; i < new_mesh->mNumFaces; i++)
+				{
+					if (new_mesh->mFaces[i].mNumIndices != 3) {
+						CONSOLELOG("WARNING, geometry face with != 3 indices!");
+					}
+					else {
+						memcpy(&new_component->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+					}
+				}
+
+				// Load buffer for indices
+				glGenBuffers(1, (GLuint*) &(new_component->id_indices));
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_component->id_indices);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_component->num_indices, new_component->indices, GL_STATIC_DRAW);
+			}
+
+			// UVs
+			if (new_mesh->HasTextureCoords(0))
+			{
+				new_component->num_uvs = new_mesh->mNumVertices;
+				new_component->texture_coords = new float[new_component->num_uvs * 3];
+				memcpy(new_component->texture_coords, new_mesh->mTextureCoords[0], sizeof(float) * new_component->num_uvs * 3);
+
+				// Load buffer for UVs
+				glGenBuffers(1, (GLuint*) &(new_component->id_uvs));
+				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_component->id_uvs);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_component->num_uvs * 3, new_component->texture_coords, GL_STATIC_DRAW);
+			}
+
+			// Changing transform
+			Component_Transform* trans = (Component_Transform*)go->FindComponent(COMPONENT_TRANSFORM);
+
+			if (node != nullptr)
+			{
+				aiVector3D translation;
+				aiVector3D scaling;
+				aiQuaternion rotation;
+
+				node->mTransformation.Decompose(scaling, rotation, translation);
+
+				float3 pos(translation.x, translation.y, translation.z);
+				float3 scale(scaling.x, scaling.y, scaling.z);
+				Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+
+				trans->SetPosition(pos);
+				trans->SetRotation(rot);
+				trans->SetScale(scale);
+			}
+
+			// Bounding box
+			new_component->bounding_box.SetNegativeInfinity();
+			new_component->bounding_box.Enclose((float3*)new_mesh->mVertices, new_mesh->mNumVertices);
+			new_component->bounding_box.TransformAsAABB(trans->GetTransform());
+
+			// Recursion
+			for (int i = 0; i < node->mNumChildren; i++)
+				LoadMesh(go, scene, node->mChildren[i]);
+
+			App->mesh_imp->Import(new_component);
+		}
+	}
 }

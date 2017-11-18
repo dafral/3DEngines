@@ -24,8 +24,10 @@ public:
 
 	bool Start();
 
-	void SaveToLibrary(Component_Mesh* mesh);
+	void Import(Component_Mesh* mesh);
 	void LoadFile(const char* path);
+
+	void LoadMesh(GameObject* parent, const aiScene* scene, const aiNode* node);
 
 
 private:
