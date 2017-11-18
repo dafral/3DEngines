@@ -48,7 +48,7 @@ public:
 	ModuleJSON* json;
 	ModuleFileSystem* filesystem;
 	MaterialImporter* material_imp;
-	//MeshImporter
+	MeshImporter* mesh_imp;
 
 	ImGuiTextBuffer text;
 	DebugDraw* debug;

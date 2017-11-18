@@ -21,6 +21,7 @@ Application::Application()
 	json = new ModuleJSON(this);
 	filesystem = new ModuleFileSystem(this);
 	material_imp = new MaterialImporter(this);
+	mesh_imp = new MeshImporter(this);
 	
 
 	// The order of calls is very important!

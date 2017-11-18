@@ -170,6 +170,8 @@ void ModuleGeometry::LoadGeometry(GameObject* parent, const aiScene* scene, cons
 			// Recursion
 			for (int i = 0; i < node->mNumChildren; i++)
 				LoadGeometry(go, scene, node->mChildren[i]);
+
+			App->mesh_imp->SaveToLibrary(new_component);
 		}
 	}
 }
