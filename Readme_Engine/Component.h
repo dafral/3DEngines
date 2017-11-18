@@ -1,6 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "MathGeoLib/MathGeoLib.h"
+#include <string>
 
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -10,6 +11,7 @@
 #include <gl/GLU.h>
 
 enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL, COMPONENT_CAMERA };
+
 class GameObject;
 class Component_Transform;
 class json_file;
@@ -68,8 +70,6 @@ class Component_Material : public Component
 public:
 	Component_Material() : Component(COMPONENT_MATERIAL) {};
 	~Component_Material() {};
-
-
 
 public:
 	uint id_texture = 0;

@@ -56,13 +56,13 @@ void PanelProperties::Draw()
 				ImGui::Text("    X         Y        Z");
 
 				if (ImGui::DragFloat3("Position", (float*)&position, 0.1f))
-					trans->SetPosition(position);
+					if (!go->is_static) trans->SetPosition(position);
 
 				if (ImGui::DragFloat3("Rotation", (float*)&euler_rotation, 0.1f))
-					trans->SetRotation(DegToRad(euler_rotation));
+					if (!go->is_static) trans->SetRotation(DegToRad(euler_rotation));
 					
 				if (ImGui::DragFloat3("Scale", (float*)&scale, 1.0f))
-					trans->SetScale(scale);	
+					if (!go->is_static )trans->SetScale(scale);
 
 				if (cam != nullptr) 
 				{
