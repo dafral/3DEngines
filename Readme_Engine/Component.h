@@ -1,8 +1,10 @@
 #pragma once
 #include "Globals.h"
 #include "MathGeoLib/MathGeoLib.h"
+#include <string>
 
 enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL, COMPONENT_CAMERA };
+
 class GameObject;
 class Component_Transform;
 class json_file;
@@ -61,13 +63,11 @@ public:
 	Component_Material() : Component(COMPONENT_MATERIAL) {};
 	~Component_Material() {};
 
-
-
 public:
 	uint id_texture = 0;
 	uint height = 0;
 	uint width = 0;
-	string path;
+	std::string path;
 };
 
 //0...1

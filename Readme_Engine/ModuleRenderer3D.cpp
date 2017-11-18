@@ -8,6 +8,8 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
+#include <array>
+
 #pragma comment (lib, "glu32.lib")    
 #pragma comment (lib, "opengl32.lib") 
 #pragma comment (lib, "Glew/libx86/glew32.lib")
@@ -152,11 +154,16 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->physics->Draw();
 
+	// --------------------------------------------------
+	std::sort(objects_to_draw.begin(), objects_to_draw.end());
+	objects_to_draw.erase(std::unique(objects_to_draw.begin(), objects_to_draw.end()), objects_to_draw.end());
+
 	for (int i = 0; i < objects_to_draw.size(); i++)
 	{
 		objects_to_draw[i]->Draw();
 	}
 	objects_to_draw.clear();
+	// --------------------------------------------------
 
 	App->imgui->Draw();
 

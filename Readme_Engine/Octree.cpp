@@ -173,7 +173,7 @@ void Octree_Node::CollectFrustumIntersections(Component_Camera* curr_camera)
 		{
 			Component_Mesh* mesh = (Component_Mesh*)objects_in_node[i]->FindComponent(COMPONENT_MESH);
 			
-			if(mesh != nullptr && curr_camera->AABBInside(mesh->bounding_box))
+			if(mesh != nullptr && objects_in_node[i]->is_visible && curr_camera->AABBInside(mesh->bounding_box))
 				App->renderer3D->AddObjectToDraw(objects_in_node[i]);
 		}
 

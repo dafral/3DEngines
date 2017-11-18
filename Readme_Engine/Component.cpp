@@ -56,7 +56,23 @@ void Component_Camera::SetAspectRatio(const float& ar)
 
 bool Component_Camera::AABBInside(AABB &aabb)
 {
-	return frustum.Intersects(aabb);
+	int vertex_num = aabb.NumVertices();
+	for (int i = 0; i < 6; i++)
+	{
+		int points_out = 0;
+		for (int j = 0; j < vertex_num; j++)
+		{
+			Plane plane = frustum.GetPlane(i);
+			if (plane.IsOnPositiveSide(aabb.CornerPoint(j)))
+			{
+				points_out++;
+			}
+		}
+
+		if (points_out == 8) return false;
+	}
+
+	return true;
 }
 
 
