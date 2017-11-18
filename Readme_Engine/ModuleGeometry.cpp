@@ -64,7 +64,7 @@ void ModuleGeometry::LoadScene(char* full_path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		LoadGeometry(empty_go, scene, node);
+		App->mesh_imp->LoadMesh(empty_go, scene, node);
 
 		CONSOLELOG("FBX file loaded!")
 	}
