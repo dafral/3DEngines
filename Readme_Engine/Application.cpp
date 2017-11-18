@@ -21,7 +21,7 @@ Application::Application()
 	json = new ModuleJSON(this);
 	filesystem = new ModuleFileSystem(this);
 	material_imp = new MaterialImporter(this);
-	
+	octree = new ModuleOctree(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -33,10 +33,11 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(physics);
-	
-	// Scenes
+
 	AddModule(scene);
 	AddModule(geometry);
+	AddModule(octree);
+
 	AddModule(json);
 	AddModule(filesystem);
 	AddModule(material_imp);

@@ -2,7 +2,6 @@
 #include "ModuleImgui.h"
 #include "PanelHierarchy.h"
 #include "Component.h"
-#include "Octree.h"
 
 #include "GameObject.h"
 #include "glew/include/GL/glew.h"
@@ -214,8 +213,8 @@ void GameObject::SetStatic(bool new_static)
 	is_static = new_static; 
 
 	// Adding to or removing from static list
-	if (is_static) App->scene->octree->AddStatic(this);
-	else App->scene->octree->RemoveStatic(this);
+	if (is_static) App->octree->AddStatic(this);
+	else App->octree->RemoveStatic(this);
 
 	// Doing the same for childs
 	for (int i = 0; i < childrens.size(); i++)

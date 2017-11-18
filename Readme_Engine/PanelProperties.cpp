@@ -33,9 +33,9 @@ void PanelProperties::Draw()
 
 		if (ImGui::Checkbox("Static", &go->is_static))
 		{
-			App->scene->octree->CleanUp();
+			App->octree->CleanUp();
 			go->SetStatic(go->is_static);
-			App->scene->octree->StartOctree();
+			App->octree->StartOctree();
 		}
 
 		ImGui::SameLine();

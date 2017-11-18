@@ -19,7 +19,6 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	root = CreateGameObject("Root");
-	octree = new Octree();
 
 	Component_Camera* main_camera = new Component_Camera;
 	root->AddComponent(main_camera);
@@ -31,8 +30,6 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	root->Update();
-	octree->CollectFrustumIntersections(GetActiveCam());
-	octree->Draw();
 
 	// Provisional button for octree
 	if (ImGui::Button("Play", ImVec2(0, 0)) && App->EngineState == STOP)

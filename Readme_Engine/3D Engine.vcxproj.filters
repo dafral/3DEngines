@@ -369,9 +369,6 @@
     <ClInclude Include="DebugDraw.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Octree.h">
-      <Filter>Sources\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="JSON\parson.h">
       <Filter>Sources\External Libraries\JSON</Filter>
     </ClInclude>
@@ -385,6 +382,12 @@
       <Filter>Sources\Modules\Importers</Filter>
     </ClInclude>
     <ClInclude Include="ModuleFileSystem.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleOctree.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModulePicker.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
   </ItemGroup>
@@ -575,9 +578,6 @@
     <ClCompile Include="DebugDraw.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Octree.cpp">
-      <Filter>Sources\Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="JSON\parson.c">
       <Filter>Sources\External Libraries\JSON</Filter>
     </ClCompile>
@@ -591,6 +591,12 @@
       <Filter>Sources\Modules\Importers</Filter>
     </ClCompile>
     <ClCompile Include="ModuleFileSystem.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleOctree.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModulePicker.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>

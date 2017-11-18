@@ -18,6 +18,8 @@
 #include "ModuleGeometry.h"
 #include "ModuleJSON.h"
 #include "ModuleFileSystem.h"
+#include "ModuleOctree.h"
+
 #include "MaterialImporter.h"
 #include "MeshImporter.h"
 
@@ -47,6 +49,8 @@ public:
 	ModuleGeometry* geometry;
 	ModuleJSON* json;
 	ModuleFileSystem* filesystem;
+	ModuleOctree* octree;
+
 	MaterialImporter* material_imp;
 	//MeshImporter
 

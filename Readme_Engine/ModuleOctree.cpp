@@ -1,14 +1,14 @@
 #include "Application.h"
-#include "Octree.h"
+#include "ModuleOctree.h"
 #include "GameObject.h"
 #include "Color.h"
 
-void Octree::AddStatic(GameObject* static_go)
+void ModuleOctree::AddStatic(GameObject* static_go)
 {
 	all_static_go.push_back(static_go);
 }
 
-void Octree::RemoveStatic(GameObject* static_go)
+void ModuleOctree::RemoveStatic(GameObject* static_go)
 {
 	for (int i = 0; i < all_static_go.size(); i++)
 	{
@@ -19,7 +19,18 @@ void Octree::RemoveStatic(GameObject* static_go)
 	}
 }
 
-void Octree::StartOctree()
+update_status ModuleOctree::Update(float dt)
+{
+	if (root_node != nullptr)
+	{
+		root_node->FrustumIntersections(App->scene->GetActiveCam());
+		root_node->Draw();
+	}
+
+	return UPDATE_CONTINUE;
+}
+
+void ModuleOctree::StartOctree()
 {
 	// Setting root box parameters
 	float3 min_point = { 0, 0, 0 };
@@ -64,9 +75,9 @@ void Octree::StartOctree()
 
 void Octree_Node::DivideNode()
 {
-	if (IsFull() && App->scene->octree->divisions <= MAX_DIVISIONS)
+	if (IsFull() && App->octree->divisions <= MAX_DIVISIONS)
 	{
-		App->scene->octree->divisions++;
+		App->octree->divisions++;
 		divided = true;
 
 		// Creating 8 new nodes
@@ -114,12 +125,6 @@ void Octree_Node::DivideNode()
 
 // ----------------------------------------------------------
 
-void Octree::Draw()
-{
-	if (root_node != nullptr) 
-		root_node->Draw();
-}
-
 void Octree_Node::Draw()
 {
 	App->debug->DrawBoundingBox(this->box.CenterPoint(), this->box.Size(), 5, Blue);
@@ -133,7 +138,7 @@ void Octree_Node::Draw()
 
 // -------------------------------------------------------------
 
-void Octree::CleanUp()
+bool ModuleOctree::CleanUp()
 {
 	if (root_node != nullptr)
 	{
@@ -141,6 +146,8 @@ void Octree::CleanUp()
 		root_node = nullptr;
 		divisions = 0;
 	}
+
+	return true;
 }
 
 void Octree_Node::CleanUp()
@@ -158,13 +165,7 @@ void Octree_Node::CleanUp()
 
 // ---------------------------------------------------------------
 
-void Octree::CollectFrustumIntersections(Component_Camera* curr_camera)
-{
-	if (root_node != nullptr)
-		root_node->CollectFrustumIntersections(curr_camera);
-}
-
-void Octree_Node::CollectFrustumIntersections(Component_Camera* curr_camera)
+void Octree_Node::FrustumIntersections(Component_Camera* curr_camera)
 {
 	if (curr_camera->AABBInside(box))
 	{
@@ -181,7 +182,9 @@ void Octree_Node::CollectFrustumIntersections(Component_Camera* curr_camera)
 		if(divided)
 		{
 			for (int i = 0; i < SUBDIVISIONS; i++)
-				childs[i]->CollectFrustumIntersections(curr_camera);
+				childs[i]->FrustumIntersections(curr_camera);
 		}
 	}
 }
+
+//

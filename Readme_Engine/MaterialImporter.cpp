@@ -52,6 +52,7 @@ Component_Material* MaterialImporter::Import(const char* path)
 	uint id = 0;
 	ILenum error;
 	Component_Material* m = nullptr;
+
 	//Data will be handled by renderer. Devil is only used to load the image.
 	if (ilLoad(IL_TYPE_UNKNOWN, path))
 	{

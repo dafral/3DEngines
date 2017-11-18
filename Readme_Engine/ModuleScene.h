@@ -2,7 +2,6 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Component.h"
-#include "Octree.h"
 
 #include <string>
 
@@ -25,5 +24,4 @@ public:
 public:
 	GameObject* root = nullptr;
 	Component_Camera* play_camera = nullptr;
-	Octree* octree = nullptr;
 };

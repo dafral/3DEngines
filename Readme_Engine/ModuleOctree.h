@@ -1,4 +1,5 @@
 #pragma once
+#include "Module.h"
 #include <vector>
 
 class GameObject;
@@ -16,7 +17,7 @@ public:
 
 	void Draw();
 	void CleanUp();
-	void CollectFrustumIntersections(Component_Camera* curr_camera);
+	void FrustumIntersections(Component_Camera* curr_camera);
 
 	void DivideNode();
 	const bool IsFull() { return objects_in_node.size() > MAX_OBJ_IN_NODE; };
@@ -31,19 +32,19 @@ public:
 	std::vector<GameObject*> objects_in_node;
 };
 
-class Octree
+class ModuleOctree : public Module
 {
 public:
-	Octree() { root_node = nullptr; };
-	~Octree() {};
+	ModuleOctree(Application* app, bool start_enabled = true) : Module(app, start_enabled) { root_node = nullptr; };
+	~ModuleOctree() {};
+
+	update_status Update(float dt);
 
 	void AddStatic(GameObject* static_go);
 	void RemoveStatic(GameObject* static_go);
 	void StartOctree();
 
-	void Draw();
-	void CleanUp();
-	void CollectFrustumIntersections(Component_Camera* curr_camera);
+	bool CleanUp();
 
 private:
 	Octree_Node* root_node = nullptr;
