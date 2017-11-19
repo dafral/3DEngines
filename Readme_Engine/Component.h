@@ -1,12 +1,12 @@
 #pragma once
 #include "Globals.h"
 #include "MathGeoLib/MathGeoLib.h"
+#include "ModuleJSON.h"
 #include <string>
 
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
 
-#include <string>
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
@@ -14,7 +14,7 @@ enum component_type {COMPONENT_MESH, COMPONENT_TRANSFORM, COMPONENT_MATERIAL, CO
 
 class GameObject;
 class Component_Transform;
-class json_file;
+class JSON_Doc;
 
 class Component
 {
@@ -111,7 +111,7 @@ public:
 		return transform;
 	};
 
-	void OnSave(json_file * config);
+	//void OnSave(JSON_Doc& config);
 	void OnLoad(JSON_Doc * config);
 
 private:
@@ -156,7 +156,7 @@ public:
 	float* GetProjectionMatrix() const;
 	const float3 GetPosition();
 
-	void OnSave(JSON_Doc& config);
+	//void OnSave(JSON_Doc& config);
 	void OnLoad(JSON_Doc * config);
 
 public:

@@ -230,8 +230,8 @@ void GameObject::OnSave(JSON_Doc& config)
 	Component_Camera* cam = (Component_Camera*)FindComponent(COMPONENT_CAMERA);
 	Component_Material* material = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
 
-	if (trans)
-		trans->OnSave(*App->json->config);
+	//if (trans)
+		//trans->OnSave(*App->json->config);
 
 	/*if (mesh)
 		mesh->OnSave(*App->json->config);*/
@@ -239,8 +239,8 @@ void GameObject::OnSave(JSON_Doc& config)
 	/*if (material)
 		material->OnSave(*App->json->config);*/
 
-	if (cam)
-		cam->OnSave(*App->json->config);
+	//if (cam)
+		//cam->OnSave(*App->json->config);
 
 }
 

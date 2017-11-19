@@ -178,7 +178,7 @@ const float3 Component_Camera::GetPosition()
 	return frustum.pos;
 }
 
-//void Component_Camera::OnSave(json_file config)
+//void Component_Camera::OnSave(JSON_Doc& config)
 //{
 //	
 //}
@@ -243,7 +243,7 @@ void Component_Mesh::OnLoad(JSON_Doc * config)
 
 //COMPONENT TRANSFORM===================================
 
-void Component_Transform::OnSave(json_file * config)
+/*void Component_Transform::OnSave(JSON_Doc& config)
 {
 	config->SetEntry("Components");
 	config->MoveToSectionFromArray("Components", config->GetArraySize("Components") - 1);
@@ -253,7 +253,8 @@ void Component_Transform::OnSave(json_file * config)
 	config->SetFloat3("position", GetTransform());
 	config->SetFloat3("scale", GetScale());
 	config->SetQuaternion("rotation", GetRotation());
-}
+	int a;
+}*/
 
 void Component_Transform::OnLoad(JSON_Doc * config)
 {
