@@ -52,6 +52,14 @@ update_status ModuleImgui::Update(float dt)
 
 	if (ImGui::BeginMainMenuBar()) 
 	{
+		if (ImGui::BeginMenu("Save/Load"))
+		{
+			if (ImGui::MenuItem("Save Scene"))
+				console->SwitchActive();
+
+			if (ImGui::MenuItem("Load Scene"))
+				config->SwitchActive();
+		}
 		if (ImGui::BeginMenu("View"))
 		{
 			if (ImGui::MenuItem("Console window"))

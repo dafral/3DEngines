@@ -1,6 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "MathGeoLib/MathGeoLib.h"
+#include "ModuleJSON.h"
 #include <string>
 
 #include "Glew\include\GL\glew.h"
@@ -132,6 +133,9 @@ public:
 	void SetFOV(float new_fov);
 	void SetAspectRatio(const float & set);
 	bool AABBInside(AABB &aabb);
+
+	void OnSave(JSON_Doc& config);
+	void OnLoad(JSON_Doc * config);
 
 public:
 	bool active_camera = false;

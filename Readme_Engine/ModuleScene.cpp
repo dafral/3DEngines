@@ -24,6 +24,8 @@ bool ModuleScene::Start()
 	root->AddComponent(main_camera);
 	SetActiveCam(main_camera);
 
+	App->json->CreateJSON("Library/config.json");
+
 	return ret;
 }
 

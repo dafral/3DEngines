@@ -26,6 +26,9 @@ public:
 	string GetFileFromPath(const char* path, bool extension);
 	string GetExtension(const char * path);
 
+	void SaveScene();
+	void LoadScene();
+
 	inline bool exists(const string &path)
 	{
 		{

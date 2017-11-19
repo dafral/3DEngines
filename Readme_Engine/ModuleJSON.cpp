@@ -12,7 +12,7 @@ ModuleJSON::~ModuleJSON()
 bool ModuleJSON::Init()
 {
 	CONSOLELOG("Module JSON Init");
-	config = LoadJSON("config_/config.json");
+	config = LoadJSON("Library/config.json");
 	return true;
 }
 
@@ -110,6 +110,7 @@ JSON_Doc * ModuleJSON::CreateJSON(const char * path)
 
 			ret = new_doc;
 			ret->Save();
+			CONSOLELOG("%s", ret->GetPath());
 		}
 	}
 

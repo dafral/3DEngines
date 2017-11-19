@@ -4,32 +4,7 @@
 #include "GameObject.h"
 #include "Color.h"
 
-Component_Mesh::Component_Mesh(uint num_ver, float * ver, uint num_ind, uint * ind, uint num_uv, float * uv, uint num_norm, float * norm) : Component(COMPONENT_MESH)
-{
-	//Load vertices to vram
-	glGenBuffers(1, (GLuint*)&id_vertices);
-	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_vertices * 3, ver, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//Load indices to vram
-	glGenBuffers(1, (GLuint*)&id_indices);
-	glBindBuffer(GL_ARRAY_BUFFER, id_indices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * num_indices, ind, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//Load uv to vram
-	if (uv != nullptr)
-	{
-		glGenBuffers(1, (GLuint*)&id_uvs);
-		glBindBuffer(GL_ARRAY_BUFFER, id_uvs);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_uv * 3, uv, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	bounding_box.SetNegativeInfinity();
-	bounding_box.Enclose((float3*)ver, num_ver);
-}
+//COMPONENT CAMERA============================================
 
 Component_Camera::Component_Camera() : Component(COMPONENT_CAMERA) 
 {
@@ -58,6 +33,7 @@ void Component_Camera::Update()
 	frustum.GetCornerPoints(corners);
 
 	App->debug->DrawFrustum(corners, 3, Yellow);
+
 }
 
 void Component_Camera::SetFOV(float FOV)
@@ -102,8 +78,48 @@ bool Component_Camera::AABBInside(AABB &aabb)
 	return true;
 }
 
+void Component_Camera::OnSave(JSON_Doc& config)
+{
+	config.SetBool("Active", active_camera);
+	config.SetNumber("FOV", fov);
+	config.SetNumber("Aspect Ratio", aspect_ratio);
+}
+
+void Component_Camera::OnLoad(JSON_Doc * config)
+{
+	active_camera = config->GetBool("Active");
+	fov = (float)config->GetNumber("FOV");
+	aspect_ratio = (float)config->GetNumber("Aspect Ratio");
+}
 
 // COMPONENT MESH ==================================================
+
+Component_Mesh::Component_Mesh(uint num_ver, float * ver, uint num_ind, uint * ind, uint num_uv, float * uv, uint num_norm, float * norm) : Component(COMPONENT_MESH)
+{
+	//Load vertices to vram
+	glGenBuffers(1, (GLuint*)&id_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_vertices * 3, ver, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Load indices to vram
+	glGenBuffers(1, (GLuint*)&id_indices);
+	glBindBuffer(GL_ARRAY_BUFFER, id_indices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * num_indices, ind, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Load uv to vram
+	if (uv != nullptr)
+	{
+		glGenBuffers(1, (GLuint*)&id_uvs);
+		glBindBuffer(GL_ARRAY_BUFFER, id_uvs);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_uv * 3, uv, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	bounding_box.SetNegativeInfinity();
+	bounding_box.Enclose((float3*)ver, num_ver);
+}
 
 void Component_Mesh::Update()
 {
