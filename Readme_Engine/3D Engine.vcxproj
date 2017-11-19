@@ -155,11 +155,8 @@
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
     <ClInclude Include="MeshImporter.h" />
-    <ClInclude Include="mmgr\mmgr.h" />
-    <ClInclude Include="mmgr\nommgr.h" />
     <ClInclude Include="ModuleCamera3D.h" />
     <ClInclude Include="ModuleFileSystem.h" />
-    <ClInclude Include="ModuleGeometry.h" />
     <ClInclude Include="ModuleImgui.h" />
     <ClInclude Include="ModuleJSON.h" />
     <ClInclude Include="ModulePhysics3D.h" />
@@ -232,11 +229,9 @@
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
-    <ClCompile Include="mmgr\mmgr.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleCamera3D.cpp" />
     <ClCompile Include="ModuleFileSystem.cpp" />
-    <ClCompile Include="ModuleGeometry.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleImgui.cpp" />
     <ClCompile Include="ModuleJSON.cpp" />

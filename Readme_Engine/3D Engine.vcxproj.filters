@@ -25,9 +25,6 @@
     <Filter Include="Sources\External Libraries">
       <UniqueIdentifier>{9c2509dd-a5e7-4fc5-897c-45c5c4357f57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\External Libraries\mmgr">
-      <UniqueIdentifier>{df1da5f3-eb91-46bf-b027-e0cb26fbcbd1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\External Libraries\Imgui">
       <UniqueIdentifier>{fcce35ec-cd84-4136-8f8b-9bcdde75fc23}</UniqueIdentifier>
     </Filter>
@@ -168,17 +165,8 @@
     <ClInclude Include="Glew\include\GL\wglew.h">
       <Filter>Sources\External Libraries\Glew</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleGeometry.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="PanelProperties.h">
       <Filter>Sources\Panels</Filter>
-    </ClInclude>
-    <ClInclude Include="mmgr\mmgr.h">
-      <Filter>Sources\External Libraries\mmgr</Filter>
-    </ClInclude>
-    <ClInclude Include="mmgr\nommgr.h">
-      <Filter>Sources\External Libraries\mmgr</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Sources\Game Objects &amp; Components</Filter>
@@ -464,14 +452,8 @@
     <ClCompile Include="PanelAbout.cpp">
       <Filter>Sources\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleGeometry.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="PanelProperties.cpp">
       <Filter>Sources\Panels</Filter>
-    </ClCompile>
-    <ClCompile Include="mmgr\mmgr.cpp">
-      <Filter>Sources\External Libraries\mmgr</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Sources\Game Objects &amp; Components</Filter>

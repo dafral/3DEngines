@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "PanelProperties.h"
-#include "ModuleGeometry.h"
 #include "ModuleImgui.h"
 #include "PanelHierarchy.h"
 #include "GameObject.h"

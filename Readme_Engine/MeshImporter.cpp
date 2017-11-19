@@ -2,7 +2,6 @@
 #include "MeshImporter.h"
 #include "ModuleScene.h"
 #include "GameObject.h"
-#include "ModuleGeometry.h"
 #include "MaterialImporter.h"
 #include "ModuleImgui.h"
 #include "PanelProperties.h"

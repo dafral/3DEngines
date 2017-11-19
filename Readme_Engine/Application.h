@@ -15,7 +15,6 @@
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 #include "ModuleImgui.h"
-#include "ModuleGeometry.h"
 #include "ModuleJSON.h"
 #include "ModuleFileSystem.h"
 #include "ModuleOctree.h"

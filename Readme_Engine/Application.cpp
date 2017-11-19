@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "PanelConfig.h"
-#include "mmgr/mmgr.h"
 
 Application::Application()
 {
@@ -149,7 +148,6 @@ void Application::FinishUpdate()
 	// Add fps and ms to the vector
 	App->imgui->config->AddMs(EditorClock.ms_timer.Read());
 	App->imgui->config->AddFps(EditorClock.last_frame_fps);
-	App->imgui->config->AddMemory(m_getMemoryStatistics().totalActualMemory);
 }
 
 bool Application::CleanUp()

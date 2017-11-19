@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "MaterialImporter.h"
-#include "ModuleGeometry.h"
 #include "ModuleScene.h"
 #include "PanelProperties.h"
 #include "Component.h"

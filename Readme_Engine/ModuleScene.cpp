@@ -31,6 +31,8 @@ update_status ModuleScene::Update(float dt)
 	if (ImGui::Button("Play", ImVec2(0, 0)) && App->EngineState == STOP)
 	{
 		App->SetState(State::PLAY);		
+		App->scene->OnSave(App->scene->scene_file);
+		App->scene->scene_file->Save();
 	}
 
 	ImGui::SameLine();
@@ -38,6 +40,7 @@ update_status ModuleScene::Update(float dt)
 	if (ImGui::Button("Stop", ImVec2(0, 0)) && App->EngineState == PLAY)
 	{
 		App->SetState(State::STOP);
+		App->scene->OnLoad(App->scene->scene_file);
 	}
 
 	ImGui::Text("Real time: %f", App->RealClock.ms_timer.Read() / 1000.0f);

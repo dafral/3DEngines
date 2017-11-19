@@ -23,7 +23,6 @@ public:
 
 	void AddFps(float fps);
 	void AddMs(float ms);
-	void AddMemory(uint mem);
 	int GetFPSCap();
 
 private:

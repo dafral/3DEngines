@@ -61,14 +61,6 @@ void PanelConfig::AddFps(float fps)
 	fps_buffer.push_back(fps);
 }
 
-void PanelConfig::AddMemory(uint mem)
-{
-	if (memory_buffer.size() > MEMORY_LOG_NUM)
-		memory_buffer.erase(memory_buffer.begin());
-
-	memory_buffer.push_back(mem);
-}
-
 void PanelConfig::AddMs(float ms)
 {
 	if (ms_buffer.size() > MS_LOG_NUM)
@@ -103,10 +95,6 @@ void PanelConfig::DrawApplication()
 	// dt
 	sprintf_s(title, 25, "Miliseconds %.1f", ms_buffer[ms_buffer.size() - 1]);
 	ImGui::PlotHistogram("##Dt", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, 100.0f, ImVec2(300, 120));
-
-	// memory
-	sprintf_s(title, 25, "Memory %.1f", memory_buffer[memory_buffer.size() - 1]);
-	ImGui::PlotHistogram("##Memory", &memory_buffer[0], memory_buffer.size(), 0, title, 0.0f, 100.0f, ImVec2(300, 120));
 }
 
 void PanelConfig::DrawWindow()
