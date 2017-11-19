@@ -55,11 +55,14 @@ update_status ModuleImgui::Update(float dt)
 		if (ImGui::BeginMenu("Save/Load"))
 		{
 			if (ImGui::MenuItem("Save Scene"))
-				console->SwitchActive();
+				App->filesystem->SaveScene(*App->json->config);
 
 			if (ImGui::MenuItem("Load Scene"))
-				config->SwitchActive();
+				App->filesystem->LoadScene(App->json->config);
+
+			ImGui::EndMenu();
 		}
+
 		if (ImGui::BeginMenu("View"))
 		{
 			if (ImGui::MenuItem("Console window"))

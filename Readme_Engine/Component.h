@@ -49,6 +49,9 @@ public:
 	void Update();
 	void AdaptBoundingBox(GameObject* go, Component_Transform* trans);
 
+	void OnSave(JSON_Doc& config);
+	void OnLoad(JSON_Doc * config);
+
 public:
 	uint id_vertices = 0;
 	uint num_indices = 0;
@@ -71,6 +74,9 @@ class Component_Material : public Component
 public:
 	Component_Material() : Component(COMPONENT_MATERIAL) {};
 	~Component_Material() {};
+
+	void OnSave(JSON_Doc& config);
+	void OnLoad(JSON_Doc * config);
 
 public:
 	uint id_texture = 0;
@@ -105,6 +111,9 @@ public:
 		transform = transform.FromTRS(position, rotation, scale);
 		return transform;
 	};
+
+	void OnSave(JSON_Doc& config);
+	void OnLoad(JSON_Doc * config);
 
 private:
 	float3 position;

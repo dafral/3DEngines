@@ -132,3 +132,37 @@ void Component_Mesh::AdaptBoundingBox(GameObject* go, Component_Transform* trans
 	bounding_box.Enclose((float3*)vertices, num_vertices);
 	bounding_box.TransformAsAABB(go->GetGlobalTransform(trans).Transposed());
 }
+
+void Component_Mesh::OnSave(JSON_Doc& config)
+{
+
+}
+
+void Component_Mesh::OnLoad(JSON_Doc * config)
+{
+
+}
+
+//COMPONENT TRANSFORM===================================
+
+void Component_Transform::OnSave(JSON_Doc& config)
+{
+
+}
+
+void Component_Transform::OnLoad(JSON_Doc * config)
+{
+
+}
+
+//COMPONENT MATERIAL====================================
+
+void Component_Material::OnSave(JSON_Doc& config)
+{
+
+}
+
+void Component_Material::OnLoad(JSON_Doc * config)
+{
+
+}
