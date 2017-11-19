@@ -148,21 +148,39 @@ void Component_Mesh::OnLoad(JSON_Doc * config)
 void Component_Transform::OnSave(JSON_Doc& config)
 {
 
+	config.SetNumber("pos_x", GetPosition().x);
+	config.SetNumber("pos_y", GetPosition().y);
+	config.SetNumber("pos_z", GetPosition().z);
+
+	/*config.SetNumber("pos_x", GetPosition().x);
+	config.SetNumber("pos_x", GetPosition().x);
+	config.SetNumber("pos_x", GetPosition().x);*/
+
+	config.SetNumber("scale_x", GetScale().x);
+	config.SetNumber("scale_y", GetScale().y);
+	config.SetNumber("scale_z", GetScale().z);
 }
 
 void Component_Transform::OnLoad(JSON_Doc * config)
 {
-
+	SetPosition(float3(config->GetNumber("pos_x"), config->GetNumber("pos_y"), config->GetNumber("pos_z")));
+	SetScale(float3(config->GetNumber("scale_x"), config->GetNumber("scale_y"), config->GetNumber("scale_z")));
 }
 
 //COMPONENT MATERIAL====================================
 
 void Component_Material::OnSave(JSON_Doc& config)
 {
-
+	config.SetNumber("Texture ID", id_texture);
+	config.SetNumber("Height", height);
+	config.SetNumber("Width", width);
+	config.SetString("Path", path.c_str());
 }
 
 void Component_Material::OnLoad(JSON_Doc * config)
 {
-
+	id_texture = config->GetNumber("Texture ID");
+	height = config->GetNumber("Height");
+	width = config->GetNumber("Width");
+	path = config->GetNumber("Path");
 }
