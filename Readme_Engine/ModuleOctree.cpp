@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Color.h"
 
+#include <array>
+
 void ModuleOctree::AddStatic(GameObject* static_go)
 {
 	all_static_go.push_back(static_go);
@@ -23,7 +25,7 @@ update_status ModuleOctree::Update(float dt)
 {
 	if (root_node != nullptr)
 	{
-		root_node->FrustumIntersections(App->scene->GetActiveCam());
+		root_node->FrustumIntersections(App->scene->GetActiveCam()); // GO to draw
 		root_node->Draw();
 	}
 
@@ -169,7 +171,7 @@ void Octree_Node::FrustumIntersections(Component_Camera* curr_camera)
 {
 	if (curr_camera->AABBInside(box))
 	{
-		// Add objects in node to draw
+		// Add game objects to draw
 		for (int i = 0; i < objects_in_node.size(); i++)
 		{
 			Component_Mesh* mesh = (Component_Mesh*)objects_in_node[i]->FindComponent(COMPONENT_MESH);
@@ -187,4 +189,36 @@ void Octree_Node::FrustumIntersections(Component_Camera* curr_camera)
 	}
 }
 
-//
+// ------------------------------------------------------------------
+
+void ModuleOctree::RayIntersections(LineSegment ray, vector<GameObject*> go_collided)
+{
+	if (root_node != nullptr)
+		root_node->CollectIntersections(ray, go_collided);
+
+	// Erase duplicates
+	std::sort(go_collided.begin(), go_collided.end());
+	go_collided.erase(std::unique(go_collided.begin(), go_collided.end()), go_collided.end());
+}
+
+void Octree_Node::CollectIntersections(LineSegment ray, vector<GameObject*> go_collided)
+{
+	if (ray.Intersects(box))
+	{
+		// Add objects in node to draw
+		for (int i = 0; i < objects_in_node.size(); i++)
+		{
+			Component_Mesh* mesh = (Component_Mesh*)objects_in_node[i]->FindComponent(COMPONENT_MESH);
+
+			if (mesh != nullptr && ray.Intersects(mesh->bounding_box))
+				go_collided.push_back(objects_in_node[i]);
+		}
+
+		// Recursion
+		if (divided)
+		{
+			for (int i = 0; i < SUBDIVISIONS; i++)
+				childs[i]->CollectIntersections(ray, go_collided);
+		}
+	}
+}

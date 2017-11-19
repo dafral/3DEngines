@@ -4,7 +4,8 @@
 #include "GameObject.h"
 #include "ModuleGeometry.h"
 #include "MaterialImporter.h"
-#include "ModuleImGui.h"
+#include "ModuleImgui.h"
+#include "PanelProperties.h"
 #include <direct.h>
 
 #include "Assimp/include/cimport.h"
@@ -13,8 +14,6 @@
 #include "Assimp/include/cfileio.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
-
-
 
 MeshImporter::MeshImporter(Application * app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -118,6 +117,32 @@ void MeshImporter::LoadFile(const char * path)
 	RELEASE_ARRAY(data);
 }
 
+void MeshImporter::LoadScene(char* full_path)
+{
+	// Creating the parent (empty game object) 
+	App->imgui->properties->SetGeometryName(full_path);
+	const char* name = App->imgui->properties->GetGeometryName();
+	GameObject* empty_go = App->scene->CreateGameObject(name, App->scene->root);
+
+	// Loading scene
+	const aiScene* scene = aiImportFile(full_path, aiProcessPreset_TargetRealtime_MaxQuality);
+	aiNode* node = scene->mRootNode;
+
+	if (scene != nullptr && scene->HasMeshes())
+	{
+		LoadMesh(empty_go, scene, node);
+
+		CONSOLELOG("FBX file loaded!")
+	}
+	else
+	{
+		CONSOLELOG("Error loading scene %s", full_path);
+	}
+
+	// Releasing scene
+	aiReleaseImport(scene);
+}
+
 void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNode* node)
 {
 	if (node->mNumMeshes <= 0)
@@ -208,11 +233,12 @@ void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNo
 			new_component->bounding_box.Enclose((float3*)new_mesh->mVertices, new_mesh->mNumVertices);
 			new_component->bounding_box.TransformAsAABB(trans->GetTransform());
 
+			// Import mesh
+			App->mesh_imp->Import(new_component);
+
 			// Recursion
 			for (int i = 0; i < node->mNumChildren; i++)
 				LoadMesh(go, scene, node->mChildren[i]);
-
-			App->mesh_imp->Import(new_component);
 		}
 	}
 }

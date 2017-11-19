@@ -137,7 +137,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				if (extension == "fbx" || extension == "FBX")
 				{
 					CONSOLELOG("Loading dropped FBX file...")
-					App->geometry->LoadScene(dropped_filedir);
+					App->mesh_imp->LoadScene(dropped_filedir);
 				}
 				else if ((extension == "png" || extension == "PNG"))
 				{

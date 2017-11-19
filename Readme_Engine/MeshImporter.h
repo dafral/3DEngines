@@ -26,17 +26,13 @@ public:
 
 	void Import(Component_Mesh* mesh);
 	void LoadFile(const char* path);
-
+	void LoadScene(char* full_path);
 	void LoadMesh(GameObject* parent, const aiScene* scene, const aiNode* node);
-
 
 private:
 	list<Component_Mesh*> meshes;
 	int id = 0;
 	uint save_id = 0;
-	
-	Component_Mesh* cube = nullptr;
-
 };
 
 #endif // !__MESH_IMPORTER_H__

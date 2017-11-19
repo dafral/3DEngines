@@ -46,7 +46,6 @@ public:
 	ModuleCamera3D* camera;
 	ModulePhysics3D* physics;
 	ModuleImgui* imgui;
-	ModuleGeometry* geometry;
 	ModuleJSON* json;
 	ModuleFileSystem* filesystem;
 	ModuleOctree* octree;

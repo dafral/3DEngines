@@ -17,7 +17,6 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	physics = new ModulePhysics3D(this);
 	imgui = new ModuleImgui(this);
-	geometry = new ModuleGeometry(this);
 	octree = new ModuleOctree(this);
 	json = new ModuleJSON(this);
 	filesystem = new ModuleFileSystem(this);
@@ -36,7 +35,6 @@ Application::Application()
 	AddModule(physics);
 
 	AddModule(scene);
-	AddModule(geometry);
 	AddModule(octree);
 
 	AddModule(json);
