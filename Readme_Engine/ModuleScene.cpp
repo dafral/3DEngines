@@ -30,7 +30,7 @@ update_status ModuleScene::Update(float dt)
 	// Provisional button for octree
 	if (ImGui::Button("Play", ImVec2(0, 0)) && App->EngineState == STOP)
 	{
-		App->SetState(State::PLAY);
+		App->SetState(State::PLAY);		
 	}
 
 	ImGui::SameLine();
@@ -39,6 +39,9 @@ update_status ModuleScene::Update(float dt)
 	{
 		App->SetState(State::STOP);
 	}
+
+	ImGui::Text("Real time: %f", App->RealClock.ms_timer.Read() / 1000.0f);
+	ImGui::Text("Play time: %f", App->PlayClock.ms_timer.Read() / 1000.0f);
 
 	return UPDATE_CONTINUE;
 }

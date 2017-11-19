@@ -23,6 +23,13 @@ void PanelConfig::Draw()
 	ImGui::SetNextWindowPos(ImVec2(x, y));
 	ImGui::SetNextWindowSize(ImVec2(w, h));
 
+	// Check if we have to adapt panels position
+	if (adapt_panels = true && !ImGui::IsAnyItemActive())
+	{
+		adapt_panels = false;
+		App->imgui->AdjustAllPanels();
+	}
+
 	ImGui::Begin("Configuration", &active);
 
 	if (ImGui::CollapsingHeader("Application"))
@@ -104,13 +111,6 @@ void PanelConfig::DrawApplication()
 
 void PanelConfig::DrawWindow()
 {
-	// Check if we have to adapt panels position
-	if (adapt_panels = true && !ImGui::IsAnyItemActive())
-	{
-		adapt_panels = false;
-		App->imgui->AdjustAllPanels();
-	}
-
 	//SLIDERS
 	brightness = App->window->GetBrightness();
 	if (ImGui::SliderFloat("Brightness", &brightness, 0, 1))

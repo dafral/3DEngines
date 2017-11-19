@@ -63,7 +63,6 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
-	PlayClock.fps_timer.Start();
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
@@ -84,16 +83,17 @@ bool Application::Init()
 		item = item->next;
 	}
 	
-	PlayClock.ms_timer.Start();
+	EditorClock.fps_timer.Start();
+	EditorClock.ms_timer.Start();
+	RealClock.ms_timer.Start();
 	return ret;
 }
 
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	PlayClock.dt = (float)PlayClock.ms_timer.Read() / 1000.0f;
-
-	PlayClock.ms_timer.Start();
+	EditorClock.dt = (float)EditorClock.ms_timer.Read() / 1000.0f;
+	EditorClock.ms_timer.Start();
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -106,7 +106,7 @@ update_status Application::Update()
 	
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled()) ret = item->data->PreUpdate(PlayClock.dt);
+		if (item->data->IsEnabled()) ret = item->data->PreUpdate(EditorClock.dt);
 		item = item->next;
 	}
 
@@ -114,7 +114,7 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled()) ret = item->data->Update(PlayClock.dt);
+		if (item->data->IsEnabled()) ret = item->data->Update(EditorClock.dt);
 		item = item->next;
 	}
 
@@ -122,7 +122,7 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled()) ret = item->data->PostUpdate(PlayClock.dt);
+		if (item->data->IsEnabled()) ret = item->data->PostUpdate(EditorClock.dt);
 		item = item->next;
 	}
 
@@ -133,22 +133,22 @@ update_status Application::Update()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
-	PlayClock.fps_counter++;
+	EditorClock.fps_counter++;
 
-	if (PlayClock.fps_timer.Read() >= 1000) // 1 sec
+	if (EditorClock.fps_timer.Read() >= 1000) // 1 sec
 	{
-		PlayClock.last_frame_fps = PlayClock.fps_counter;
-		PlayClock.fps_counter = 0;
-		PlayClock.fps_timer.Start();
+		EditorClock.last_frame_fps = EditorClock.fps_counter;
+		EditorClock.fps_counter = 0;
+		EditorClock.fps_timer.Start();
 	}
 
 	// FPS cap
-	int frame_ms = (1000 / App->imgui->config->GetFPSCap()) - PlayClock.ms_timer.Read();
+	int frame_ms = (1000 / App->imgui->config->GetFPSCap()) - EditorClock.ms_timer.Read();
 	if (frame_ms > 0) SDL_Delay(frame_ms);
 
 	// Add fps and ms to the vector
-	App->imgui->config->AddMs(PlayClock.ms_timer.Read());
-	App->imgui->config->AddFps(PlayClock.last_frame_fps);
+	App->imgui->config->AddMs(EditorClock.ms_timer.Read());
+	App->imgui->config->AddFps(EditorClock.last_frame_fps);
 	App->imgui->config->AddMemory(m_getMemoryStatistics().totalActualMemory);
 }
 
@@ -177,20 +177,18 @@ void Application::SetState(State state)
 		if (EngineState == State::PLAY)
 		{
 			EngineState = State::STOP;
-			PlayClock.ms_timer.Reset();
-			PlayClock.fps_timer.Reset();
-			//ChangeCamera("Scene");
-			//WantToLoad();
+			PlayClock.ms_timer.Stop();
 		}
 		else
 		{
 			EngineState = State::PLAY;
-			//ChangeCamera("Game");
-			//WantToSave();
+			PlayClock.ms_timer.Start();
 		}
 	}
 	else
 	{
+		PlayClock.ms_timer.Reset();
+		PlayClock.ms_timer.Stop();
 		EngineState = state;
 	}
 

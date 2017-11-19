@@ -31,7 +31,7 @@ struct EngineClock
 {
 	Timer	ms_timer;
 	Timer   fps_timer;
-	float	dt;
+	float	dt = 0.0f;
 	float   fps_counter;
 	int     last_frame_fps;
 };
@@ -75,6 +75,7 @@ public:
 	State EngineState = STOP;
 	EngineClock PlayClock;
 	EngineClock EditorClock;
+	EngineClock RealClock;
 
 private:
 
