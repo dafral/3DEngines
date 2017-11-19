@@ -191,7 +191,7 @@ void Octree_Node::FrustumIntersections(Component_Camera* curr_camera)
 
 // ------------------------------------------------------------------
 
-void ModuleOctree::RayIntersections(LineSegment ray, vector<GameObject*> go_collided)
+void ModuleOctree::RayIntersections(LineSegment ray, vector<GameObject*> &go_collided)
 {
 	if (root_node != nullptr)
 		root_node->CollectIntersections(ray, go_collided);
@@ -201,7 +201,7 @@ void ModuleOctree::RayIntersections(LineSegment ray, vector<GameObject*> go_coll
 	go_collided.erase(std::unique(go_collided.begin(), go_collided.end()), go_collided.end());
 }
 
-void Octree_Node::CollectIntersections(LineSegment ray, vector<GameObject*> go_collided)
+void Octree_Node::CollectIntersections(LineSegment ray, vector<GameObject*> &go_collided)
 {
 	if (ray.Intersects(box))
 	{
