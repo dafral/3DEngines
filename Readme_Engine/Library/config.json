@@ -1,1 +1,119 @@
-{}
+{
+    "Gameobjects": {
+        "Root": {
+            "UID": 0,
+            "Name": "Root",
+            "Visible": true,
+            "Static": false,
+            "Parent": 0,
+            "Pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "Rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 0
+            },
+            "Scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        "Main camera": {
+            "UID": 0,
+            "Name": "Main camera",
+            "Visible": true,
+            "Static": false,
+            "Parent": 0,
+            "Pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "Rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 0
+            },
+            "Scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        "BakerHouse": {
+            "UID": 0,
+            "Name": "BakerHouse",
+            "Visible": true,
+            "Static": false,
+            "Parent": 0,
+            "Pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "Rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 0
+            },
+            "Scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        "Chimney": {
+            "UID": 0,
+            "Name": "Chimney",
+            "Visible": true,
+            "Static": false,
+            "Parent": 0,
+            "Pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "Rot": {
+                "x": -0.7071068286895752,
+                "y": 0,
+                "z": 0,
+                "w": 0.70710670948028564
+            },
+            "Scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+            }
+        },
+        "Baker_house": {
+            "UID": 0,
+            "Name": "Baker_house",
+            "Visible": true,
+            "Static": false,
+            "Parent": 0,
+            "Pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "Rot": {
+                "x": -0.7071068286895752,
+                "y": 0,
+                "z": 0,
+                "w": 0.70710670948028564
+            },
+            "Scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+            }
+        }
+    }
+}
