@@ -62,7 +62,7 @@ void PanelProperties::Draw()
 					if (!go->is_static) trans->SetRotation(DegToRad(euler_rotation));
 					
 				if (ImGui::DragFloat3("Scale", (float*)&scale, 1.0f))
-					if (!go->is_static )trans->SetScale(scale);
+					if (!go->is_static) trans->SetScale(scale);
 
 				if (cam != nullptr) 
 				{

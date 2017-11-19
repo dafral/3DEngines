@@ -51,7 +51,7 @@ update_status ModuleCamera3D::Update(float dt)
 			RotateCamera(dt);
 		}
 
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		if (ImGui::IsMouseDoubleClicked(1))
 		{
 			App->picker->RayCast();
 		}

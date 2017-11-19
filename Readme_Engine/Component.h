@@ -75,7 +75,7 @@ public:
 	~Component_Material() {};
 
 	void OnSave(JSON_Doc& config);
-	void OnLoad(JSON_Doc * config);
+	void OnLoad(JSON_Doc* config);
 
 public:
 	uint id_texture = 0;

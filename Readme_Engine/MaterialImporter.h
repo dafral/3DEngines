@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include "Module.h"
+#include <string>
 
 class Component_Material;
 
@@ -16,15 +17,12 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	Component_Material* Import(const char* path);
+	void Import(const char* full_path, GameObject* go);
+	Component_Material* IsMaterialLoaded(string path);
 	void SaveAsDDS();
-
-	void LoadMaterial(const char* full_path, GameObject* go);
-
-	void RemoveMaterial(Component_Material* mat);
 	
 private:
-	list<Component_Material*> materials;
+	vector<Component_Material*> paths_loaded;
 	uint save_id = 0;
 
 };
