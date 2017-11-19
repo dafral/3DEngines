@@ -180,13 +180,13 @@ void Application::SetState(State state)
 			PlayClock.ms_timer.Reset();
 			PlayClock.fps_timer.Reset();
 			//ChangeCamera("Scene");
-			//WantToLoad();
+
 		}
 		else
 		{
 			EngineState = State::PLAY;
 			//ChangeCamera("Game");
-			//WantToSave();
+
 		}
 	}
 	else

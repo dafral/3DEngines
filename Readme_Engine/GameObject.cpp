@@ -10,7 +10,7 @@
 GameObject::GameObject(std::string name, GameObject* parent) : name(name), parent(parent)
 {
 	LCG random;
-	unique_id = random.Int(0, 2147483647);
+	unique_id = random.Int(0, 1000000);
 }
 
 GameObject::~GameObject()

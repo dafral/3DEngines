@@ -1,7 +1,7 @@
 {
     "Gameobjects": {
         "Root": {
-            "UID": 0,
+            "UID": 20834,
             "Name": "Root",
             "Visible": true,
             "Static": false,
@@ -24,11 +24,11 @@
             }
         },
         "Main camera": {
-            "UID": 0,
+            "UID": 20834,
             "Name": "Main camera",
             "Visible": true,
             "Static": false,
-            "Parent": 0,
+            "Parent": 20834,
             "Pos": {
                 "x": 0,
                 "y": 0,
@@ -47,11 +47,11 @@
             }
         },
         "BakerHouse": {
-            "UID": 0,
+            "UID": 136581,
             "Name": "BakerHouse",
             "Visible": true,
             "Static": false,
-            "Parent": 0,
+            "Parent": 20834,
             "Pos": {
                 "x": 0,
                 "y": 0,
@@ -70,11 +70,11 @@
             }
         },
         "Chimney": {
-            "UID": 0,
+            "UID": 169779,
             "Name": "Chimney",
             "Visible": true,
             "Static": false,
-            "Parent": 0,
+            "Parent": 136581,
             "Pos": {
                 "x": 0,
                 "y": 0,
@@ -93,11 +93,11 @@
             }
         },
         "Baker_house": {
-            "UID": 0,
+            "UID": 285971,
             "Name": "Baker_house",
             "Visible": true,
             "Static": false,
-            "Parent": 0,
+            "Parent": 136581,
             "Pos": {
                 "x": 0,
                 "y": 0,
