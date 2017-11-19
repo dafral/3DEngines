@@ -32,7 +32,7 @@ public:
 	void SetTextureDimensions(int w, int h);
 	const float4x4 GetGlobalTransform(Component_Transform* trans);
 
-	void OnSave(JSON_Doc& config);
+	void OnSave(JSON_Doc * config);
 	void OnLoad(JSON_Doc * config);
 
 public:
@@ -40,6 +40,7 @@ public:
 	GameObject* parent;
 	bool is_static = false;
 	bool is_visible = true;
+	uint unique_id;
 
 private:
 	std::vector<Component*> components;

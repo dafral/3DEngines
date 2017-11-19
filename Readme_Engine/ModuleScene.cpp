@@ -19,9 +19,15 @@ bool ModuleScene::Start()
 
 	App->json->CreateJSON("Library/config.json");
 
-	//root->OnSave(*App->json->config);
-
 	return ret;
+}
+
+void ModuleScene::SaveScene(JSON_Doc* file)
+{
+	file->SetArray("GameObjects");
+	file->SetArray("Components");
+
+	App->scene->OnSave(file);
 }
 
 update_status ModuleScene::Update(float dt)
@@ -67,6 +73,14 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	aux->AddComponent(new_component);
 
 	return aux;
+}
+
+void ModuleScene::OnSave(JSON_Doc * config)
+{
+	//Travel go
+	if (root != nullptr) {
+		root->OnSave(config);
+	}
 }
 
 
