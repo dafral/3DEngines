@@ -66,7 +66,7 @@ JSON_Doc * ModuleJSON::LoadJSON(const char * path)
 			jsons.push_back(new_doc);
 
 			ret = new_doc;
-			ret->Save();
+			//ret->Save();
 		}
 	}
 

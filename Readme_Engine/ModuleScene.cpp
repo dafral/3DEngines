@@ -17,15 +17,16 @@ bool ModuleScene::Start()
 	CONSOLELOG("Loading Intro assets");
 	bool ret = true;
 
-	App->json->CreateJSON("Library/config.json");
+	scene_file = App->json->CreateJSON("Library/config.json");
+	scene_file->Save();
 
 	return ret;
 }
 
 void ModuleScene::SaveScene(JSON_Doc* file)
 {
-	file->SetArray("GameObjects");
-	file->SetArray("Components");
+	//file->SetArray("GameObjects");
+	//file->SetArray("Components");
 
 	App->scene->OnSave(file);
 }

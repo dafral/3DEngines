@@ -228,17 +228,31 @@ void GameObject::SetStatic(bool new_static)
 
 void GameObject::OnSave(JSON_Doc* config)
 {
-	config->SetEntry("GameObjects");
-	config->MoveToSectionFromArray("GameObjects", config->GetArraySize("GameObjects") - 1);
+	//config->SetEntry("GameObjects");
+	//config->MoveToSectionFromArray("GameObjects", config->GetArraySize("GameObjects") - 1);
+	
+	string aux = string("Gameobjects.") + name + string(".UID");
+	config->SetNumber(aux.c_str(), unique_id);
 
-	config->SetNumber("UID", unique_id);
-	config->SetString("name", name.c_str());
-	config->SetBool("is_visible", is_visible);
-	config->SetBool("is_static", is_static);
-	if (parent != nullptr)
-		config->SetNumber("parent", parent->unique_id);
-	else
-		config->SetNumber("parent", 0);
+	aux = string("Gameobjects.") + name + string(".Name");
+	config->SetString(aux.c_str(), name.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Visible");
+	config->SetBool(aux.c_str(), is_visible);
+
+	aux = string("Gameobjects.") + name + string(".Static");
+	config->SetBool(aux.c_str(), is_static);
+
+	if (parent != nullptr) {
+
+		aux = string("Gameobjects.") + name + string(".Parent");
+		config->SetNumber(aux.c_str(), parent->unique_id);
+	}
+	else {
+		aux = string("Gameobjects.") + name + string(".Parent");
+		config->SetNumber(aux.c_str(), 0);
+
+	}
 
 	//Travel components
 	/*for (int i = 0; i < components.size(); i++) {

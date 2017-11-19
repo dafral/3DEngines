@@ -55,7 +55,10 @@ update_status ModuleImgui::Update(float dt)
 		if (ImGui::BeginMenu("Save/Load"))
 		{
 			if (ImGui::MenuItem("Save Scene"))
+			{
 				App->scene->SaveScene(App->scene->scene_file);
+				App->scene->scene_file->Save();
+			}
 
 			/*if (ImGui::MenuItem("Load Scene"))
 				App->filesystem->LoadScene(App->json->config);*/
