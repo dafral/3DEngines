@@ -101,7 +101,7 @@ void PanelProperties::Draw()
 				if (ImGui::Checkbox("Active", &cam->active_camera))
 				{
 					cam->SwitchActive(cam->active_camera);
-					App->scene->SetActiveCam(cam);
+					App->camera->SetActiveCam(cam);
 				}	
 
 				if (ImGui::SliderFloat("FOV", &cam->fov, 30, 120))

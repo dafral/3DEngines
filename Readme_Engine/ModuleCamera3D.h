@@ -3,46 +3,37 @@
 #include "Globals.h"
 #include "glmath.h"
 
+class Component_Camera;
+
 class ModuleCamera3D : public Module
 {
 public:
-	ModuleCamera3D(Application* app, bool start_enabled = true);
+	ModuleCamera3D(Application * app, bool start_enabled = true);
 	~ModuleCamera3D();
 
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference = false);
-	void LookAt(const vec3 &Spot);
-	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
+	float* GetProjectionMatrix();
 
-	float GetSensitivity();
-	void SetSensitivity(float new_sensitivity);
-
-	//Camera movements
-	void MoveUp();
-	void MoveDown();
-	void MoveRight();
-	void MoveLeft();
-	void ZoomIn();
-	void ZoomOut();
-	void RotationMovement();
+	void LookAt(const float3 &spot);
+	Component_Camera* GetActiveCam();
+	void SetActiveCam(Component_Camera* cam);
+	const float GetSensitivity() const { return sensitivity; };
+	void SetSensitivity(float new_sensitivity) { sensitivity = new_sensitivity; };
+	void CameraZoom(int mouse_z, float dt);
 
 private:
-
-	void CalculateViewMatrix();
+	void RotateCamera(float dt);
+	void MoveCamera(float dt);
 
 public:
-	
-	vec3 X, Y, Z, Position, Reference;
+	Component_Camera* curr_camera;
+	Component_Camera* main_camera;
+
+	float3 orbitate_around = float3::zero;
 	bool orb_x_inverted, orb_y_inverted, wheel_inverted;
-
-private:
-
-	mat4x4 ViewMatrix, ViewMatrixInverse;
-	float x, sensitivity;
-	bool positive;
-	
+	float sensitivity;
 };

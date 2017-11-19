@@ -100,10 +100,7 @@ update_status ModuleInput::PreUpdate(float dt)
 		{
 			case SDL_MOUSEWHEEL:
 			mouse_z = e.wheel.y;
-			if (mouse_z == 1) 
-				App->camera->wheel_inverted ? App->camera->ZoomOut() : App->camera->ZoomIn(); 
-			else if(mouse_z == -1) 
-				App->camera->wheel_inverted ? App->camera->ZoomIn() : App->camera->ZoomOut();
+			App->camera->CameraZoom(mouse_z, dt);
 			break;
 
 			case SDL_MOUSEMOTION:

@@ -26,7 +26,7 @@ void ModulePicker::RayCast()
 
 	GameObject* selected;
 	vector<GameObject*> possible_collisions;
-	/*App->octree->RayIntersections(ray, possible_collisions);*/
+	//App->octree->RayIntersections(ray, possible_collisions);
 
 	for (uint i = 0; i < possible_collisions.size(); ++i)
 	{

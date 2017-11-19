@@ -132,6 +132,19 @@ public:
 	void SetFOV(float new_fov);
 	void SetAspectRatio(const float & set);
 	bool AABBInside(AABB &aabb);
+	Frustum GetFrustum() { return frustum; };
+
+	void MoveUp(const float movement);
+	void MoveDown(const float movement);
+	void MoveLeft(const float movement);
+	void MoveRight(const float movement);
+	void MoveForwards(const float movement);
+	void MoveBackwards(const float movement);
+	void Rotate(const float dx, const float dy);
+
+	float* GetViewMatrix() const;
+	float* GetProjectionMatrix() const;
+	const float3 GetPosition();
 
 public:
 	bool active_camera = false;

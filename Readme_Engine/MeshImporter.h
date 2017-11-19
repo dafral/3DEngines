@@ -12,9 +12,10 @@ class Component;
 class Component_Mesh;
 class Component_Material;
 class GameObject;
-class aiNode;
-class aiScene;
-class aiMesh;
+
+struct aiNode;
+struct aiScene;
+struct aiMesh;
 
 class MeshImporter : public Module
 {
@@ -28,9 +29,11 @@ public:
 	void LoadFile(const char* path);
 	void LoadScene(char* full_path);
 	void LoadMesh(GameObject* parent, const aiScene* scene, const aiNode* node);
-
+	bool IsMeshLoaded(const aiMesh* mesh);
 private:
 	list<Component_Mesh*> meshes;
+	vector<aiMesh*> loaded_meshes;
+
 	int id = 0;
 	uint save_id = 0;
 };

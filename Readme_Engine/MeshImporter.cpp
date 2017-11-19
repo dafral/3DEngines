@@ -26,7 +26,7 @@ bool MeshImporter::Start()
 	return true;
 }
 
-void MeshImporter::Import(Component_Mesh * mesh)
+void MeshImporter::Import(Component_Mesh* mesh)
 {
 	// Save Mesh to file
 	// file structure has: 
@@ -72,7 +72,7 @@ void MeshImporter::Import(Component_Mesh * mesh)
 	CONSOLELOG("Created %s.", file);
 }
 
-void MeshImporter::LoadFile(const char * path)
+void MeshImporter::LoadFile(const char* path)
 {
 	//Open file path and get size
 	FILE* file = fopen(path, "rb");
@@ -157,6 +157,8 @@ void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNo
 		{
 			aiMesh* new_mesh = scene->mMeshes[node->mMeshes[i]];
 
+			/*if (!IsMeshLoaded(new_mesh)) loaded_meshes.push_back(new_mesh);*/
+
 			// Creating a Game Object (child of parent) for each mesh.
 			GameObject* go = App->scene->CreateGameObject(node->mName.C_Str(), parent);
 
@@ -239,6 +241,16 @@ void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNo
 			// Recursion
 			for (int i = 0; i < node->mNumChildren; i++)
 				LoadMesh(go, scene, node->mChildren[i]);
-		}
+		}	
 	}
+}
+
+bool MeshImporter::IsMeshLoaded(const aiMesh* mesh)
+{
+	bool ret = false;
+
+	for (int i = 0; i < loaded_meshes.size(); i++)
+		if (loaded_meshes[i] == mesh) ret = true;
+
+	return ret;
 }

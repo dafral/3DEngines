@@ -25,7 +25,7 @@ update_status ModuleOctree::Update(float dt)
 {
 	if (root_node != nullptr)
 	{
-		root_node->FrustumIntersections(App->scene->GetActiveCam()); // GO to draw
+		root_node->FrustumIntersections(App->camera->GetActiveCam()); // GO to draw
 		root_node->Draw();
 	}
 

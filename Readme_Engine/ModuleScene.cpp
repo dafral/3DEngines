@@ -15,14 +15,7 @@ bool ModuleScene::Start()
 	CONSOLELOG("Loading Intro assets");
 	bool ret = true;
 
-	App->camera->Move(vec3(10.0f, 4.0f, -4.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
-
 	root = CreateGameObject("Root");
-
-	Component_Camera* main_camera = new Component_Camera;
-	root->AddComponent(main_camera);
-	SetActiveCam(main_camera);
 
 	return ret;
 }
@@ -70,31 +63,6 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	aux->AddComponent(new_component);
 
 	return aux;
-}
-
-// --------------------------------------------------------------
-
-Component_Camera* ModuleScene::GetActiveCam()
-{
-	return play_camera;
-}
-
-void ModuleScene::SetActiveCam(Component_Camera* cam)
-{
-	if (cam->active_camera == false)
-	{
-		Component_Camera* main_camera = (Component_Camera*)root->FindComponent(COMPONENT_CAMERA);
-		main_camera->SwitchActive(true);
-		play_camera = main_camera;
-	}
-	else
-	{
-		// Setting to active = false the older camera
-		if (play_camera != nullptr) play_camera->SwitchActive(false);
-
-		// New camera
-		play_camera = cam;
-	}
 }
 
 
