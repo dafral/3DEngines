@@ -19,6 +19,8 @@ bool ModuleScene::Start()
 
 	App->json->CreateJSON("Library/config.json");
 
+	//root->OnSave(*App->json->config);
+
 	return ret;
 }
 

@@ -233,11 +233,11 @@ void GameObject::OnSave(JSON_Doc& config)
 	if (trans)
 		trans->OnSave(*App->json->config);
 
-	if (mesh)
-		mesh->OnSave(*App->json->config);
+	/*if (mesh)
+		mesh->OnSave(*App->json->config);*/
 
-	if (material)
-		material->OnSave(*App->json->config);
+	/*if (material)
+		material->OnSave(*App->json->config);*/
 
 	if (cam)
 		cam->OnSave(*App->json->config);

@@ -19,6 +19,8 @@ public:
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent = nullptr);
 
+	json_file* scene_file;
+
 public:
 	GameObject* root = nullptr;
 };

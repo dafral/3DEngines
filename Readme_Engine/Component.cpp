@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "ModuleJSON.h"
 #include "ModuleInput.h"
 #include "Component.h"
 #include "GameObject.h"
@@ -177,12 +178,10 @@ const float3 Component_Camera::GetPosition()
 	return frustum.pos;
 }
 
-void Component_Camera::OnSave(JSON_Doc& config)
-{
-	config.SetBool("Active", active_camera);
-	config.SetNumber("FOV", fov);
-	config.SetNumber("Aspect Ratio", aspect_ratio);
-}
+//void Component_Camera::OnSave(json_file config)
+//{
+//	
+//}
 
 void Component_Camera::OnLoad(JSON_Doc * config)
 {
@@ -244,20 +243,16 @@ void Component_Mesh::OnLoad(JSON_Doc * config)
 
 //COMPONENT TRANSFORM===================================
 
-void Component_Transform::OnSave(JSON_Doc& config)
+void Component_Transform::OnSave(json_file * config)
 {
+	config->SetEntry("Components");
+	config->MoveToSectionFromArray("Components", config->GetArraySize("Components") - 1);
 
-	config.SetNumber("pos_x", GetPosition().x);
-	config.SetNumber("pos_y", GetPosition().y);
-	config.SetNumber("pos_z", GetPosition().z);
-
-	/*config.SetNumber("pos_x", GetPosition().x);
-	config.SetNumber("pos_x", GetPosition().x);
-	config.SetNumber("pos_x", GetPosition().x);*/
-
-	config.SetNumber("scale_x", GetScale().x);
-	config.SetNumber("scale_y", GetScale().y);
-	config.SetNumber("scale_z", GetScale().z);
+	config->SetInt("type", GetComponentType());
+	config->SetInt("owner", GetComponentParent()->unique_id);
+	config->SetFloat3("position", GetTransform());
+	config->SetFloat3("scale", GetScale());
+	config->SetQuaternion("rotation", GetRotation());
 }
 
 void Component_Transform::OnLoad(JSON_Doc * config)

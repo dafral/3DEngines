@@ -1,7 +1,6 @@
 #pragma once
 #include "Globals.h"
 #include "MathGeoLib/MathGeoLib.h"
-#include "ModuleJSON.h"
 #include <string>
 
 #include "Glew\include\GL\glew.h"
@@ -112,7 +111,7 @@ public:
 		return transform;
 	};
 
-	void OnSave(JSON_Doc& config);
+	void OnSave(json_file * config);
 	void OnLoad(JSON_Doc * config);
 
 private:
