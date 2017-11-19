@@ -178,6 +178,7 @@ void Application::SetState(State state)
 		{
 			EngineState = State::STOP;
 			PlayClock.ms_timer.Stop();
+			PlayClock.ms_timer.Reset();
 		}
 		else
 		{

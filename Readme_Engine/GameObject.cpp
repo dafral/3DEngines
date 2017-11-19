@@ -10,7 +10,7 @@
 GameObject::GameObject(std::string name, GameObject* parent) : name(name), parent(parent)
 {
 	LCG random;
-	unique_id = random.Int(0, 2147483647);
+	unique_id = random.Int(0, 1000000);
 }
 
 GameObject::~GameObject()
@@ -253,10 +253,42 @@ void GameObject::OnSave(JSON_Doc* config)
 
 	}
 
-	//Travel components
-	/*for (int i = 0; i < components.size(); i++) {
-		components[i]->OnSave(config);
-	}*/
+	//Component Transform
+	Component_Transform* trans = (Component_Transform*)FindComponent(COMPONENT_TRANSFORM);
+	
+	//Position
+	aux = string("Gameobjects.") + name + string(".Pos.x");
+	config->SetNumber(aux.c_str(), trans->GetPosition().x);
+
+	aux = string("Gameobjects.") + name + string(".Pos.y");
+	config->SetNumber(aux.c_str(), trans->GetPosition().y);
+
+	aux = string("Gameobjects.") + name + string(".Pos.z");
+	config->SetNumber(aux.c_str(), trans->GetPosition().z);
+
+	//Rotation
+	aux = string("Gameobjects.") + name + string(".Rot.x");
+	config->SetNumber(aux.c_str(), trans->GetRotation().x);
+	
+	aux = string("Gameobjects.") + name + string(".Rot.y");
+	config->SetNumber(aux.c_str(), trans->GetRotation().y);
+	
+	aux = string("Gameobjects.") + name + string(".Rot.z");
+	config->SetNumber(aux.c_str(), trans->GetRotation().z);
+	
+	aux = string("Gameobjects.") + name + string(".Rot.w");
+	config->SetNumber(aux.c_str(), trans->GetRotation().w);
+
+	//Scale
+	aux = string("Gameobjects.") + name + string(".Scale.x");
+	config->SetNumber(aux.c_str(), trans->GetScale().x);
+
+	aux = string("Gameobjects.") + name + string(".Scale.y");
+	config->SetNumber(aux.c_str(), trans->GetScale().y);
+
+	aux = string("Gameobjects.") + name + string(".Scale.z");
+	config->SetNumber(aux.c_str(), trans->GetScale().z);
+
 
 	//Travel Childs
 	for (int i = 0; i < childrens.size(); i++) {
@@ -289,6 +321,49 @@ void GameObject::OnLoad(JSON_Doc * config)
 		}
 
 	}
+
+	Component_Transform* trans = (Component_Transform*)FindComponent(COMPONENT_TRANSFORM);
+	int x, y, z;
+	Quat rot;
+
+	//Position
+	aux = string("Gameobjects.") + name + string(".Pos.x");
+	x = config->GetNumber(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Pos.y");
+	y = config->GetNumber(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Pos.z");
+	z = config->GetNumber(aux.c_str());
+
+	trans->SetPosition(float3(x, y, z));
+
+	//Rotation
+	aux = string("Gameobjects.") + name + string(".Rot.x");
+	rot.x = config->GetNumber(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Rot.y");
+	rot.y = config->GetNumber(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Rot.z");
+	rot.z = config->GetNumber(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Rot.w");
+	rot.w = config->GetNumber(aux.c_str());
+
+	trans->SetRotation(rot);
+
+	//Scale
+	aux = string("Gameobjects.") + name + string(".Scale.x");
+	x = config->GetNumber(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Scale.y");
+	y = config->GetNumber(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Scale.z");
+	z = config->GetNumber(aux.c_str());
+
+	trans->SetScale(float3(x, y, z));
 
 	for (int i = 0; i < childrens.size(); i++) {
 		childrens[i]->OnLoad(config);
