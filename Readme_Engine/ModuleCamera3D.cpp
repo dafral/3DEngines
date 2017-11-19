@@ -51,7 +51,7 @@ update_status ModuleCamera3D::Update(float dt)
 			RotateCamera(dt);
 		}
 
-		if (ImGui::IsMouseDoubleClicked(1))
+		if (ImGui::IsMouseDoubleClicked(0))
 		{
 			App->picker->RayCast();
 		}
@@ -107,10 +107,12 @@ void ModuleCamera3D::MoveCamera(float dt)
 
 void ModuleCamera3D::CameraZoom(int mouse_z, float dt)
 {
+	float speed = 40.0f;
+
 	if (mouse_z == 1)
-		wheel_inverted ? main_camera->MoveForwards(-sensitivity * dt) : main_camera->MoveForwards(sensitivity * dt);
+		wheel_inverted ? main_camera->MoveForwards(speed * -sensitivity * dt) : main_camera->MoveForwards(speed *sensitivity * dt);
 	else if (mouse_z == -1)
-		wheel_inverted ? main_camera->MoveForwards(sensitivity * dt) : main_camera->MoveForwards(-sensitivity * dt);
+		wheel_inverted ? main_camera->MoveForwards(speed *sensitivity * dt) : main_camera->MoveForwards(speed *-sensitivity * dt);
 }
 
 Component_Camera* ModuleCamera3D::GetActiveCam()
