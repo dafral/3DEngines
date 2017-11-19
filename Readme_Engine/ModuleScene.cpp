@@ -23,14 +23,6 @@ bool ModuleScene::Start()
 	return ret;
 }
 
-void ModuleScene::SaveScene(JSON_Doc* file)
-{
-	//file->SetArray("GameObjects");
-	//file->SetArray("Components");
-
-	App->scene->OnSave(file);
-}
-
 update_status ModuleScene::Update(float dt)
 {
 	root->Update();
@@ -82,6 +74,16 @@ void ModuleScene::OnSave(JSON_Doc * config)
 	if (root != nullptr) {
 		root->OnSave(config);
 	}
+}
+
+void ModuleScene::OnLoad(JSON_Doc * config)
+{
+
+	if (root != nullptr)
+	{
+		root->OnLoad(config);
+	}
+
 }
 
 

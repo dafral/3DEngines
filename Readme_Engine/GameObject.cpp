@@ -228,7 +228,6 @@ void GameObject::SetStatic(bool new_static)
 
 void GameObject::OnSave(JSON_Doc* config)
 {
-	//config->SetEntry("GameObjects");
 	//config->MoveToSectionFromArray("GameObjects", config->GetArraySize("GameObjects") - 1);
 	
 	string aux = string("Gameobjects.") + name + string(".UID");
@@ -269,4 +268,29 @@ void GameObject::OnSave(JSON_Doc* config)
 void GameObject::OnLoad(JSON_Doc * config)
 {
 
+	string aux = string("Gameobjects.") + name + string(".UID");
+	unique_id = config->GetNumber(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Visible");
+	is_visible = config->GetBool(aux.c_str());
+
+	aux = string("Gameobjects.") + name + string(".Static");
+	is_static = config->GetBool(aux.c_str());
+
+	if (parent != nullptr) {
+
+		aux = string("Gameobjects.") + name + string(".Parent");
+		parent->unique_id = config->GetNumber(aux.c_str());
+	}
+	else {
+		if (name.c_str() == "Root") {
+			aux = string("Gameobjects.") + name + string(".Parent");
+			parent->unique_id = 0;
+		}
+
+	}
+
+	for (int i = 0; i < childrens.size(); i++) {
+		childrens[i]->OnLoad(config);
+	}
 }

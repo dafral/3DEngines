@@ -1,18 +1,1 @@
-{
-    "Gameobjects": {
-        "Root": {
-            "UID": 0,
-            "Name": "Root",
-            "Visible": true,
-            "Static": false,
-            "Parent": 0
-        },
-        "Main camera": {
-            "UID": 0,
-            "Name": "Main camera",
-            "Visible": true,
-            "Static": false,
-            "Parent": 0
-        }
-    }
-}
+{}
