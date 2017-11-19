@@ -110,9 +110,8 @@ void MeshImporter::LoadFile(const char* path)
 	memcpy(tex_coords, cursor, size);
 	cursor += size;
 
-	//Create a mesh with this info
-	Component_Mesh* geo = new Component_Mesh(elements_num[1] / 3, vert, elements_num[0], ind, elements_num[2] / 3, tex_coords);
-	meshes.push_back(geo);
+	// Create game object with component mesh like this:
+	/*Component_Mesh* geo = new Component_Mesh(elements_num[1] / 3, vert, elements_num[0], ind, elements_num[2] / 3, tex_coords);*/
 
 	RELEASE_ARRAY(data);
 }
@@ -157,24 +156,16 @@ void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNo
 		{
 			aiMesh* new_mesh = scene->mMeshes[node->mMeshes[i]];
 
-			/*if (!IsMeshLoaded(new_mesh)) loaded_meshes.push_back(new_mesh);*/
-
 			// Creating a Game Object (child of parent) for each mesh.
 			GameObject* go = App->scene->CreateGameObject(node->mName.C_Str(), parent);
 
 			// Adding component mesh
 			Component_Mesh* new_component = new Component_Mesh;
-			go->AddComponent(new_component);
 
 			// Vertices
 			new_component->num_vertices = new_mesh->mNumVertices;
 			new_component->vertices = new float[new_component->num_vertices * 3];
 			memcpy(new_component->vertices, new_mesh->mVertices, sizeof(float) * new_component->num_vertices * 3);
-
-			// Load buffer for vertices
-			glGenBuffers(1, (GLuint*) &(new_component->id_vertices));
-			glBindBuffer(GL_ARRAY_BUFFER, new_component->id_vertices);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_component->num_vertices * 3, new_component->vertices, GL_STATIC_DRAW);
 
 			// Indices
 			if (new_mesh->HasFaces())
@@ -190,11 +181,6 @@ void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNo
 						memcpy(&new_component->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 					}
 				}
-
-				// Load buffer for indices
-				glGenBuffers(1, (GLuint*) &(new_component->id_indices));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_component->id_indices);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_component->num_indices, new_component->indices, GL_STATIC_DRAW);
 			}
 
 			// UVs
@@ -203,11 +189,6 @@ void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNo
 				new_component->num_uvs = new_mesh->mNumVertices;
 				new_component->texture_coords = new float[new_component->num_uvs * 3];
 				memcpy(new_component->texture_coords, new_mesh->mTextureCoords[0], sizeof(float) * new_component->num_uvs * 3);
-
-				// Load buffer for UVs
-				glGenBuffers(1, (GLuint*) &(new_component->id_uvs));
-				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_component->id_uvs);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_component->num_uvs * 3, new_component->texture_coords, GL_STATIC_DRAW);
 			}
 
 			// Changing transform
@@ -230,13 +211,28 @@ void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNo
 				trans->SetScale(scale);
 			}
 
-			// Bounding box
+			// Creating bounding box
 			new_component->bounding_box.SetNegativeInfinity();
 			new_component->bounding_box.Enclose((float3*)new_mesh->mVertices, new_mesh->mNumVertices);
 			new_component->bounding_box.TransformAsAABB(trans->GetTransform());
 
+			// Check if we already loaded this mesh in memory
+			Component_Mesh* aux = IsMeshLoaded(new_component);
+			if (aux == nullptr)
+			{
+				LoadBuffers(new_component, new_mesh);
+				loaded_meshes.push_back(new_component);
+			}
+			else
+			{
+				new_component->id_indices = aux->id_indices;
+				new_component->id_vertices = aux->id_vertices;
+				new_component->id_uvs = aux->id_uvs;
+			}
+
 			// Import mesh
 			App->mesh_imp->Import(new_component);
+			go->AddComponent(new_component);
 
 			// Recursion
 			for (int i = 0; i < node->mNumChildren; i++)
@@ -245,12 +241,62 @@ void MeshImporter::LoadMesh(GameObject* parent, const aiScene* scene, const aiNo
 	}
 }
 
-bool MeshImporter::IsMeshLoaded(const aiMesh* mesh)
+Component_Mesh* MeshImporter::IsMeshLoaded(const Component_Mesh* new_component)
 {
-	bool ret = false;
+	Component_Mesh* ret = nullptr;
 
 	for (int i = 0; i < loaded_meshes.size(); i++)
-		if (loaded_meshes[i] == mesh) ret = true;
+	{
+		bool loaded = true;
+
+		// vertices
+		if (loaded_meshes[i]->num_vertices == new_component->num_vertices)
+		{
+			for (unsigned int j = 0; j < loaded_meshes[i]->num_vertices * 3; j++)
+				if (loaded_meshes[i]->vertices[j] != new_component->vertices[j]) 
+					loaded = false;
+		}
+		else loaded = false;
+
+		// indices
+		if (loaded_meshes[i]->num_indices == new_component->num_indices)
+		{
+			for (unsigned int j = 0; j < loaded_meshes[i]->num_indices; j++)
+				if (loaded_meshes[i]->indices[j] != new_component->indices[j]) 
+					loaded = false;
+		}
+		else loaded = false;
+
+		if (loaded == true)
+		{
+			ret = loaded_meshes[i];
+			break;
+		}
+	}
 
 	return ret;
+}
+
+void MeshImporter::LoadBuffers(Component_Mesh* new_component, aiMesh* new_mesh)
+{
+	// Load buffer for vertices
+	glGenBuffers(1, (GLuint*) &(new_component->id_vertices));
+	glBindBuffer(GL_ARRAY_BUFFER, new_component->id_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_component->num_vertices * 3, new_component->vertices, GL_STATIC_DRAW);
+
+	// Load buffer for indices
+	if (new_mesh->HasFaces())
+	{
+		glGenBuffers(1, (GLuint*) &(new_component->id_indices));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_component->id_indices);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_component->num_indices, new_component->indices, GL_STATIC_DRAW);
+	}
+
+	// Load buffer for UVs
+	if (new_mesh->HasTextureCoords(0))
+	{
+		glGenBuffers(1, (GLuint*) &(new_component->id_uvs));
+		glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_component->id_uvs);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_component->num_uvs * 3, new_component->texture_coords, GL_STATIC_DRAW);
+	}
 }

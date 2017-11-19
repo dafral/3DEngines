@@ -37,24 +37,17 @@ bool MaterialImporter::Init()
 bool MaterialImporter::CleanUp()
 {
 	bool ret = true;
-	//delete the non erased materials
-	for (std::list<Component_Material*>::iterator m = materials.begin(); m != materials.end(); )
-	{
-		RELEASE(*m);
-		m = materials.erase(m);
-	}
 
 	return ret;
 }
 
-Component_Material* MaterialImporter::Import(const char* path)
+void MaterialImporter::Import(const char* full_path, GameObject* go)
 {
-	uint id = 0;
 	ILenum error;
-	Component_Material* m = nullptr;
+	Component_Material* aux = IsMaterialLoaded(full_path);
 
 	//Data will be handled by renderer. Devil is only used to load the image.
-	if (ilLoad(IL_TYPE_UNKNOWN, path))
+	if (aux == nullptr && ilLoad(IL_TYPE_UNKNOWN, full_path))
 	{
 		ILinfo info;
 		iluGetImageInfo(&info);
@@ -68,6 +61,7 @@ Component_Material* MaterialImporter::Import(const char* path)
 		int h = ilGetInteger(IL_IMAGE_HEIGHT);
 		uint buff_id = 0;
 
+		glEnable(GL_TEXTURE_2D);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glGenTextures(1, &buff_id);
 		glBindTexture(GL_TEXTURE_2D, buff_id);
@@ -77,26 +71,37 @@ Component_Material* MaterialImporter::Import(const char* path)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), w, h, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 
-		id = buff_id;
+		if (go->FindComponent(COMPONENT_MATERIAL) != nullptr) go->DeleteComponentType(COMPONENT_MATERIAL);
+		Component_Material* new_component = new Component_Material();
+		go->AddComponent(new_component);
 
-		m = new Component_Material();
-		materials.push_back(m);
-		m->id_texture = id;
-		m->width = w;
-		m->height = h;
-		m->path = path;
+		new_component->id_texture = buff_id;
+		new_component->width = w;
+		new_component->height = h;
+		new_component->path = full_path;
+
+		paths_loaded.push_back(new_component);
 
 		SaveAsDDS();
 
 		ilDeleteImage(ilGetInteger(IL_ACTIVE_IMAGE));
 	}
+	else if (aux != nullptr)
+	{
+		if (go->FindComponent(COMPONENT_MATERIAL) != nullptr) go->DeleteComponentType(COMPONENT_MATERIAL);
+		Component_Material* new_component = new Component_Material();
+		go->AddComponent(new_component);
+
+		new_component->id_texture = aux->id_texture;
+		new_component->width = aux->width;
+		new_component->height = aux->height;
+		new_component->path = aux->path;
+	}
 	else
 	{
 		error = ilGetError();
-		CONSOLELOG("Error loading image %s. Error %d.", path, error);
+		CONSOLELOG("Error loading image %s. Error %d.", full_path, error);
 	}
-
-	return m;
 }
 
 void MaterialImporter::SaveAsDDS()
@@ -120,75 +125,21 @@ void MaterialImporter::SaveAsDDS()
 			CONSOLELOG("New material texture saved: %s.", file);
 		}
 	}
-
 }
 
-void MaterialImporter::LoadMaterial(const char* full_path, GameObject* go)
+Component_Material* MaterialImporter::IsMaterialLoaded(string path)
 {
-	ILuint imageID;
-	ILenum error;
+	Component_Material* ret = nullptr;
 
-	ilGenImages(1, &imageID);
-	ilBindImage(imageID);
-
-	if (ilLoadImage(full_path))
+	for (int i = 0; i < paths_loaded.size(); i++)
 	{
-		ILinfo ImageInfo;
-		iluGetImageInfo(&ImageInfo);
-
-		if (go->FindComponent(COMPONENT_MATERIAL) != nullptr) go->DeleteComponentType(COMPONENT_MATERIAL);
-		Component_Material* new_component = new Component_Material();
-		go->AddComponent(new_component);
-
-		// Flip the image if it is upside-down
-		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
-			iluFlipImage();
-
-		if (!ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE))
-		{
-			error = ilGetError();
-			CONSOLELOG("Texture conversion failed: %d %s", error, iluErrorString(error));
-		}
-		else
-		{
-			// Enabling texture
-			glEnable(GL_TEXTURE_2D);
-
-			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glGenTextures(1, &new_component->id_texture);
-			glBindTexture(GL_TEXTURE_2D, new_component->id_texture);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-			// Texture specifications
-			go->SetTextureDimensions(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
-			glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), new_component->width, new_component->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
-
-			CONSOLELOG("Texture loaded!");
-		}
-	}
-	else {
-		error = ilGetError();
+		if (paths_loaded[i]->path == path)
+			ret = paths_loaded[i];
 	}
 
-	ilDeleteImages(1, &imageID);
+	return ret;
 }
 
-void MaterialImporter::RemoveMaterial(Component_Material * mat)
-{
-	for (std::list<Component_Material*>::iterator m = materials.begin(); m != materials.end(); ++m)
-	{
-		if (*m == mat)
-		{
-			RELEASE(*m);
-
-			materials.erase(m);
-			break;
-		}
-	}
-}
 
 
 

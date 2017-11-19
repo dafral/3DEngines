@@ -24,7 +24,7 @@ Component_Camera::Component_Camera() : Component(COMPONENT_CAMERA)
 	frustum.up = float3::unitY;
 	
 	SetAspectRatio(1.3f);
-	SetFOV(30.0f);
+	SetFOV(60.0f);
 };
 
 void Component_Camera::Update()

@@ -29,12 +29,12 @@ public:
 	void LoadFile(const char* path);
 	void LoadScene(char* full_path);
 	void LoadMesh(GameObject* parent, const aiScene* scene, const aiNode* node);
-	bool IsMeshLoaded(const aiMesh* mesh);
-private:
-	list<Component_Mesh*> meshes;
-	vector<aiMesh*> loaded_meshes;
+	Component_Mesh* IsMeshLoaded(const Component_Mesh* new_component);
+	void LoadBuffers(Component_Mesh* new_component, aiMesh* new_mesh);
 
-	int id = 0;
+private:
+	vector<Component_Mesh*> loaded_meshes;
+
 	uint save_id = 0;
 };
 

@@ -140,8 +140,8 @@ update_status ModuleInput::PreUpdate(float dt)
 				{
 					if (App->imgui->hierarchy->go_selected != nullptr)
 					{
-						App->material_imp->Import(str.c_str());
-						App->material_imp->LoadMaterial(dropped_filedir, App->imgui->hierarchy->go_selected);
+						App->material_imp->Import(str.c_str(), App->imgui->hierarchy->go_selected);
+						/*App->material_imp->LoadMaterial(dropped_filedir, App->imgui->hierarchy->go_selected);*/
 						App->imgui->properties->SetTextureName(dropped_filedir);
 						
 					}
