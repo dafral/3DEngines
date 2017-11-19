@@ -9,12 +9,17 @@ A 3D engine that allows you to see 3D models and try different textures on them.
 ## How to use it
 In order to load a fbx file, drag and drop it on the engine window. You can do the same with textures. Remember that the only files supported by the engines are FBX files for the 3D models and PNG for the textures.
 
+Remember that in order to apply a texture you must have the object selected in the editor.
+
 
 ### Camera Controls 
 - **Right click + "WASD":** fps-like movement
+- **Right click + "RF":** Up & down
+- **Shift:** Accelerate camera
 - **Mouse wheel:** zoom in and out
-- **Alt + Left click:** orbital camera
+- **Right click + Move Mouse:** orbital camera
 - **"f":** focus the camera around the geometry
+- **Double click:** Select game object in the space
 
 
 ## Libraries used
