@@ -66,7 +66,7 @@ JSON_Doc * ModuleJSON::LoadJSON(const char * path)
 			jsons.push_back(new_doc);
 
 			ret = new_doc;
-			ret->Save();
+			//ret->Save();
 		}
 	}
 
@@ -124,6 +124,9 @@ JSON_Doc::JSON_Doc(JSON_Value * value, JSON_Object * object, const char * path)
 	this->path = path;
 }
 
+JSON_Doc::JSON_Doc(JSON_Object * Entry) :object(Entry)
+{}
+
 JSON_Doc::~JSON_Doc()
 {
 }
@@ -141,6 +144,13 @@ void JSON_Doc::SetBool(const char * set, bool bo)
 void JSON_Doc::SetNumber(const char * set, double nu)
 {
 	json_object_dotset_number(object, set, nu);
+}
+
+void JSON_Doc::SetArray(const char * array_name)
+{
+	JSON_Value* val = json_value_init_array();
+	JSON_Array* arra = json_value_get_array(val);
+	json_object_set_value(object, array_name, val);
 }
 
 const char * JSON_Doc::GetString(const char * str)
@@ -171,4 +181,49 @@ void JSON_Doc::Save()
 void JSON_Doc::CleanUp()
 {
 	json_value_free(value);
+}
+
+JSON_Doc JSON_Doc::GetEntry(const char * set) const
+{
+	return JSON_Doc(json_object_get_object(object, set));
+}
+
+JSON_Doc JSON_Doc::SetEntry(const char * set)
+{
+	json_object_set_value(object, set, json_value_init_object());
+	return GetEntry(set);
+}
+
+bool JSON_Doc::MoveToSectionFromArray(const char * field, int index)
+{
+	bool ret = false;
+
+	JSON_Array* array = json_object_get_array(object, field);
+
+	if (array != nullptr)
+	{
+		JSON_Object* obj = json_array_get_object(array, index);
+
+		object = obj;
+		ret = true;
+	}
+
+	return ret;
+}
+
+JSON_Doc JSON_Doc::GetArray(const char * field, int index) const
+{
+	JSON_Array* array = json_object_get_array(object, field);
+	if (array != nullptr)
+		return JSON_Doc(json_array_get_object(array, index));
+	return JSON_Doc((JSON_Object*) nullptr);
+}
+
+int JSON_Doc::GetArraySize(const char * field) const
+{
+	int ret = -1;
+	JSON_Array* array = json_object_get_array(object, field);
+	if (array != nullptr)
+		ret = json_array_get_count(array);
+	return ret;
 }

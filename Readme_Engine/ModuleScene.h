@@ -18,6 +18,9 @@ public:
 	bool CleanUp();
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent = nullptr);
+	void OnSave(JSON_Doc * config);
+	void OnLoad(JSON_Doc * config);
+
 
 	JSON_Doc* scene_file;
 

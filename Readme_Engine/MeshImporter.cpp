@@ -61,7 +61,7 @@ void MeshImporter::Import(Component_Mesh* mesh)
 
 	//Serialize data to file
 	char file[69];
-	sprintf_s(file, "Library//Meshes//mesh_%d.ownmesh", save_id++);
+	sprintf_s(file, "Library//Meshes//mesh_%d.mymesh", save_id++);
 
 	FILE* f = fopen(file, "wb");
 	fwrite(data, sizeof(char), total_size, f);

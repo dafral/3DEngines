@@ -17,9 +17,8 @@ bool ModuleScene::Start()
 	CONSOLELOG("Loading Intro assets");
 	bool ret = true;
 
-	App->json->CreateJSON("Library/config.json");
-
-	//root->OnSave(*App->json->config);
+	scene_file = App->json->CreateJSON("Library/config.json");
+	scene_file->Save();
 
 	return ret;
 }
@@ -67,6 +66,24 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	aux->AddComponent(new_component);
 
 	return aux;
+}
+
+void ModuleScene::OnSave(JSON_Doc * config)
+{
+	//Travel go
+	if (root != nullptr) {
+		root->OnSave(config);
+	}
+}
+
+void ModuleScene::OnLoad(JSON_Doc * config)
+{
+
+	if (root != nullptr)
+	{
+		root->OnLoad(config);
+	}
+
 }
 
 
