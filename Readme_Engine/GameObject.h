@@ -32,6 +32,9 @@ public:
 	void SetTextureDimensions(int w, int h);
 	const float4x4 GetGlobalTransform(Component_Transform* trans);
 
+	void OnSave(JSON_Doc& config);
+	void OnLoad(JSON_Doc * config);
+
 public:
 	std::string name;
 	GameObject* parent;

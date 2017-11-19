@@ -220,3 +220,31 @@ void GameObject::SetStatic(bool new_static)
 	for (int i = 0; i < childrens.size(); i++)
 		childrens[i]->SetStatic(new_static);
 };
+
+//-------------------------------------------------------
+
+void GameObject::OnSave(JSON_Doc& config)
+{
+	Component_Transform* trans = (Component_Transform*)FindComponent(COMPONENT_TRANSFORM);
+	Component_Mesh* mesh = (Component_Mesh*)FindComponent(COMPONENT_MESH);
+	Component_Camera* cam = (Component_Camera*)FindComponent(COMPONENT_CAMERA);
+	Component_Material* material = (Component_Material*)FindComponent(COMPONENT_MATERIAL);
+
+	if (trans)
+		trans->OnSave(*App->json->config);
+
+	if (mesh)
+		mesh->OnSave(*App->json->config);
+
+	if (material)
+		material->OnSave(*App->json->config);
+
+	if (cam)
+		cam->OnSave(*App->json->config);
+
+}
+
+void GameObject::OnLoad(JSON_Doc * config)
+{
+
+}

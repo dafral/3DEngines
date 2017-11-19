@@ -26,6 +26,9 @@ public:
 	string GetFileFromPath(const char* path, bool extension);
 	string GetExtension(const char * path);
 
+	void SaveScene(JSON_Doc& config);
+	void LoadScene(JSON_Doc * config);
+
 	inline bool exists(const string &path)
 	{
 		{

@@ -4,32 +4,7 @@
 #include "GameObject.h"
 #include "Color.h"
 
-Component_Mesh::Component_Mesh(uint num_ver, float * ver, uint num_ind, uint * ind, uint num_uv, float * uv, uint num_norm, float * norm) : Component(COMPONENT_MESH)
-{
-	//Load vertices to vram
-	glGenBuffers(1, (GLuint*)&id_vertices);
-	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_vertices * 3, ver, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//Load indices to vram
-	glGenBuffers(1, (GLuint*)&id_indices);
-	glBindBuffer(GL_ARRAY_BUFFER, id_indices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * num_indices, ind, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//Load uv to vram
-	if (uv != nullptr)
-	{
-		glGenBuffers(1, (GLuint*)&id_uvs);
-		glBindBuffer(GL_ARRAY_BUFFER, id_uvs);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_uv * 3, uv, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	bounding_box.SetNegativeInfinity();
-	bounding_box.Enclose((float3*)ver, num_ver);
-}
+//COMPONENT CAMERA============================================
 
 Component_Camera::Component_Camera() : Component(COMPONENT_CAMERA) 
 {
@@ -58,6 +33,7 @@ void Component_Camera::Update()
 	frustum.GetCornerPoints(corners);
 
 	App->debug->DrawFrustum(corners, 3, Yellow);
+
 }
 
 void Component_Camera::SetFOV(float FOV)
@@ -102,6 +78,7 @@ bool Component_Camera::AABBInside(AABB &aabb)
 	return true;
 }
 
+<<<<<<< HEAD
 void Component_Camera::MoveUp(const float movement)
 {
 	float3 move = float3::zero;
@@ -181,9 +158,50 @@ float* Component_Camera::GetProjectionMatrix() const
 const float3 Component_Camera::GetPosition()
 {
 	return frustum.pos;
+=======
+void Component_Camera::OnSave(JSON_Doc& config)
+{
+	config.SetBool("Active", active_camera);
+	config.SetNumber("FOV", fov);
+	config.SetNumber("Aspect Ratio", aspect_ratio);
+}
+
+void Component_Camera::OnLoad(JSON_Doc * config)
+{
+	active_camera = config->GetBool("Active");
+	fov = (float)config->GetNumber("FOV");
+	aspect_ratio = (float)config->GetNumber("Aspect Ratio");
+>>>>>>> a11743122bfe90ec753bd31024f75b26d5ca11a3
 }
 
 // COMPONENT MESH ==================================================
+
+Component_Mesh::Component_Mesh(uint num_ver, float * ver, uint num_ind, uint * ind, uint num_uv, float * uv, uint num_norm, float * norm) : Component(COMPONENT_MESH)
+{
+	//Load vertices to vram
+	glGenBuffers(1, (GLuint*)&id_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_vertices * 3, ver, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Load indices to vram
+	glGenBuffers(1, (GLuint*)&id_indices);
+	glBindBuffer(GL_ARRAY_BUFFER, id_indices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * num_indices, ind, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Load uv to vram
+	if (uv != nullptr)
+	{
+		glGenBuffers(1, (GLuint*)&id_uvs);
+		glBindBuffer(GL_ARRAY_BUFFER, id_uvs);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_uv * 3, uv, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	bounding_box.SetNegativeInfinity();
+	bounding_box.Enclose((float3*)ver, num_ver);
+}
 
 void Component_Mesh::Update()
 {
@@ -195,4 +213,56 @@ void Component_Mesh::AdaptBoundingBox(GameObject* go, Component_Transform* trans
 	bounding_box.SetNegativeInfinity();
 	bounding_box.Enclose((float3*)vertices, num_vertices);
 	bounding_box.TransformAsAABB(go->GetGlobalTransform(trans).Transposed());
+}
+
+void Component_Mesh::OnSave(JSON_Doc& config)
+{
+
+}
+
+void Component_Mesh::OnLoad(JSON_Doc * config)
+{
+
+}
+
+//COMPONENT TRANSFORM===================================
+
+void Component_Transform::OnSave(JSON_Doc& config)
+{
+
+	config.SetNumber("pos_x", GetPosition().x);
+	config.SetNumber("pos_y", GetPosition().y);
+	config.SetNumber("pos_z", GetPosition().z);
+
+	/*config.SetNumber("pos_x", GetPosition().x);
+	config.SetNumber("pos_x", GetPosition().x);
+	config.SetNumber("pos_x", GetPosition().x);*/
+
+	config.SetNumber("scale_x", GetScale().x);
+	config.SetNumber("scale_y", GetScale().y);
+	config.SetNumber("scale_z", GetScale().z);
+}
+
+void Component_Transform::OnLoad(JSON_Doc * config)
+{
+	SetPosition(float3(config->GetNumber("pos_x"), config->GetNumber("pos_y"), config->GetNumber("pos_z")));
+	SetScale(float3(config->GetNumber("scale_x"), config->GetNumber("scale_y"), config->GetNumber("scale_z")));
+}
+
+//COMPONENT MATERIAL====================================
+
+void Component_Material::OnSave(JSON_Doc& config)
+{
+	config.SetNumber("Texture ID", id_texture);
+	config.SetNumber("Height", height);
+	config.SetNumber("Width", width);
+	config.SetString("Path", path.c_str());
+}
+
+void Component_Material::OnLoad(JSON_Doc * config)
+{
+	id_texture = config->GetNumber("Texture ID");
+	height = config->GetNumber("Height");
+	width = config->GetNumber("Width");
+	path = config->GetNumber("Path");
 }

@@ -150,3 +150,13 @@ string ModuleFileSystem::GetExtension(const char * path)
 	return extension;
 }
 
+void ModuleFileSystem::SaveScene(JSON_Doc& config)
+{
+
+}
+
+void ModuleFileSystem::LoadScene(JSON_Doc * config)
+{
+
+}
+

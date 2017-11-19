@@ -16,6 +16,7 @@ bool ModuleScene::Start()
 	bool ret = true;
 
 	root = CreateGameObject("Root");
+	App->json->CreateJSON("Library/config.json");
 
 	return ret;
 }
