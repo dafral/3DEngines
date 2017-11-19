@@ -120,6 +120,7 @@ void PanelConfig::DrawWindow()
 	if (ImGui::SliderInt("Width", &width, 900, 1920))
 	{
 		App->window->SetWidth(width);
+		App->renderer3D->OnResize(App->window->GetWidth(), App->window->GetHeight());
 		adapt_panels = true;
 	}		
 
@@ -127,6 +128,7 @@ void PanelConfig::DrawWindow()
 	if (ImGui::SliderInt("Height", &height, 600, 1080))
 	{	
 		App->window->SetHeight(height);
+		App->renderer3D->OnResize(App->window->GetWidth(), App->window->GetHeight());
 		adapt_panels = true;
 	}	
 

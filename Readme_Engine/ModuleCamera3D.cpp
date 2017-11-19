@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 #include "Component.h"
-
+#include "GameObject.h"
 #include "glmath.h"
 #include "MathGeoLib\MathGeoLib.h"
 #include "MathGeoLib\Geometry\Frustum.h"
@@ -22,6 +22,7 @@ ModuleCamera3D::~ModuleCamera3D()
 bool ModuleCamera3D::Start()
 {
 	CONSOLELOG("Setting up the camera");
+	App->scene->root->AddComponent(main_camera);
 	bool ret = true;
 	return ret;
 }

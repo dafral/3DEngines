@@ -141,6 +141,7 @@ public:
 	void SetYDir(const float3 & up) { frustum.up = up.Normalized(); };
 	void SetFOV(float new_fov);
 	void SetAspectRatio(const float & set);
+	void SetAspectRatio(const float & w, const float & h);
 	bool AABBInside(AABB &aabb);
 	Frustum GetFrustum() { return frustum; };
 

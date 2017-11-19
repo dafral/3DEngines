@@ -194,7 +194,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	//App->camera->main_camera->SetAspectRatio(width, height);
+	App->camera->curr_camera->SetAspectRatio(width, height);
 }
 
 void ModuleRenderer3D::SetVsync(bool vsync)

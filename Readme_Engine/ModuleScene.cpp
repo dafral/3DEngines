@@ -5,7 +5,9 @@
 #include "GameObject.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
-{}
+{
+	root = CreateGameObject("Root");
+}
 
 ModuleScene::~ModuleScene()
 {}
@@ -15,7 +17,6 @@ bool ModuleScene::Start()
 	CONSOLELOG("Loading Intro assets");
 	bool ret = true;
 
-	root = CreateGameObject("Root");
 	App->json->CreateJSON("Library/config.json");
 
 	return ret;

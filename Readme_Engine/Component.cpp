@@ -33,7 +33,6 @@ void Component_Camera::Update()
 	frustum.GetCornerPoints(corners);
 
 	App->debug->DrawFrustum(corners, 3, Yellow);
-
 }
 
 void Component_Camera::SetFOV(float FOV)
@@ -47,6 +46,13 @@ void Component_Camera::SetFOV(float FOV)
 
 	if (aspect_ratio > 0)
 		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect_ratio);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glLoadMatrixf((GLfloat*)frustum.ProjectionMatrix().Transposed().v);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
 void Component_Camera::SetAspectRatio(const float& ar)
@@ -55,6 +61,18 @@ void Component_Camera::SetAspectRatio(const float& ar)
 
 	if(frustum.verticalFov > 0)
 		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect_ratio);
+
+	SetFOV(fov);
+}
+
+void Component_Camera::SetAspectRatio(const float & w, const float & h)
+{
+	aspect_ratio = w / h;
+
+	if (frustum.verticalFov > 0)
+		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect_ratio);
+
+	SetFOV(fov);
 }
 
 bool Component_Camera::AABBInside(AABB &aabb)
@@ -78,7 +96,6 @@ bool Component_Camera::AABBInside(AABB &aabb)
 	return true;
 }
 
-<<<<<<< HEAD
 void Component_Camera::MoveUp(const float movement)
 {
 	float3 move = float3::zero;
@@ -158,7 +175,8 @@ float* Component_Camera::GetProjectionMatrix() const
 const float3 Component_Camera::GetPosition()
 {
 	return frustum.pos;
-=======
+}
+
 void Component_Camera::OnSave(JSON_Doc& config)
 {
 	config.SetBool("Active", active_camera);
@@ -171,7 +189,6 @@ void Component_Camera::OnLoad(JSON_Doc * config)
 	active_camera = config->GetBool("Active");
 	fov = (float)config->GetNumber("FOV");
 	aspect_ratio = (float)config->GetNumber("Aspect Ratio");
->>>>>>> a11743122bfe90ec753bd31024f75b26d5ca11a3
 }
 
 // COMPONENT MESH ==================================================
