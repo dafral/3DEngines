@@ -12,8 +12,10 @@ ModuleCamera3D::ModuleCamera3D(Application * app, bool start_enabled) : Module(a
 	orb_x_inverted = orb_y_inverted = wheel_inverted = false;
 	sensitivity = 0.25f;
 
+	GameObject* empty = App->scene->CreateGameObject("Main camera", App->scene->root);
 	main_camera = new Component_Camera();
 	SetActiveCam(main_camera);
+	empty->AddComponent(main_camera);
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -51,7 +53,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
-			/*App->picker->RayCast();*/
+			App->picker->RayCast();
 		}
 	}
 	return UPDATE_CONTINUE;

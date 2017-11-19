@@ -18,6 +18,7 @@ Application::Application()
 	physics = new ModulePhysics3D(this);
 	imgui = new ModuleImgui(this);
 	octree = new ModuleOctree(this);
+	picker = new ModulePicker(this);
 	json = new ModuleJSON(this);
 	filesystem = new ModuleFileSystem(this);
 	material_imp = new MaterialImporter(this);
@@ -36,7 +37,7 @@ Application::Application()
 
 	AddModule(scene);
 	AddModule(octree);
-
+	AddModule(picker);
 	AddModule(json);
 	AddModule(filesystem);
 	AddModule(material_imp);
